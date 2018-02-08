@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.shoor.shoor.Doctors">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:fontFamily="@font/segoeuil"
+            android:gravity="center_vertical"
+            android:text="الأطباء"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:targetApi="jelly_bean" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical">
+
+            <AutoCompleteTextView
+                android:id="@+id/search"
+                android:layout_width="350dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/search_input_style"
+                android:drawableLeft="@drawable/ic_search"
+                android:fontFamily="@font/segoeuil"
+                android:hint=" أبحث عن طبيب ..."
+                android:padding="5dp"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/filter_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingRight="16dp">
+
+                <Button
+                    android:id="@+id/price"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/filter_style"
+                    android:drawableLeft="@drawable/ic_dollar"
+                    android:fontFamily="@font/segoeuil"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp"
+                    android:text="السعر"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:ignore="RtlSymmetry" />
+
+                <Button
+                    android:id="@+id/rate"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/filter_style"
+                    android:drawableLeft="@drawable/ic_star"
+                    android:fontFamily="@font/segoeuil"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="التقييم"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:ignore="RtlSymmetry" />
+
+                <Button
+                    android:id="@+id/location"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/filter_style"
+                    android:drawableLeft="@drawable/ic_my_location"
+                    android:fontFamily="@font/segoeuil"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="الموقع"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:ignore="RtlSymmetry" />
+
+                <TextView
+                    android:id="@+id/filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:text="تصفية"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <ListView
+            android:id="@+id/doctors"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="horizontal"
+            android:textDirection="rtl" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

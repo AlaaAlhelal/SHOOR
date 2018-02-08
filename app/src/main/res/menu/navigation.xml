@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/suggest"
+        android:icon="@drawable/ic_suggest"
+        android:title="اقترح طبيباً"
+        />
+    <item
+        android:id="@+id/specialties"
+        android:icon="@drawable/ic_launcher_background"
+        android:title="التخصصات"
+        />
+    <item
+        android:id="@+id/favorite"
+        android:icon="@drawable/ic_list"
+        android:title="المفضلة"
+        />
+    <item
+        android:id="@+id/myprofile"
+        android:icon="@drawable/ic_myprofile"
+        android:title="صفحتي"
+        />
+
+
+
+
+</menu>

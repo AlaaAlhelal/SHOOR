@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_color"
+    tools:context="com.shoor.shoor.SignIn">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="250px"
+        android:layout_height="250px"
+        android:src="@drawable/logox"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="130dp"
+        tools:layout_editor_absoluteY="10dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/segoeuil"
+        android:text="شـــــــور"
+        android:textColor="@android:color/white"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="154dp"
+        tools:layout_editor_absoluteY="135dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/segoeuil"
+        android:text="تسجيل الدخول"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="138dp"
+        tools:layout_editor_absoluteY="220dp" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="179dp"
+        android:layout_height="30dp"
+        android:background="@drawable/input_style"
+        android:ems="10"
+        android:fontFamily="@font/segoeuil"
+        android:gravity="start"
+        android:hint="البريد الالكتروني"
+        android:inputType="textPersonName"
+        android:paddingHorizontal="5dp"
+        android:paddingVertical="5dp"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="103dp"
+        tools:layout_editor_absoluteY="271dp" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="179dp"
+        android:layout_height="30dp"
+        android:background="@drawable/input_style"
+        android:ems="10"
+        android:fontFamily="@font/segoeuil"
+        android:gravity="end"
+        android:hint="كلمة المرور"
+        android:inputType="textPassword"
+        android:paddingHorizontal="5dp"
+        android:paddingVertical="5dp"
+        android:textAlignment="textEnd"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="103dp"
+        tools:layout_editor_absoluteY="328dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="200px"
+        android:layout_height="65px"
+        android:background="@drawable/input_style"
+        android:fontFamily="@font/segoeuil"
+        android:padding="5dp"
+        android:text="تسجيل الدخول"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="142dp"
+        tools:layout_editor_absoluteY="394dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:fontFamily="@font/segoeuil"
+        android:text="التسجيل"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="322dp"
+        tools:layout_editor_absoluteY="529dp" />
+
+</android.support.constraint.ConstraintLayout>
