@@ -28,7 +28,8 @@
             android:theme="@android:style/Theme.WithActionBar" />
         <activity android:name=".Doctors" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".MyAppointmentActivity"></activity>
+        <activity android:name=".MyAppointmentActivity" />
+        <activity android:name=".AddAppointmentActivity"></activity>
     </application>
 
 </manifest>

@@ -326,15 +326,14 @@
                 tools:layout_editor_absoluteY="467dp">
 
                 <ImageButton
-                    android:id="@+id/show_app"
+                    android:id="@+id/imageButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/myapp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:background="#00ffffff"
-                    app:srcCompat="@drawable/ic_arrow_left" />
-
+                    android:background="#00FFFFFF"
+                    app:srcCompat="@drawable/ic_arrowleft" />
                 <TextView
                     android:id="@+id/myapp"
                     android:layout_width="wrap_content"
