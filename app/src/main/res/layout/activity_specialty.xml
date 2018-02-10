@@ -173,8 +173,6 @@ android:layout_height="match_parent"
                 android:textColor="#5194DD"
                 android:textSize="14sp"
                 android:textStyle="bold" />
-
-
         </TableRow>
 
     </TableLayout>
