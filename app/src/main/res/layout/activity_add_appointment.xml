@@ -40,7 +40,8 @@
         android:layout_width="383dp"
         android:layout_height="518dp"
         tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="50dp">
+        tools:layout_editor_absoluteY="50dp"
+        tools:ignore="MissingConstraints">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -64,7 +65,8 @@
                     android:textDirection="rtl"
                     tools:ignore="MissingConstraints"
                     tools:layout_editor_absoluteX="19dp"
-                    tools:layout_editor_absoluteY="487dp" />
+                    tools:layout_editor_absoluteY="487dp"
+                    android:gravity="end" />
 
                 <TextView
                     android:id="@+id/timelable"
