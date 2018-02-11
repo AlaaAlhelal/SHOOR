@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.shoor.shoor.AddAppointmentActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -39,72 +40,95 @@
     <ScrollView
         android:layout_width="383dp"
         android:layout_height="518dp"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="50dp"
-        tools:ignore="MissingConstraints">
+        tools:layout_editor_absoluteY="50dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="fill_vertical|center_horizontal|center"
-            android:orientation="vertical">
+            android:layout_height="650dp"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="386dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <EditText
+                android:id="@+id/notes"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_alignEnd="@+id/timelable"
+                android:layout_alignLeft="@+id/timePicker"
+                android:layout_alignRight="@+id/timelable"
+                android:layout_alignStart="@+id/timePicker"
+                android:layout_below="@+id/timePicker"
+                android:layout_marginTop="19dp"
+                android:ems="10"
+                android:fontFamily="@font/segoeuil"
+                android:gravity="end"
+                android:hint="ملاحظة"
+                android:inputType="textPersonName"
+                android:textAlignment="viewEnd"
+                android:textDirection="rtl"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="19dp"
+                tools:layout_editor_absoluteY="487dp" />
 
-                <EditText
-                    android:id="@+id/notes"
-                    android:layout_width="match_parent"
-                    android:layout_height="57dp"
-                    android:ems="10"
-                    android:fontFamily="@font/segoeuil"
-                    android:hint="ملاحظة"
-                    android:inputType="textPersonName"
-                    android:textAlignment="viewEnd"
-                    android:textDirection="rtl"
-                    tools:ignore="MissingConstraints"
-                    tools:layout_editor_absoluteX="19dp"
-                    tools:layout_editor_absoluteY="487dp"
-                    android:gravity="end" />
+            <TextView
+                android:id="@+id/timelable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/datePicker2"
+                android:layout_alignRight="@+id/datePicker2"
+                android:layout_alignTop="@+id/timePicker"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/segoeuil"
+                android:text="الوقت: "
+                android:textColor="@color/colorAccent"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="313dp"
+                tools:layout_editor_absoluteY="399dp" />
 
-                <TextView
-                    android:id="@+id/timelable"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/segoeuil"
-                    android:text="الوقت: "
-                    android:textColor="@color/colorAccent"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    tools:ignore="MissingConstraints"
-                    tools:layout_editor_absoluteX="313dp"
-                    tools:layout_editor_absoluteY="399dp" />
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="99dp"
+                android:layout_alignLeft="@+id/datePicker2"
+                android:layout_alignStart="@+id/datePicker2"
+                android:layout_below="@+id/datePicker2"
+                android:layout_marginTop="16dp"
+                android:timePickerMode="spinner"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="344dp" />
 
-                <TimePicker
-                    android:id="@+id/timePicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="99dp"
-                    android:layout_alignLeft="@+id/datePicker2"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignStart="@+id/datePicker2"
-                    android:timePickerMode="spinner"
-                    tools:ignore="MissingConstraints"
-                    tools:layout_editor_absoluteX="8dp"
-                    tools:layout_editor_absoluteY="344dp" />
+            <DatePicker
+                android:id="@+id/datePicker2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/colorFooter"
+                android:calendarTextColor="@android:color/black"
+                android:dayOfWeekBackground="@color/colorFooter"
+                android:headerBackground="@color/colorPrimary"
+                tools:layout_editor_absoluteX="18dp"
+                tools:layout_editor_absoluteY="52dp" />
 
-                <DatePicker
-                    android:id="@+id/datePicker2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center_horizontal"
-                    tools:layout_editor_absoluteX="18dp"
-                    tools:layout_editor_absoluteY="52dp" />
-            </RelativeLayout>
-
-        </LinearLayout>
+            <Button
+                android:id="@+id/add_app"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_below="@+id/notes"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/filter_style"
+                android:fontFamily="@font/segoeuil"
+                android:text="إرسال"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
 
     </ScrollView>
 

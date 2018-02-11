@@ -29,7 +29,8 @@
         <activity android:name=".Doctors" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".MyAppointmentActivity" />
-        <activity android:name=".AddAppointmentActivity"></activity>
+        <activity android:name=".AddAppointmentActivity" />
+        <activity android:name=".DeleteAppointmentActivity"></activity>
     </application>
 
 </manifest>
