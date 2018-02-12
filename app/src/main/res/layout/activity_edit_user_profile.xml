@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/imageView2"
+            android:layout_alignTop="@+id/back_arrow"
             android:layout_centerHorizontal="true"
             android:fontFamily="@font/segoeuil"
             android:gravity="center_vertical"
@@ -26,7 +26,7 @@
             tools:targetApi="jelly_bean" />
 
         <ImageButton
-            android:id="@+id/imageView2"
+            android:id="@+id/back_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
