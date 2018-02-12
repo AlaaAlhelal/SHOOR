@@ -32,7 +32,8 @@
         <activity android:name=".AddAppointmentActivity" />
         <activity android:name=".DeleteAppointmentActivity" />
         <activity android:name=".EditUserProfileActivity" />
-        <activity android:name=".EditPasswordActivity"></activity>
+        <activity android:name=".EditPasswordActivity" />
+        <activity android:name=".SuggestDoctorActivity"></activity>
     </application>
 
 </manifest>

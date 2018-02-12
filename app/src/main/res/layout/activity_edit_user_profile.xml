@@ -148,8 +148,7 @@
             tools:ignore="HardcodedText"
             tools:targetApi="jelly_bean" />
 
-
-        <ImageView
+        <ImageButton
             android:id="@+id/imageView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -158,6 +157,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:layout_marginStart="12dp"
+            android:background="#00ffffff"
             app:srcCompat="@drawable/ic_arrow_back" />
 
     </RelativeLayout>
