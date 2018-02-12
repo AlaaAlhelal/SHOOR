@@ -34,7 +34,14 @@
         <activity android:name=".EditUserProfileActivity" />
         <activity android:name=".EditPasswordActivity" />
         <activity android:name=".SuggestDoctorActivity" />
-        <activity android:name=".AddReviewActivity"></activity>
+        <activity android:name=".AddReviewActivity"/>
+        <activity android:name=".AddDepartment"/>
+        <activity android:name=".EditDepartment"/>
+        <activity android:name=".DeleteDepartment"/>
+        <activity android:name=".AddDoctor"/>
+        <activity android:name=".DeleteDoctor"/>
+        <activity android:name=".EditDoctor">
+        </activity>
     </application>
 
 </manifest>
