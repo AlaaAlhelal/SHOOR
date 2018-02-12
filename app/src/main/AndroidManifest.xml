@@ -40,7 +40,10 @@
         <activity android:name=".DeleteDepartment"/>
         <activity android:name=".AddDoctor"/>
         <activity android:name=".DeleteDoctor"/>
-        <activity android:name=".EditDoctor">
+        <activity android:name=".EditDoctor"/>
+        <activity android:name=".AddHospital"/>
+        <activity android:name=".DeleteHospital"/>
+        <activity android:name=".EditHospital">
         </activity>
     </application>
 
