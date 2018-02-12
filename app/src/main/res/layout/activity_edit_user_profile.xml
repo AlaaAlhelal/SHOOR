@@ -5,7 +5,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.shoor.shoor.EditUserProfileActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/imageView2"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/segoeuil"
+            android:gravity="center_vertical"
+            android:text="تعديل صفحتي"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText"
+            tools:targetApi="jelly_bean" />
+
+        <ImageButton
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:background="#00ffffff"
+            app:srcCompat="@drawable/ic_arrow_back" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -128,39 +160,7 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/colorPrimary">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/imageView2"
-            android:layout_centerHorizontal="true"
-            android:fontFamily="@font/segoeuil"
-            android:gravity="center_vertical"
-            android:text="تعديل صفحتي"
-            android:textAlignment="center"
-            android:textColor="#ffffff"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            tools:ignore="HardcodedText"
-            tools:targetApi="jelly_bean" />
-
-        <ImageButton
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
-            android:layout_marginStart="12dp"
-            android:background="#00ffffff"
-            app:srcCompat="@drawable/ic_arrow_back" />
-
-    </RelativeLayout>
 
 
 </android.support.constraint.ConstraintLayout>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.shoor.shoor.AddReviewActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/imageView2"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/segoeuil"
+            android:gravity="center_vertical"
+            android:text="التقييم"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText"
+            tools:targetApi="jelly_bean" />
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:background="#00ffffff"
+            app:srcCompat="@drawable/ic_arrow_back" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/segoeuil"
+        android:text="السعر"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText,MissingConstraints,UnusedAttribute"
+        tools:layout_editor_absoluteX="283dp"
+        tools:layout_editor_absoluteY="61dp" />
+
+    <RatingBar
+        android:id="@+id/rating_price"
+        style="@style/Widget.AppCompat.RatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="86dp" />
+
+    <TextView
+        android:id="@+id/hospital"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/segoeuil"
+        android:text="المستشفى"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText,MissingConstraints,UnusedAttribute"
+        tools:layout_editor_absoluteX="249dp"
+        tools:layout_editor_absoluteY="260dp" />
+
+    <RatingBar
+        android:id="@+id/rating_hospital"
+        style="@style/Widget.AppCompat.RatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="285dp" />
+
+    <TextView
+        android:id="@+id/doctor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/segoeuil"
+        android:text="الطبيب"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText,MissingConstraints,UnusedAttribute"
+        tools:layout_editor_absoluteX="273dp"
+        tools:layout_editor_absoluteY="154dp" />
+
+    <RatingBar
+        android:id="@+id/rating_doctor"
+        style="@style/Widget.AppCompat.RatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="179dp" />
+
+    <EditText
+        android:id="@+id/comment"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:fontFamily="@font/segoeuil"
+        android:gravity="end"
+        android:hint="التعليق"
+        android:inputType="textPersonName"
+        android:textAlignment="viewEnd"
+        android:textDirection="rtl"
+        tools:ignore="HardcodedText,MissingConstraints"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="363dp"
+        tools:targetApi="jelly_bean_mr1" />
+
+
+    <TextView
+        android:id="@+id/add_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/segoeuil"
+        android:text="إرفاق صورة (اختياري):"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:ignore="HardcodedText,MissingConstraints,UnusedAttribute"
+        tools:layout_editor_absoluteX="216dp"
+        tools:layout_editor_absoluteY="444dp" />
+
+    <Button
+        android:id="@+id/attach_pic"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/filter_style"
+        android:drawablePadding="10dp"
+        android:drawableTop="@drawable/ic_add"
+        android:paddingTop="5dp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="162dp"
+        tools:layout_editor_absoluteY="434dp" />
+
+    <Button
+        android:id="@+id/save_app"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/female"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/filter_style"
+        android:fontFamily="@font/segoeuil"
+        android:text="إرسال"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="117dp"
+        tools:layout_editor_absoluteY="511dp" />
+</android.support.constraint.ConstraintLayout>

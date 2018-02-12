@@ -5,7 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.shoor.shoor.Doctors">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteY="130dp"
+        tools:ignore="MissingConstraints">
 
+        <RatingBar
+            android:id="@+id/ratingBar"
+            style="?android:attr/ratingBarStyleIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:clickable="false"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:rating="3.5"
+            android:stepSize="0.1"
+            android:theme="@style/CustomRatingBar"
+            android:transformPivotX="0dp"
+            android:transformPivotY="0dp"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
+            android:max="5"/>
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -128,30 +152,6 @@
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteY="130dp"
-        tools:ignore="MissingConstraints">
 
-        <RatingBar
-            android:id="@+id/ratingBar"
-            style="?android:attr/ratingBarStyleIndicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:clickable="false"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:rating="3.5"
-            android:stepSize="0.1"
-            android:theme="@style/CustomRatingBar"
-            android:transformPivotX="0dp"
-            android:transformPivotY="0dp"
-            android:scaleX="0.6"
-            android:scaleY="0.6"
-            android:max="5"/>
-    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
