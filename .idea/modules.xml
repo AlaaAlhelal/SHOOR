@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/SHOOR.iml" filepath="$PROJECT_DIR$/.idea/SHOOR.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SHOOR.iml" filepath="$PROJECT_DIR$/SHOOR.iml" />
+      <module fileurl="file://C:\Users\loly-\Documents\GitHub\SHOOR\SHOOR\.idea\SHOOR.iml" filepath="C:\Users\loly-\Documents\GitHub\SHOOR\SHOOR\.idea\SHOOR.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

@@ -42,7 +42,7 @@
         tools:layout_editor_absoluteY="220dp" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/email_field"
         android:layout_width="179dp"
         android:layout_height="30dp"
         android:background="@drawable/input_style"
@@ -50,7 +50,7 @@
         android:fontFamily="@font/segoeuil"
         android:gravity="start"
         android:hint="البريد الالكتروني"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:paddingHorizontal="5dp"
         android:paddingVertical="5dp"
         android:textAlignment="textStart"
@@ -63,7 +63,7 @@
         tools:layout_editor_absoluteY="271dp" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/pass_field"
         android:layout_width="179dp"
         android:layout_height="30dp"
         android:background="@drawable/input_style"
@@ -84,11 +84,12 @@
         tools:layout_editor_absoluteY="328dp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/signIn"
         android:layout_width="200px"
         android:layout_height="65px"
         android:background="@drawable/input_style"
         android:fontFamily="@font/segoeuil"
+        android:onClick="signIn"
         android:padding="5dp"
         android:text="تسجيل الدخول"
         android:textAlignment="center"
