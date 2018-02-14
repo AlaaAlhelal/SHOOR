@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.shoor.shoor.EditDoctor">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/imageView2"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/segoeuil"
+            android:gravity="center_vertical"
+            android:text=" تعديل بيانات الطبيب "
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText"
+            tools:targetApi="jelly_bean" />
+
+        <ImageButton
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:background="#00ffffff"
+            app:srcCompat="@drawable/ic_arrow_back" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/lable_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/segoeuil"
+        android:text=" اختر اسم الطبيب:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="251dp"
+        tools:layout_editor_absoluteY="54dp" />
+
+    <Spinner
+        android:id="@+id/doctors_list"
+        android:layout_width="330dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:drawable/btn_dropdown"
+        android:ems="10"
+        android:fontFamily="@font/segoeuil"
+        android:gravity="end"
+        android:inputType="textPersonName"
+        android:spinnerMode="dropdown"
+        android:textAlignment="viewEnd"
+        android:textDirection="rtl"
+        tools:ignore="HardcodedText,MissingConstraints"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="94dp"
+        tools:targetApi="jelly_bean_mr1" />
+
+    <TextView
+        android:id="@+id/doctor_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/segoeuil"
+        android:text="معلومات الطبيب :"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="239dp"
+        tools:layout_editor_absoluteY="148dp" />
+
+    <EditText
+        android:id="@+id/Doctor_Name"
+        android:layout_width="330dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:fontFamily="@font/segoeuil"
+        android:gravity="end"
+        android:hint="اسم الطبيب"
+        android:inputType="textPersonName"
+        android:textAlignment="viewEnd"
+        android:textDirection="rtl"
+        tools:ignore="HardcodedText,MissingConstraints"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="181dp"
+        tools:targetApi="jelly_bean_mr1" />
+
+    <EditText
+        android:id="@+id/Doctor_Hours"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:fontFamily="@font/segoeuil"
+        android:gravity="end"
+        android:hint=" ساعات العمل"
+        android:inputType="textPersonName"
+        android:textAlignment="viewEnd"
+        android:textDirection="rtl"
+        tools:ignore="HardcodedText,MissingConstraints"
+        tools:layout_editor_absoluteX="227dp"
+        tools:layout_editor_absoluteY="231dp"
+        tools:targetApi="jelly_bean_mr1" />
+
+    <EditText
+        android:id="@+id/Doctor_Price"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:fontFamily="@font/segoeuil"
+        android:gravity="end"
+        android:hint=" سعر الفحص "
+        android:inputType="textPersonName"
+        android:textAlignment="viewEnd"
+        android:textDirection="rtl"
+        tools:ignore="HardcodedText,MissingConstraints"
+        tools:layout_editor_absoluteX="57dp"
+        tools:layout_editor_absoluteY="231dp"
+        tools:targetApi="jelly_bean_mr1" />
+
+    <TextView
+        android:id="@+id/hospital_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/segoeuil"
+        android:text=" اختر المستشفى :"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="242dp"
+        tools:layout_editor_absoluteY="282dp" />
+
+    <Spinner
+        android:id="@+id/hospital_list"
+        android:layout_width="330dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:drawable/btn_dropdown"
+        android:ems="10"
+        android:fontFamily="@font/segoeuil"
+        android:gravity="end"
+        android:inputType="textPersonName"
+        android:spinnerMode="dropdown"
+        android:textAlignment="viewEnd"
+        android:textDirection="rtl"
+        tools:ignore="HardcodedText,MissingConstraints"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="317dp"
+        tools:targetApi="jelly_bean_mr1" />
+
+    <TextView
+        android:id="@+id/department_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/segoeuil"
+        android:text=" اختر القسم :"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="274dp"
+        tools:layout_editor_absoluteY="369dp" />
+
+    <Spinner
+        android:id="@+id/department_list"
+        android:layout_width="330dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:drawable/btn_dropdown"
+        android:ems="10"
+        android:fontFamily="@font/segoeuil"
+        android:gravity="end"
+        android:inputType="textPersonName"
+        android:spinnerMode="dropdown"
+        android:textAlignment="viewEnd"
+        android:textDirection="rtl"
+        tools:ignore="HardcodedText,MissingConstraints"
+        tools:layout_editor_absoluteX="27dp"
+        tools:layout_editor_absoluteY="404dp"
+        tools:targetApi="jelly_bean_mr1" />
+
+    <Button
+        android:id="@+id/save_app"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/female"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/filter_style"
+        android:fontFamily="@font/segoeuil"
+        android:text="تعديل "
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="132dp"
+        tools:layout_editor_absoluteY="454dp" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="505dp"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:id="@+id/toolbarmenucontainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorFooter"
+            android:gravity="start"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:weightSum="4">
+
+            <ImageButton
+                android:id="@+id/linktosuggest"
+                android:layout_width="64px"
+                android:layout_height="64px"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorFooter"
+                android:clickable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/suggest" />
+
+
+            <ImageButton
+                android:id="@+id/linktospecialty"
+                android:layout_width="64px"
+                android:layout_height="64px"
+                android:layout_marginLeft="55dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorFooter"
+                android:clickable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/specialty"
+                android:title="التخصصات" />
+
+
+            <ImageButton
+                android:id="@+id/linktofavorite"
+                android:layout_width="64px"
+                android:layout_height="64px"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorFooter"
+                android:clickable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/list" />
+
+            <ImageButton
+                android:id="@+id/linktomyprofile"
+                android:layout_width="64px"
+                android:layout_height="64px"
+                android:layout_marginLeft="55dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorFooter"
+                android:clickable="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/myprofile" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            android:background="@color/colorFooter"
+            android:orientation="horizontal"
+            android:paddingBottom="2dp"
+            android:paddingLeft="20dp"
+            android:weightSum="4">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:fontFamily="@font/segoeuil"
+                android:text="اقترح طبيباً"
+                android:textColor="#70ADD7"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:fontFamily="@font/segoeuil"
+                android:text="التخصصات"
+                android:textColor="#70ADD7"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="46dp"
+                android:fontFamily="@font/segoeuil"
+                android:text="المفضلة"
+                android:textColor="#70ADD7"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="47dp"
+                android:fontFamily="@font/segoeuil"
+                android:text="صفحتي"
+                android:textColor="#70ADD7"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </android.support.design.widget.BottomNavigationView>
+
+</android.support.constraint.ConstraintLayout>
