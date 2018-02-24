@@ -1,17 +1,21 @@
 package com.shoor.shoor;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
 public class Specialty extends AppCompatActivity {
 
     private TextView mTextMessage;
-
+    private String SpecialtyClicked="";
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -19,16 +23,17 @@ public class Specialty extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.linktosuggest:
-                    mTextMessage.setText("اقترح طبيباً");
+                    //redirect to suggest activity
                     return true;
                 case R.id.linktospecialty:
-                    mTextMessage.setText("التخصصات");
+                    //redirect to specialty activity
                     return true;
                 case R.id.linktofavorite:
-                    mTextMessage.setText("المفضلة");
+                    //redirect to favorite activity
                     return true;
                 case R.id.linktomyprofile:
-                    mTextMessage.setText("صفحتي");
+                    //redirect to myprofile
+                    // activity
                     return true;
             }
             return false;
@@ -39,10 +44,34 @@ public class Specialty extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specialty);
-
-        mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
+    public void dentist_doctors(View view) {
+        setSpecialtyClicked("dentist");
+    }
+
+    public void Internal_Medicine_doctors(View view) {
+        setSpecialtyClicked("Internal_Medicine");
+    }
+
+    public void Otolaryngology_doctor(View view) {
+        setSpecialtyClicked("Otolaryngology");
+    }
+
+    public void Dermatology_doctor(View view) {
+        setSpecialtyClicked("Dermatology");
+    }
+
+    public void Pediatrics_doctors(View view) {
+        setSpecialtyClicked("Pediatrics");
+    }
+
+    public void setSpecialtyClicked(String sp) {
+        SpecialtyClicked =sp;
+        //set session SpecialtyClicked
+        SharedPreferences sharedpreferences = getSharedPreferences(SpecialtyClicked, Context.MODE_PRIVATE);
+        //redirect to doctors
+        startActivity(new Intent(Specialty.this, Doctors.class));
+
+    }
 }

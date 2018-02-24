@@ -1,98 +1,149 @@
 package com.shoor.shoor;
-import com.shoor.shoor.R;
 
-import android.content.DialogInterface;
+
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.content.SharedPreferences;
+import android.widget.Toast;
 
+import java.sql.*;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URI;
 
 public class SignIn extends AppCompatActivity {
-    EditText email ;
-    EditText pass ;
+   EditText email_input ;
+   EditText pass_input ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        email_input =(EditText)findViewById(R.id.email_field);
+        pass_input = (EditText) findViewById(R.id.pass_field);
     }
 
 
     public void signIn(View view) {
-        email = findViewById(R.id.email_field);
-        pass = findViewById(R.id.pass_field);
-    if (email.getText().equals(""))
-        email.setError("Field cannot be left blank.");
-    if (pass.getText().equals(""))
-        pass.setError("Field cannot be left blank.");
+        String email = email_input.getText().toString();
+        String  pass = pass_input.getText().toString();
+
+        //validate input
+        boolean isValid =ValidateInputs(email,pass);
+        if (isValid){
+            //VERY IMPORTANT LINES
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            //SETUP CONNECTION
+            Connection conn = null;
+            Statement stmt = null;
+
+            try{
+                //STEP 2: Register JDBC driver
+                Class.forName("com.mysql.jdbc.Driver");
+
+                //STEP 3: Open a connection
+                conn = DriverManager.getConnection(DB_Info.DB_URL,DB_Info.USER,DB_Info.PASS);
+
+                //STEP 4: Execute a query
+                stmt = conn.createStatement();
+                String sql;
+                sql = "SELECT * FROM user where UserEmail='"+email+"' AND Password='"+pass+"'";
+                ResultSet rs = stmt.executeQuery(sql);
+
+                //STEP 5: Extract data from result set
+                int count=0;
+                String user_id="";
+                while(rs.next())
+                {
+                    user_id=rs.getString(1);
+                    count++;
+                }
+                if(count==1) {
+                    //set session user_id
+                    SharedPreferences sharedpreferences = getSharedPreferences(user_id, Context.MODE_PRIVATE);
+                    //redirect to home activity (spicalty)
+                    startActivity(new Intent(SignIn.this, Specialty.class));
+                }
+                else
+                {
+                    //error message
+                    Toast errorToast = Toast.makeText(SignIn.this, "كلمة المرور أو اسم المستخدم غير صحيحة", Toast.LENGTH_SHORT);
+                    errorToast.show();
+                }
+                //STEP 6: Clean-up environment
+                rs.close();
+                stmt.close();
+                conn.close();
+            }catch(SQLException se){
+                //SHOW SERVER FAILED MESSAGE
+                Toast errorToast = Toast.makeText(SignIn.this, "أرجو المحاولة لاحقاً", Toast.LENGTH_SHORT);
+                errorToast.show();
+            }catch(Exception e){
+                //SHOW SERVER FAILED MESSAGE
+                Toast errorToast = Toast.makeText(SignIn.this, "أرجو المحاولة لاحقاً", Toast.LENGTH_SHORT);
+                errorToast.show();
+            }finally{
+                //finally block used to close resources
+                try{
+                    if(stmt!=null)
+                        stmt.close();
+                }catch(SQLException se2){
+                    //SHOW SERVER FAILED MESSAGE
+                    Toast errorToast = Toast.makeText(SignIn.this, "أرجو المحاولة لاحقاً", Toast.LENGTH_SHORT);
+                    errorToast.show();
+                }// nothing we can do
+                try{
+                    if(conn!=null)
+                        conn.close();
+                }catch(SQLException se){
+                    //SHOW SERVER FAILED MESSAGE
+                    Toast errorToast = Toast.makeText(SignIn.this, "أرجو المحاولة لاحقاً", Toast.LENGTH_SHORT);
+                    errorToast.show();
+                }//end finally try
+            }//end try
+
+
+        }//end if
+
 
     }
 
 
-
-    protected String doInBackground(String... arg0) {
-        try {
-
-            String useremail = email.getText().toString();
-            String password = pass.getText().toString();
-            String link = "http://shoor.000webhostapp.com/login.php?useremail=" + useremail + "&password=" + password;
-
-            HttpClient client = new DefaultHttpClient();
-            HttpGet request = new HttpGet();
-            request.setURI(new URI(link));
-            HttpResponse response = client.execute(request);
-            BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-
-            StringBuffer sb = new StringBuffer("");
-            String line;
-
-            while ((line = in.readLine()) != null) {
-                sb.append(line);
-                break;
-            }
-
-            in.close();
-            return sb.toString();
-        } catch (Exception e) {
-            return "Exception: " + e.getMessage();
-
-        }
+    //this method to validate user sign in inputs
+public boolean ValidateInputs(String useremail , String password){
+    if (useremail.equals("")) {
+        email_input.setError("يجب ملء الخانة");
+        return false;
+    }
+    if (password.equals("")){
+        pass_input.setError("يجب ملء الخانة");
+        return false;
+    }
+    if(useremail.length()==40){
+        email_input.setError("يجب ألا يتجاوز البريد الإلكتروني 40 حرفاً");
+        return false;
+    }
+    if(password.length()==20){
+        pass_input.setError("يجب ألا تتجاوز كلمة المرور 20 حرفاً");
+        return false;
     }
 
-    protected void onPostExecute(String result){
-        if(result.equals("Failed"))
-        {
-            AlertDialog.Builder ErrorMessage  = new AlertDialog.Builder(this);
-            ErrorMessage.setMessage("wrong password or username");
-            ErrorMessage.setTitle("Error Message...");
-            ErrorMessage.setPositiveButton("OK", null);
-            ErrorMessage.setCancelable(true);
-            ErrorMessage.create().show();
-            ErrorMessage.setPositiveButton("Ok",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            email.setText("");
-                            pass.setText("");
-                        }
-                    });
-        }
-        else
-
-            startActivity(new Intent(SignIn.this, Specialty.class));
-
+    if(password.length()<8){
+        pass_input.setError("يجب ألا تقل كلمة المرور عن 8 أحرف");
+        return false;
     }
 
 
+    return true;
+}
 
+
+    public void ToSignUp(View view) {
+        startActivity(new Intent(SignIn.this, SignUp.class));
+
+    }
 }
