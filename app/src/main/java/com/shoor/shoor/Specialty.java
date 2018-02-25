@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -14,31 +15,9 @@ import android.widget.Toolbar;
 
 public class Specialty extends AppCompatActivity {
 
-    private TextView mTextMessage;
-    private String SpecialtyClicked="";
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.linktosuggest:
-                    //redirect to suggest activity
-                    return true;
-                case R.id.linktospecialty:
-                    //redirect to specialty activity
-                    return true;
-                case R.id.linktofavorite:
-                    //redirect to favorite activity
-                    return true;
-                case R.id.linktomyprofile:
-                    //redirect to myprofile
-                    // activity
-                    return true;
-            }
-            return false;
-        }
-    };
+    private String SpecialtyClicked="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,5 +52,24 @@ public class Specialty extends AppCompatActivity {
         //redirect to doctors
         startActivity(new Intent(Specialty.this, Doctors.class));
 
+    }
+
+    public void linkToFavorite(View view) {
+        startActivity(new Intent(Specialty.this,FavoriteList.class));
+
+    }
+
+    public void linkToMyprofile(View view) {
+        startActivity(new Intent(Specialty.this,ProfileActivity.class));
+    }
+
+    public void linkToSpecialty(View view) {
+        //redirect to suggest activity
+        startActivity(new Intent(Specialty.this, Specialty.class));
+    }
+
+    public void linkToSuggest(View view) {
+        //redirect to suggest activity
+        startActivity(new Intent(Specialty.this, SuggestDoctorActivity.class));
     }
 }

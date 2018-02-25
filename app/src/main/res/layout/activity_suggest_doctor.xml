@@ -5,10 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.shoor.shoor.SuggestDoctorActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/colorPrimary">
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -40,84 +43,102 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/lable_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/segoeuil"
-        android:text="معلومات الطبيب :"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="239dp"
-        tools:layout_editor_absoluteY="63dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="15dp"
+        android:paddingEnd="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingStart="15dp"
+        android:paddingTop="30dp">
 
-    <EditText
-        android:id="@+id/Suggest_Doctor_Name"
-        android:layout_width="330dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:ems="10"
-        android:fontFamily="@font/segoeuil"
-        android:gravity="end"
-        android:hint="اسم الطبيب"
-        android:inputType="textPersonName"
-        android:textAlignment="viewEnd"
-        android:textDirection="rtl"
-        tools:ignore="HardcodedText,MissingConstraints"
-        tools:layout_editor_absoluteX="27dp"
-        tools:layout_editor_absoluteY="118dp"
-        tools:targetApi="jelly_bean_mr1" />
+        <TextView
+            android:id="@+id/lable_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="@font/segoeuil"
+            android:text="معلومات الطبيب :"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="239dp"
+            tools:layout_editor_absoluteY="63dp" />
 
-    <EditText
-        android:id="@+id/Suggest_Doctor_Hospital"
-        android:layout_width="330dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:ems="10"
-        android:fontFamily="@font/segoeuil"
-        android:gravity="end"
-        android:hint="اسم المستشفى"
-        android:inputType="textPersonName"
-        android:textAlignment="viewEnd"
-        android:textDirection="rtl"
-        tools:ignore="HardcodedText,MissingConstraints"
-        tools:layout_editor_absoluteX="27dp"
-        tools:layout_editor_absoluteY="194dp"
-        tools:targetApi="jelly_bean_mr1" />
+        <EditText
+            android:id="@+id/Suggest_Doctor_Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:fontFamily="@font/segoeuil"
+            android:gravity="end"
+            android:hint="اسم الطبيب"
+            android:inputType="textPersonName"
+            android:textAlignment="viewEnd"
+            android:textDirection="rtl"
+            tools:ignore="HardcodedText,MissingConstraints"
+            tools:layout_editor_absoluteX="27dp"
+            tools:layout_editor_absoluteY="118dp"
+            tools:targetApi="jelly_bean_mr1" />
 
-    <Button
-        android:id="@+id/save_app"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:layout_below="@+id/female"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/filter_style"
-        android:fontFamily="@font/segoeuil"
-        android:text="إرسال"
-        android:textColor="@android:color/white"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="117dp"
-        tools:layout_editor_absoluteY="304dp"
-        tools:ignore="MissingConstraints" />
+        <EditText
+            android:id="@+id/Suggest_Doctor_Hospital"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:fontFamily="@font/segoeuil"
+            android:gravity="end"
+            android:hint="اسم المستشفى"
+            android:inputType="textPersonName"
+            android:textAlignment="viewEnd"
+            android:textDirection="rtl"
+            tools:ignore="HardcodedText,MissingConstraints"
+            tools:layout_editor_absoluteX="27dp"
+            tools:layout_editor_absoluteY="194dp"
+            tools:targetApi="jelly_bean_mr1" />
+
+        <Button
+            android:id="@+id/save_app"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/female"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/filter_style"
+            android:fontFamily="@font/segoeuil"
+            android:onClick="Send_Suggest"
+            android:text="إرسال"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="117dp"
+            tools:layout_editor_absoluteY="304dp" />
+
+    </LinearLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="505dp"
         tools:ignore="MissingConstraints">
 
         <LinearLayout
             android:id="@+id/toolbarmenucontainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:background="@color/colorFooter"
             android:gravity="start"
             android:orientation="horizontal"
@@ -129,10 +150,12 @@
                 android:layout_width="64px"
                 android:layout_height="64px"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="25dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/colorFooter"
                 android:clickable="true"
+                android:onClick="linkToSuggest"
                 android:scaleType="fitXY"
                 android:src="@drawable/suggest" />
 
@@ -141,10 +164,12 @@
                 android:id="@+id/linktospecialty"
                 android:layout_width="64px"
                 android:layout_height="64px"
-                android:layout_marginLeft="55dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginStart="50dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/colorFooter"
                 android:clickable="true"
+                android:onClick="linkToSpecialty"
                 android:scaleType="fitXY"
                 android:src="@drawable/specialty"
                 android:title="التخصصات" />
@@ -154,10 +179,12 @@
                 android:id="@+id/linktofavorite"
                 android:layout_width="64px"
                 android:layout_height="64px"
-                android:layout_marginLeft="60dp"
+                android:layout_marginLeft="75dp"
+                android:layout_marginStart="75dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/colorFooter"
                 android:clickable="true"
+                android:onClick="linkToFavorite"
                 android:scaleType="fitXY"
                 android:src="@drawable/list" />
 
@@ -165,28 +192,29 @@
                 android:id="@+id/linktomyprofile"
                 android:layout_width="64px"
                 android:layout_height="64px"
-                android:layout_marginLeft="55dp"
+                android:layout_marginLeft="65dp"
                 android:layout_marginTop="5dp"
                 android:background="@color/colorFooter"
                 android:clickable="true"
+                android:onClick="linkToMyprofile"
                 android:scaleType="fitXY"
                 android:src="@drawable/myprofile" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="22dp"
-            android:layout_marginTop="40dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:background="@color/colorFooter"
             android:orientation="horizontal"
             android:paddingBottom="2dp"
-            android:paddingLeft="20dp"
+            android:paddingLeft="10dp"
             android:weightSum="4">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="6dp"
                 android:fontFamily="@font/segoeuil"
                 android:text="اقترح طبيباً"
                 android:textColor="#70ADD7"
@@ -196,7 +224,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="40dp"
                 android:fontFamily="@font/segoeuil"
                 android:text="التخصصات"
                 android:textColor="#70ADD7"
@@ -206,7 +234,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="46dp"
+                android:layout_marginLeft="50dp"
                 android:fontFamily="@font/segoeuil"
                 android:text="المفضلة"
                 android:textColor="#70ADD7"
@@ -216,7 +244,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="47dp"
+                android:layout_marginLeft="45dp"
                 android:fontFamily="@font/segoeuil"
                 android:text="صفحتي"
                 android:textColor="#70ADD7"

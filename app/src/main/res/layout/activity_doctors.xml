@@ -8,33 +8,58 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
             android:background="@color/colorPrimary"
-            android:fontFamily="@font/segoeuil"
-            android:gravity="center_vertical"
-            android:text="الأطباء"
-            android:textAlignment="center"
-            android:textColor="#ffffff"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            tools:targetApi="jelly_bean" />
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/back_arrow"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/segoeuil"
+                android:gravity="center_vertical"
+                android:text="الأطباء"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"
+                tools:targetApi="jelly_bean" />
+
+
+            <ImageButton
+                android:id="@+id/back_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
+                android:background="#00ffffff"
+                app:srcCompat="@drawable/ic_arrow_back" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="90dp"
             android:background="@color/colorPrimary"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <AutoCompleteTextView
                 android:id="@+id/search"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:layout_marginLeft="18dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/search_input_style"
                 android:drawableLeft="@drawable/ic_search"
@@ -48,14 +73,12 @@
                 android:id="@+id/filter_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:paddingRight="16dp">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/price"
-                    android:layout_width="80dp"
+                    android:layout_width="75dp"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/filter_style"
@@ -72,9 +95,9 @@
 
                 <Button
                     android:id="@+id/rate"
-                    android:layout_width="80dp"
+                    android:layout_width="75dp"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/filter_style"
@@ -92,9 +115,9 @@
 
                 <Button
                     android:id="@+id/location"
-                    android:layout_width="80dp"
+                    android:layout_width="75dp"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/filter_style"
@@ -114,10 +137,10 @@
                     android:id="@+id/filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
+                    android:layout_gravity="top"
+                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:text="تصفية"
+                    android:text="تصفية البحث"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />

@@ -18,6 +18,8 @@ import java.sql.*;
 public class SignIn extends AppCompatActivity {
    EditText email_input ;
    EditText pass_input ;
+   public static String user_id="";
+   public static String admin_id="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +58,6 @@ public class SignIn extends AppCompatActivity {
 
                 //STEP 5: Extract data from result set
                 int count=0;
-                String user_id="";
                 while(rs.next())
                 {
                     user_id=rs.getString(1);
@@ -65,14 +66,37 @@ public class SignIn extends AppCompatActivity {
                 if(count==1) {
                     //set session user_id
                     SharedPreferences sharedpreferences = getSharedPreferences(user_id, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString("user_id",user_id);
+                    editor.commit();
                     //redirect to home activity (spicalty)
                     startActivity(new Intent(SignIn.this, Specialty.class));
                 }
                 else
-                {
-                    //error message
-                    Toast errorToast = Toast.makeText(SignIn.this, "كلمة المرور أو اسم المستخدم غير صحيحة", Toast.LENGTH_SHORT);
-                    errorToast.show();
+                {//check if admin
+                    Statement stmt2 = conn.createStatement();
+                    String sql2  = "SELECT * FROM admin where Email='"+email+"' AND Password='"+pass+"'";
+                    ResultSet result = stmt.executeQuery(sql);
+                    int count2=0;
+                    while(rs.next())
+                    {
+                        admin_id=rs.getString(1);
+                        count2++;
+                    }
+                    if(count==1) {
+                        //set session admin_id
+                        SharedPreferences sharedpreferences = getSharedPreferences(admin_id, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putString("admin_id",admin_id);
+                        editor.commit();
+                        //redirect to home activity (spicalty)
+                        startActivity(new Intent(SignIn.this, ManageContentActivity.class));
+                    }
+                    else {
+                        //error message
+                        Toast errorToast = Toast.makeText(SignIn.this, "كلمة المرور أو اسم المستخدم غير صحيحة", Toast.LENGTH_SHORT);
+                        errorToast.show();
+                    }
                 }
                 //STEP 6: Clean-up environment
                 rs.close();
