@@ -1,11 +1,5 @@
 package com.shoor.shoor;
 
-/*
-*
-* get session
-* SharedPreferences sharedpreferences = getSharedPreferences(SignIn.user_id, Context.MODE_PRIVATE);
-  String userID = sharedpreferences.getString("user_id", "");
-*/
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

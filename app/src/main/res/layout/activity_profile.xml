@@ -10,364 +10,388 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_weight="1"
-        android:background="@drawable/background_userprofile">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/edit_profile"
-            android:layout_marginLeft="12dp"
-            android:layout_marginStart="12dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:fontFamily="@font/segoeuil"
-            android:text="تسجيل الخروج"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/logout"
-            android:layout_alignBottom="@+id/logout"
-            android:layout_centerHorizontal="true"
-            android:layout_weight="1"
-            android:fontFamily="@font/segoeuil"
-            android:gravity="top|center_vertical|center"
-            android:text="صفحتي"
-            android:textAlignment="center"
-            android:textColor="#ffffff"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            tools:targetApi="jelly_bean" />
-
-        <ImageButton
-            android:id="@+id/edit_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="14dp"
-            android:layout_marginRight="14dp"
-            android:layout_marginTop="12dp"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            app:srcCompat="@drawable/ic_edit"
-            tools:ignore="VectorDrawableCompat" />
-
-    </RelativeLayout>
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="505dp">
-
-        <LinearLayout
-            android:id="@+id/toolbarmenucontainer"
+        <RelativeLayout
+            android:id="@+id/profile_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorFooter"
-            android:gravity="start"
-            android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:weightSum="4">
-
-            <ImageButton
-                android:id="@+id/linktosuggest"
-                android:layout_width="64px"
-                android:layout_height="64px"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/colorFooter"
-                android:clickable="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/suggest" />
-
-
-            <ImageButton
-                android:id="@+id/linktospecialty"
-                android:layout_width="64px"
-                android:layout_height="64px"
-                android:layout_marginLeft="55dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/colorFooter"
-                android:clickable="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/specialty"
-                android:title="التخصصات" />
-
-
-            <ImageButton
-                android:id="@+id/linktofavorite"
-                android:layout_width="64px"
-                android:layout_height="64px"
-                android:layout_marginLeft="60dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/colorFooter"
-                android:clickable="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/list" />
-
-            <ImageButton
-                android:id="@+id/linktomyprofile"
-                android:layout_width="64px"
-                android:layout_height="64px"
-                android:layout_marginLeft="55dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/colorFooter"
-                android:clickable="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/myprofile" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="22dp"
-            android:layout_marginTop="40dp"
-            android:background="@color/colorFooter"
-            android:orientation="horizontal"
-            android:paddingBottom="2dp"
-            android:paddingLeft="20dp"
-            android:weightSum="4">
+            android:layout_height="200dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_userprofile">
 
             <TextView
+                android:id="@+id/logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/edit_profile"
+                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
+                android:clickable="true"
                 android:fontFamily="@font/segoeuil"
-                android:text="اقترح طبيباً"
-                android:textColor="#70ADD7"
-                android:textSize="12sp"
+                android:onClick="logout"
+                android:text="تسجيل الخروج"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_alignBaseline="@+id/logout"
+                android:layout_alignBottom="@+id/logout"
+                android:layout_centerHorizontal="true"
                 android:fontFamily="@font/segoeuil"
-                android:text="التخصصات"
-                android:textColor="#70ADD7"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="46dp"
-                android:fontFamily="@font/segoeuil"
-                android:text="المفضلة"
-                android:textColor="#70ADD7"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="47dp"
-                android:fontFamily="@font/segoeuil"
+                android:gravity="top|center_vertical|center"
                 android:text="صفحتي"
-                android:textColor="#70ADD7"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:targetApi="jelly_bean" />
 
-        </LinearLayout>
-    </android.support.design.widget.BottomNavigationView>
+            <ImageButton
+                android:id="@+id/edit_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="14dp"
+                android:layout_marginRight="14dp"
+                android:layout_marginTop="12dp"
+                android:background="@android:color/transparent"
+                android:clickable="true"
+                android:onClick="EditProfile"
+                app:srcCompat="@drawable/ic_edit"
+                tools:ignore="VectorDrawableCompat" />
 
+        </RelativeLayout>
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/user_pic"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:src="@drawable/user"
-        app:civ_border_color="#cfcfcf"
-        app:civ_border_overlay="true"
-        app:civ_border_width="1dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="137dp"
-        tools:layout_editor_absoluteY="141dp" />
-
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="7dp"
-        tools:layout_editor_absoluteX="2dp"
-        tools:layout_editor_absoluteY="259dp"
-        tools:ignore="MissingConstraints">
-
-        <LinearLayout
-            android:layout_width="370dp"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/user_pic"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="140dp"
+            android:layout_weight="1"
+            android:src="@drawable/user"
+            app:civ_border_color="#cfcfcf"
+            app:civ_border_overlay="true"
+            app:civ_border_width="1dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="137dp"
+            tools:layout_editor_absoluteY="141dp" />
 
-            <TableLayout
-                android:layout_width="370dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/card_style"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="6dp"
-                tools:layout_editor_absoluteY="262dp">
+        <ScrollView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_header"
+            android:layout_marginTop="60dp"
+            android:layout_weight="1"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="2dp"
+            tools:layout_editor_absoluteY="259dp">
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:baselineAligned="false"
-                    android:layoutDirection="rtl"
-                    android:paddingBottom="20dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="20dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/icon_person"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        app:srcCompat="@drawable/ic_person" />
-
-                    <TextView
-                        android:id="@+id/username"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="10dp"
-                        android:fontFamily="@font/segoeuil"
-                        android:text="اسم المستخدم"
-                        android:textAlignment="center"
-                        android:textColor="#FF666666"
-                        android:textDirection="rtl"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        tools:layout_editor_absoluteX="120dp"
-                        tools:layout_editor_absoluteY="251dp" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layoutDirection="rtl"
-                    android:paddingBottom="20dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="20dp">
-
-                    <ImageView
-                        android:id="@+id/icon_email"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        app:srcCompat="@drawable/ic_email" />
-
-                    <TextView
-                        android:id="@+id/email"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="10dp"
-                        android:fontFamily="@font/segoeuil"
-                        android:text="البريد الإلكتروني"
-                        android:textAlignment="center"
-                        android:textColor="#FF666666"
-                        android:textDirection="rtl"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        tools:layout_editor_absoluteX="120dp"
-                        tools:layout_editor_absoluteY="251dp" />
-                </TableRow>
-
-                <TableRow
+                <TableLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layoutDirection="rtl"
-                    android:paddingBottom="20dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="20dp">
+                    android:background="@drawable/card_style"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="6dp"
+                    tools:layout_editor_absoluteY="262dp">
 
-                    <ImageView
-                        android:id="@+id/icon_gender"
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:baselineAligned="false"
+                        android:layoutDirection="rtl"
+                        android:paddingBottom="20dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="20dp">
+
+                        <ImageView
+                            android:id="@+id/icon_person"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            app:srcCompat="@drawable/ic_person" />
+
+                        <TextView
+                            android:id="@+id/username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:fontFamily="@font/segoeuil"
+                            android:text="اسم المستخدم"
+                            android:textColor="#FF666666"
+                            android:textDirection="rtl"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            tools:layout_editor_absoluteX="120dp"
+                            tools:layout_editor_absoluteY="251dp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layoutDirection="rtl"
+                        android:paddingBottom="20dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="20dp">
+
+                        <ImageView
+                            android:id="@+id/icon_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            app:srcCompat="@drawable/ic_email" />
+
+                        <TextView
+                            android:id="@+id/EmailLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:fontFamily="@font/segoeuil"
+                            android:text="البريد الإلكتروني"
+                            android:textColor="#FF666666"
+                            android:textDirection="rtl"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            tools:layout_editor_absoluteX="120dp"
+                            tools:layout_editor_absoluteY="251dp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layoutDirection="rtl"
+                        android:paddingBottom="20dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="20dp">
+
+                        <ImageView
+                            android:id="@+id/icon_gender"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            app:srcCompat="@drawable/ic_person" />
+
+                        <TextView
+                            android:id="@+id/genderLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:fontFamily="@font/segoeuil"
+                            android:text="ذكر/أنثى"
+                            android:textColor="#FF666666"
+                            android:textDirection="rtl"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            tools:layout_editor_absoluteX="120dp"
+                            tools:layout_editor_absoluteY="251dp"/>
+                    </TableRow>
+                </TableLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/card_style"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="6dp"
+                    tools:layout_editor_absoluteY="467dp">
+
+                    <ImageButton
+                        android:id="@+id/toAppoint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        app:srcCompat="@drawable/ic_person" />
+                        android:layout_alignBottom="@+id/myapp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:background="#00FFFFFF"
+                        android:onClick="LinkToAppoint"
+                        app:srcCompat="@drawable/ic_arrowleft" />
 
                     <TextView
-                        android:id="@+id/gender"
+                        android:id="@+id/myapp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginRight="12dp"
+                        android:layout_toLeftOf="@+id/icon_calendar"
+                        android:layout_toStartOf="@+id/icon_calendar"
                         android:fontFamily="@font/segoeuil"
-                        android:text="ذكر/أنثى"
+                        android:layoutDirection="rtl"
+                        android:text="مواعيدي"
                         android:textColor="#FF666666"
                         android:textDirection="rtl"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         tools:layout_editor_absoluteX="120dp"
                         tools:layout_editor_absoluteY="251dp" />
-                </TableRow>
-            </TableLayout>
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/card_style"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="6dp"
-                tools:layout_editor_absoluteY="467dp">
+                    <ImageView
+                        android:id="@+id/icon_calendar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="11dp"
+                        android:layout_marginRight="11dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        app:srcCompat="@drawable/ic_date" />
+                </RelativeLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/content"
+            android:layout_marginTop="40dp"
+            android:layout_weight="1"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="0dp">
+
+            <LinearLayout
+                android:id="@+id/toolbarmenucontainer"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/colorFooter"
+                android:gravity="start"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:weightSum="4">
 
                 <ImageButton
-                    android:id="@+id/imageButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/myapp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:background="#00FFFFFF"
-                    app:srcCompat="@drawable/ic_arrowleft" />
-                <TextView
-                    android:id="@+id/myapp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginRight="12dp"
-                    android:layout_toLeftOf="@+id/icon_calendar"
-                    android:layout_toStartOf="@+id/icon_calendar"
-                    android:fontFamily="@font/segoeuil"
-                    android:layoutDirection="rtl"
-                    android:text="مواعيدي"
-                    android:textColor="#FF666666"
-                    android:textDirection="rtl"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    tools:layout_editor_absoluteX="120dp"
-                    tools:layout_editor_absoluteY="251dp" />
+                    android:id="@+id/linktosuggest"
+                    android:layout_width="64px"
+                    android:layout_height="64px"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/colorFooter"
+                    android:clickable="true"
+                    android:onClick="linkToSuggest"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/suggest" />
 
-                <ImageView
-                    android:id="@+id/icon_calendar"
+
+                <ImageButton
+                    android:id="@+id/linktospecialty"
+                    android:layout_width="64px"
+                    android:layout_height="64px"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/colorFooter"
+                    android:clickable="true"
+                    android:onClick="linkToSpecialty"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/specialty"
+                    android:title="التخصصات" />
+
+
+                <ImageButton
+                    android:id="@+id/linktofavorite"
+                    android:layout_width="64px"
+                    android:layout_height="64px"
+                    android:layout_marginLeft="75dp"
+                    android:layout_marginStart="75dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/colorFooter"
+                    android:clickable="true"
+                    android:onClick="linkToFavorite"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/list" />
+
+                <ImageButton
+                    android:id="@+id/linktomyprofile"
+                    android:layout_width="64px"
+                    android:layout_height="64px"
+                    android:layout_marginLeft="65dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/colorFooter"
+                    android:clickable="true"
+                    android:onClick="linkToMyprofile"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/myprofile" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@color/colorFooter"
+                android:orientation="horizontal"
+                android:paddingBottom="2dp"
+                android:paddingLeft="10dp"
+                android:weightSum="4">
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="11dp"
-                    android:layout_marginRight="11dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    app:srcCompat="@drawable/ic_date" />
-            </RelativeLayout>
-        </LinearLayout>
-    </ScrollView>
+                    android:layout_marginLeft="6dp"
+                    android:fontFamily="@font/segoeuil"
+                    android:text="اقترح طبيباً"
+                    android:textColor="#70ADD7"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:fontFamily="@font/segoeuil"
+                    android:text="التخصصات"
+                    android:textColor="#70ADD7"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:fontFamily="@font/segoeuil"
+                    android:text="المفضلة"
+                    android:textColor="#70ADD7"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="45dp"
+                    android:fontFamily="@font/segoeuil"
+                    android:text="صفحتي"
+                    android:textColor="#70ADD7"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </android.support.design.widget.BottomNavigationView>
+    </RelativeLayout>
+
 
 </android.support.constraint.ConstraintLayout>
