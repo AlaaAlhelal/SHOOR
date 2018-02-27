@@ -158,9 +158,9 @@
                         android:id="@+id/add_specialty"
                         android:layout_width="70dp"
                         android:layout_height="30dp"
-                        android:layout_alignEnd="@+id/label1"
-                        android:layout_alignRight="@+id/label1"
-                        android:layout_below="@+id/label1"
+                        android:layout_alignEnd="@+id/label2"
+                        android:layout_alignRight="@+id/label2"
+                        android:layout_below="@+id/label2"
                         android:layout_marginRight="14dp"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/card_style"
@@ -191,7 +191,7 @@
                         android:id="@+id/delete_specialty"
                         android:layout_width="70dp"
                         android:layout_height="30dp"
-                        android:layout_alignBottom="@+id/doctorView"
+                        android:layout_alignBottom="@+id/specialtyView"
                         android:layout_alignLeft="@+id/edit_specialty"
                         android:layout_alignStart="@+id/edit_specialty"
                         android:layout_marginBottom="12dp"
@@ -204,20 +204,20 @@
                         android:textStyle="bold" />
 
                     <ImageView
-                        android:id="@+id/doctorView"
+                        android:id="@+id/specialtyView"
                         android:layout_width="wrap_content"
                         android:layout_height="170dp"
-                        android:layout_alignTop="@+id/label1"
+                        android:layout_alignTop="@+id/label2"
                         android:layout_centerHorizontal="true"
                         app:srcCompat="@drawable/b_specialty" />
 
                     <TextView
-                        android:id="@+id/label1"
+                        android:id="@+id/label2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/doctorView"
+                        android:layout_alignEnd="@+id/specialtyView"
                         android:layout_alignParentTop="true"
-                        android:layout_alignRight="@+id/doctorView"
+                        android:layout_alignRight="@+id/specialtyView"
                         android:layout_marginEnd="26dp"
                         android:layout_marginRight="26dp"
                         android:layout_marginTop="10dp"

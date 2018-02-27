@@ -76,14 +76,15 @@ public class SignIn extends AppCompatActivity {
                 {//check if admin
                     Statement stmt2 = conn.createStatement();
                     String sql2  = "SELECT * FROM admin where Email='"+email+"' AND Password='"+pass+"'";
-                    ResultSet result = stmt.executeQuery(sql);
+                    ResultSet result = stmt2.executeQuery(sql2);
                     int count2=0;
-                    while(rs.next())
+                    while(result.next())
                     {
-                        admin_id=rs.getString(1);
-                        count2++;
+                        admin_id=result.getString(1);
+                        ++count2;
                     }
-                    if(count==1) {
+
+                    if(count2==1) {
                         //set session admin_id
                         SharedPreferences sharedpreferences = getSharedPreferences(admin_id, Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -94,8 +95,8 @@ public class SignIn extends AppCompatActivity {
                     }
                     else {
                         //error message
-                        Toast errorToast = Toast.makeText(SignIn.this, "كلمة المرور أو اسم المستخدم غير صحيحة", Toast.LENGTH_SHORT);
-                        errorToast.show();
+                        Toast errormessage = Toast.makeText(SignIn.this, "كلمة المرور أو اسم المستخدم غير صحيحة", Toast.LENGTH_SHORT);
+                        errormessage.show();
                     }
                 }
                 //STEP 6: Clean-up environment
@@ -104,11 +105,11 @@ public class SignIn extends AppCompatActivity {
                 conn.close();
             }catch(SQLException se){
                 //SHOW SERVER FAILED MESSAGE
-                Toast errorToast = Toast.makeText(SignIn.this, "أرجو المحاولة لاحقاً", Toast.LENGTH_SHORT);
+                Toast errorToast = Toast.makeText(SignIn.this, "يجب أن تكون متصلاً بالإنترنت", Toast.LENGTH_SHORT);
                 errorToast.show();
             }catch(Exception e){
                 //SHOW SERVER FAILED MESSAGE
-                Toast errorToast = Toast.makeText(SignIn.this, "أرجو المحاولة لاحقاً", Toast.LENGTH_SHORT);
+                Toast errorToast = Toast.makeText(SignIn.this, ""+e.getMessage(), Toast.LENGTH_SHORT);
                 errorToast.show();
             }finally{
                 //finally block used to close resources
