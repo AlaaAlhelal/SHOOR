@@ -98,10 +98,19 @@ public class EditDepartment extends AppCompatActivity {
                 stmt = conn.createStatement();
                 String sql;
                 sql = "UPDATE specialties SET SpecialtiesName = ('" + NewDep + "')WHERE SpecialtiesName=('" + DepName + "')";
-                ResultSet rs = stmt.executeQuery(sql);
+                int rs = stmt.executeUpdate(sql);
+
+                if(rs==1){
+                    Toast done = Toast.makeText(EditDepartment.this, "تم التعديل", Toast.LENGTH_SHORT);
+                    done.show();
+                }
+                else
+                {
+                    Toast done = Toast.makeText(EditDepartment.this, "حدثت مشكلة أثناء التعديل", Toast.LENGTH_SHORT);
+                    done.show();
+                }
 
                 //STEP 6: Clean-up environment
-                rs.close();
                 stmt.close();
                 conn.close();
             } catch (SQLException se) {
