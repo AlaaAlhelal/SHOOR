@@ -90,7 +90,7 @@
         android:textDirection="rtl"
         tools:ignore="HardcodedText,MissingConstraints"
         tools:layout_editor_absoluteX="27dp"
-        tools:layout_editor_absoluteY="226dp"
+        tools:layout_editor_absoluteY="245dp"
         tools:targetApi="jelly_bean_mr1" />
 
     <Button
@@ -101,13 +101,14 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/filter_style"
         android:fontFamily="@font/segoeuil"
+        android:onClick="Do"
         android:text="تعديل "
         android:textColor="@android:color/white"
         android:textSize="14sp"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="117dp"
-        tools:layout_editor_absoluteY="304dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="134dp"
+        tools:layout_editor_absoluteY="363dp" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
