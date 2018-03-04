@@ -8,6 +8,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/head_content"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/colorPrimary">
@@ -24,6 +25,7 @@
             app:srcCompat="@drawable/ic_arrow_back" />
 
         <TextView
+            android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -35,293 +37,276 @@
             android:textColor="#ffffff"
             android:textSize="16sp"
             android:textStyle="bold"
-            tools:targetApi="jelly_bean"
-            android:id="@+id/textView5" />
+            tools:targetApi="jelly_bean" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="370dp"
-        android:layout_height="519dp"
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="500dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/head_content"
+        app:layout_constraintVertical_chainStyle="spread_inside"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="48dp">
+        tools:layout_editor_absoluteX="40dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:orientation="vertical">
 
-        <ScrollView
-            android:layout_width="330dp"
-            android:layout_height="516dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="21dp"
-            tools:layout_editor_absoluteX="52dp"
-            tools:layout_editor_absoluteY="40dp">
+            <RelativeLayout
+                android:id="@+id/managedoctor"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                <Button
+                    android:id="@+id/delete_doctor"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_alignLeft="@+id/edit_doctor"
+                    android:layout_alignStart="@+id/edit_doctor"
+                    android:layout_below="@+id/edit_doctor"
+                    android:layout_marginTop="9dp"
+                    android:background="@drawable/card_style"
+                    android:backgroundTint="@color/colorFooter"
+                    android:fontFamily="@font/segoeuil"
+                    android:onClick="DeleteDoctor"
+                    android:text="حذف"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-                <RelativeLayout
-                    android:id="@+id/managedoctor"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                <Button
+                    android:id="@+id/edit_doctor"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_alignEnd="@+id/label1"
+                    android:layout_alignRight="@+id/label1"
+                    android:layout_below="@+id/add_doctor"
+                    android:layout_marginEnd="14dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/card_style"
+                    android:backgroundTint="@color/colorFooter"
+                    android:fontFamily="@font/segoeuil"
+                    android:onClick="EditDoctor"
+                    android:text="تعديل"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/add_doctor"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_alignLeft="@+id/edit_doctor"
+                    android:layout_alignStart="@+id/edit_doctor"
+                    android:layout_below="@+id/label1"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/card_style"
+                    android:backgroundTint="@color/colorFooter"
+                    android:fontFamily="@font/segoeuil"
+                    android:onClick="AddDoctor"
+                    android:text="إضافة"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/doctorView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="170dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    app:srcCompat="@drawable/b_doctor" />
+
+                <TextView
+                    android:id="@+id/label1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/doctorView"
                     android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true">
+                    android:layout_alignRight="@+id/doctorView"
+                    android:layout_marginEnd="26dp"
+                    android:layout_marginRight="26dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/segoeuil"
+                    android:text="إدارة الأطباء"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-                    <Button
-                        android:id="@+id/delete_doctor"
-                        android:layout_width="70dp"
-                        android:layout_height="30dp"
-                        android:layout_alignLeft="@+id/edit_doctor"
-                        android:layout_alignStart="@+id/edit_doctor"
-                        android:layout_below="@+id/edit_doctor"
-                        android:layout_marginTop="11dp"
-                        android:background="@drawable/card_style"
-                        android:backgroundTint="@color/colorFooter"
-                        android:fontFamily="@font/segoeuil"
-                        android:onClick="DeleteDoctor"
-                        android:text="حذف"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+            </RelativeLayout>
 
-                    <Button
-                        android:id="@+id/edit_doctor"
-                        android:layout_width="70dp"
-                        android:layout_height="30dp"
-                        android:layout_alignEnd="@+id/label1"
-                        android:layout_alignRight="@+id/label1"
-                        android:layout_below="@+id/add_doctor"
-                        android:layout_marginEnd="14dp"
-                        android:layout_marginRight="14dp"
-                        android:layout_marginTop="12dp"
-                        android:background="@drawable/card_style"
-                        android:backgroundTint="@color/colorFooter"
-                        android:fontFamily="@font/segoeuil"
-                        android:onClick="EditDoctor"
-                        android:text="تعديل"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+            <RelativeLayout
+                android:id="@+id/managespecialty"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
 
-                    <Button
-                        android:id="@+id/add_doctor"
-                        android:layout_width="70dp"
-                        android:layout_height="30dp"
-                        android:layout_alignLeft="@+id/edit_doctor"
-                        android:layout_alignStart="@+id/edit_doctor"
-                        android:layout_below="@+id/label1"
-                        android:layout_marginTop="13dp"
-                        android:background="@drawable/card_style"
-                        android:backgroundTint="@color/colorFooter"
-                        android:fontFamily="@font/segoeuil"
-                        android:onClick="AddDoctor"
-                        android:text="إضافة"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                <Button
+                    android:id="@+id/add_specialty"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_alignEnd="@+id/label2"
+                    android:layout_alignRight="@+id/label2"
+                    android:layout_below="@+id/label2"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/card_style"
+                    android:backgroundTint="@color/colorFooter"
+                    android:fontFamily="@font/segoeuil"
+                    android:onClick="AddSpecialty"
+                    android:text="إضافة"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-                    <ImageView
-                        android:id="@+id/doctorView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="170dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        app:srcCompat="@drawable/b_doctor" />
+                <Button
+                    android:id="@+id/edit_specialty"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_alignLeft="@+id/add_specialty"
+                    android:layout_alignStart="@+id/add_specialty"
+                    android:layout_below="@+id/add_specialty"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/card_style"
+                    android:backgroundTint="@color/colorFooter"
+                    android:fontFamily="@font/segoeuil"
+                    android:onClick="EditSpecialty"
+                    android:text="تعديل"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/label1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/doctorView"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignRight="@+id/doctorView"
-                        android:layout_marginEnd="26dp"
-                        android:layout_marginRight="26dp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/segoeuil"
-                        android:text="إدارة الأطباء"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                <Button
+                    android:id="@+id/delete_specialty"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_alignBottom="@+id/specialtyView"
+                    android:layout_alignLeft="@+id/edit_specialty"
+                    android:layout_alignStart="@+id/edit_specialty"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/card_style"
+                    android:backgroundTint="@color/colorFooter"
+                    android:fontFamily="@font/segoeuil"
+                    android:onClick="DeleteSpecialty"
+                    android:text="حذف"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-                </RelativeLayout>
+                <ImageView
+                    android:id="@+id/specialtyView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="170dp"
+                    android:layout_alignTop="@+id/label2"
+                    android:layout_centerHorizontal="true"
+                    app:srcCompat="@drawable/b_specialty" />
 
-                <RelativeLayout
-                    android:id="@+id/managespecialty"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-
+                <TextView
+                    android:id="@+id/label2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/specialtyView"
                     android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true">
+                    android:layout_alignRight="@+id/specialtyView"
+                    android:layout_marginEnd="26dp"
+                    android:layout_marginRight="26dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/segoeuil"
+                    android:text="إدارة الأقسام"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
-                    <Button
-                        android:id="@+id/add_specialty"
-                        android:layout_width="70dp"
-                        android:layout_height="30dp"
-                        android:layout_alignEnd="@+id/label2"
-                        android:layout_alignRight="@+id/label2"
-                        android:layout_below="@+id/label2"
-                        android:layout_marginRight="14dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/card_style"
-                        android:backgroundTint="@color/colorFooter"
-                        android:fontFamily="@font/segoeuil"
-                        android:onClick="AddSpecialty"
-                        android:text="إضافة"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+            </RelativeLayout>
 
-                    <Button
-                        android:id="@+id/edit_specialty"
-                        android:layout_width="70dp"
-                        android:layout_height="30dp"
-                        android:layout_alignLeft="@+id/add_specialty"
-                        android:layout_alignStart="@+id/add_specialty"
-                        android:layout_below="@+id/add_specialty"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/card_style"
-                        android:backgroundTint="@color/colorFooter"
-                        android:fontFamily="@font/segoeuil"
-                        android:onClick="EditSpecialty"
-                        android:text="تعديل"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+            <RelativeLayout
+                android:id="@+id/managehospital"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
 
-                    <Button
-                        android:id="@+id/delete_specialty"
-                        android:layout_width="70dp"
-                        android:layout_height="30dp"
-                        android:layout_alignBottom="@+id/specialtyView"
-                        android:layout_alignLeft="@+id/edit_specialty"
-                        android:layout_alignStart="@+id/edit_specialty"
-                        android:layout_marginBottom="12dp"
-                        android:background="@drawable/card_style"
-                        android:backgroundTint="@color/colorFooter"
-                        android:fontFamily="@font/segoeuil"
-                        android:onClick="DeleteSpecialty"
-                        android:text="حذف"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                <Button
+                    android:id="@+id/delete_hospital"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_alignEnd="@+id/label3"
+                    android:layout_alignRight="@+id/label3"
+                    android:layout_below="@+id/edit_hospital"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/card_style"
+                    android:backgroundTint="@color/colorFooter"
+                    android:fontFamily="@font/segoeuil"
+                    android:onClick="DeleteHospital"
+                    android:text="حذف"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-                    <ImageView
-                        android:id="@+id/specialtyView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="170dp"
-                        android:layout_alignTop="@+id/label2"
-                        android:layout_centerHorizontal="true"
-                        app:srcCompat="@drawable/b_specialty" />
+                <Button
+                    android:id="@+id/edit_hospital"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_alignLeft="@+id/add_hospital"
+                    android:layout_alignStart="@+id/add_hospital"
+                    android:layout_below="@+id/add_hospital"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/card_style"
+                    android:backgroundTint="@color/colorFooter"
+                    android:fontFamily="@font/segoeuil"
+                    android:onClick="EditHospital"
+                    android:text="تعديل"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/label2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/specialtyView"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignRight="@+id/specialtyView"
-                        android:layout_marginEnd="26dp"
-                        android:layout_marginRight="26dp"
-                        android:layout_marginTop="10dp"
-                        android:fontFamily="@font/segoeuil"
-                        android:text="إدارة الأقسام"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                <Button
+                    android:id="@+id/add_hospital"
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:layout_alignLeft="@+id/delete_hospital"
+                    android:layout_alignStart="@+id/delete_hospital"
+                    android:layout_below="@+id/label3"
+                    android:layout_marginTop="11dp"
+                    android:background="@drawable/card_style"
+                    android:backgroundTint="@color/colorFooter"
+                    android:fontFamily="@font/segoeuil"
+                    android:onClick="AddHospital"
+                    android:text="إضافة"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-                </RelativeLayout>
+                <ImageView
+                    android:id="@+id/hospitalView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="170dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="14dp"
+                    app:srcCompat="@drawable/b_hospital"
+                    tools:ignore="DuplicateIds" />
 
-                <RelativeLayout
-                    android:id="@+id/managehospital"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignLeft="@+id/managespecialty"
-                    android:layout_alignStart="@+id/managespecialty">
-
-                    <Button
-                        android:id="@+id/delete_hospital"
-                        android:layout_width="70dp"
-                        android:layout_height="30dp"
-                        android:layout_alignEnd="@+id/label3"
-                        android:layout_alignRight="@+id/label3"
-                        android:layout_below="@+id/edit_hospital"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/card_style"
-                        android:backgroundTint="@color/colorFooter"
-                        android:fontFamily="@font/segoeuil"
-                        android:onClick="DeleteHospital"
-                        android:text="حذف"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/edit_hospital"
-                        android:layout_width="70dp"
-                        android:layout_height="30dp"
-                        android:layout_alignLeft="@+id/add_hospital"
-                        android:layout_alignStart="@+id/add_hospital"
-                        android:layout_below="@+id/add_hospital"
-                        android:layout_marginTop="12dp"
-                        android:background="@drawable/card_style"
-                        android:backgroundTint="@color/colorFooter"
-                        android:fontFamily="@font/segoeuil"
-                        android:onClick="EditHospital"
-                        android:text="تعديل"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/add_hospital"
-                        android:layout_width="70dp"
-                        android:layout_height="30dp"
-                        android:layout_alignLeft="@+id/delete_hospital"
-                        android:layout_alignStart="@+id/delete_hospital"
-                        android:layout_below="@+id/label3"
-                        android:layout_marginTop="11dp"
-                        android:background="@drawable/card_style"
-                        android:backgroundTint="@color/colorFooter"
-                        android:fontFamily="@font/segoeuil"
-                        android:onClick="AddHospital"
-                        android:text="إضافة"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/hospitalView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="170dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="14dp"
-                        app:srcCompat="@drawable/b_hospital"
-                        tools:ignore="DuplicateIds" />
-
-                    <TextView
-                        android:id="@+id/label3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignEnd="@+id/hospitalView"
-                        android:layout_alignRight="@+id/hospitalView"
-                        android:layout_alignTop="@+id/hospitalView"
-                        android:layout_marginEnd="26dp"
-                        android:layout_marginRight="21dp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="@font/segoeuil"
-                        android:text="إدارة المستشفيات"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-                </RelativeLayout>
-            </LinearLayout>
-        </ScrollView>
-    </RelativeLayout>
-
+                <TextView
+                    android:id="@+id/label3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/hospitalView"
+                    android:layout_alignRight="@+id/hospitalView"
+                    android:layout_alignTop="@+id/hospitalView"
+                    android:layout_marginEnd="26dp"
+                    android:layout_marginRight="21dp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/segoeuil"
+                    android:text="إدارة المستشفيات"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

@@ -50,15 +50,25 @@ public class AddDepartment extends AppCompatActivity {
                 stmt = conn.createStatement();
                 String sql;
                 sql = "INSERT INTO specialties (SpecialtiesName) Values('" + DepName + "')";
-                ResultSet rs = stmt.executeQuery(sql);
+                int rs = stmt.executeUpdate(sql);
+
+if(rs==1){
+    Toast done = Toast.makeText(AddDepartment.this, "تمت الإضافة", Toast.LENGTH_SHORT);
+    done.show();
+}
+else
+{
+    Toast done = Toast.makeText(AddDepartment.this, "حدثت مشكلة أثناء الاضافة", Toast.LENGTH_SHORT);
+    done.show();
+}
 
                 //STEP 6: Clean-up environment
-                rs.close();
+
                 stmt.close();
                 conn.close();
             }catch(SQLException se){
                 //SHOW SERVER FAILED MESSAGE
-                Toast errorToast = Toast.makeText(AddDepartment.this, "يجب أن تكون متصلاً بالإنترنت", Toast.LENGTH_SHORT);
+                Toast errorToast = Toast.makeText(AddDepartment.this, "يجب أن تكزن متصلاً بالانترنت"+se.getMessage(), Toast.LENGTH_SHORT);
                 errorToast.show();
             }catch(Exception e){
                 //SHOW SERVER FAILED MESSAGE
@@ -70,11 +80,20 @@ public class AddDepartment extends AppCompatActivity {
 
     public boolean isValid(String DepartmentName){
         //validate all inputs
-        if (DepartmentName.equals("")) {
+        if (DepartmentName.equals("")  ) {
             department_name.setError("يجب ملء الخانة");
+            return false;
+        }
+        if(DepartmentName.length() >20)
+        {
+            department_name.setError("يجب أن لا يتجاوز الاسم 20 حرفاً");
             return false;
         }
         return true;
     }
 
+    public void back(View view) {
+        startActivity(new Intent(AddDepartment.this, ManageContentActivity.class));
+
+    }
 }

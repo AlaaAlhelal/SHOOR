@@ -23,9 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignUp" />
-        <activity
-            android:name=".Specialty"
-            android:label="@string/title_activity_specialty" />
+        <activity android:name=".Specialty" />
         <activity android:name=".Doctors" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".MyAppointmentActivity" />
@@ -35,7 +33,17 @@
         <activity android:name=".EditPasswordActivity" />
         <activity android:name=".SuggestDoctorActivity" />
         <activity android:name=".AddReviewActivity" />
-        <activity android:name=".FavoriteList"></activity>
+        <activity android:name=".FavoriteList"/>
+        <activity android:name=".ManageContentActivity"/>
+        <activity android:name=".AddDoctor"/>
+        <activity android:name=".AddDepartment"/>
+        <activity android:name=".AddHospital"/>
+        <activity android:name=".DeleteDepartment"/>
+        <activity android:name=".DeleteHospital"/>
+        <activity android:name=".DeleteDoctor"/>
+        <activity android:name=".EditDepartment"/>
+        <activity android:name=".EditDoctor"/>
+        <activity android:name=".EditHospital"/>
     </application>
 
 </manifest>
