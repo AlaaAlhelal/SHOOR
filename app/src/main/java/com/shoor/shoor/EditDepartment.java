@@ -16,21 +16,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 public class EditDepartment extends AppCompatActivity {
     Spinner list;
     EditText department_name;
-    ArrayList<String> department = new ArrayList<String>();
+    List<String> department = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_department);
-        RetriveData();
         list = (Spinner) findViewById(R.id.department_list);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, department);
-        list.setAdapter(adapter);
         department_name = (EditText) findViewById(R.id.add_department);
+        RetriveData();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, department);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        list.setAdapter(adapter);
+
     }
 
     public void RetriveData() {
@@ -51,16 +54,14 @@ public class EditDepartment extends AppCompatActivity {
             //STEP 4: Execute a query
             stmt = conn.createStatement();
             String sql;
-            sql = "SELECT SpecialtiesName FROM specialties";
+            sql = "SELECT * FROM specialties";
             ResultSet rs = stmt.executeQuery(sql);
 
             //STEP 5: Extract data from result set
-
             while (rs.next()) {
-                String dp = rs.toString();
+                String dp= rs.getString("SpecialtiesName");
                 department.add(dp);
             }
-
             //STEP 6: Clean-up environment
             rs.close();
             stmt.close();
