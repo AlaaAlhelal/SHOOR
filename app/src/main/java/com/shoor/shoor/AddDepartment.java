@@ -27,6 +27,7 @@ public class AddDepartment extends AppCompatActivity {
         department_name =(EditText)findViewById(R.id.add_department);
     }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void Send(View view) {
         //Validate inputs
@@ -52,15 +53,15 @@ public class AddDepartment extends AppCompatActivity {
                 sql = "INSERT INTO specialties (SpecialtiesName) Values('" + DepName + "')";
                 int rs = stmt.executeUpdate(sql);
 
-if(rs==1){
-    Toast done = Toast.makeText(AddDepartment.this, "تمت الإضافة", Toast.LENGTH_SHORT);
-    done.show();
-}
-else
-{
-    Toast done = Toast.makeText(AddDepartment.this, "حدثت مشكلة أثناء الاضافة", Toast.LENGTH_SHORT);
-    done.show();
-}
+              if(rs==1){
+              Toast done = Toast.makeText(AddDepartment.this, "تمت الإضافة", Toast.LENGTH_SHORT);
+                done.show();
+               }
+              else
+               {
+                Toast done = Toast.makeText(AddDepartment.this, "حدثت مشكلة أثناء الاضافة", Toast.LENGTH_SHORT);
+                 done.show();
+               }
 
                 //STEP 6: Clean-up environment
 
@@ -78,6 +79,8 @@ else
         }
     }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public boolean isValid(String DepartmentName){
         //validate all inputs
         if (DepartmentName.equals("")  ) {
@@ -92,8 +95,9 @@ else
         return true;
     }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void back(View view) {
         startActivity(new Intent(AddDepartment.this, ManageContentActivity.class));
 
     }
-}
+}//END class

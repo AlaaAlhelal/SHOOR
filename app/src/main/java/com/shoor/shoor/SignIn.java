@@ -28,7 +28,7 @@ public class SignIn extends AppCompatActivity {
         pass_input = (EditText) findViewById(R.id.pass_field);
     }
 
-
+///////////////////////////////////////////////////////////////////////////////
     public void signIn(View view) {
         String email = email_input.getText().toString();
         String  pass = pass_input.getText().toString();
@@ -137,7 +137,7 @@ public class SignIn extends AppCompatActivity {
 
     }
 
-
+    ///////////////////////////////////////////////////////////////////////////////
     //this method to validate user sign in inputs
 public boolean ValidateInputs(String useremail , String password){
     if (useremail.equals("")) {
@@ -166,7 +166,7 @@ public boolean ValidateInputs(String useremail , String password){
     return true;
 }
 
-
+    ///////////////////////////////////////////////////////////////////////////////
     public void ToSignUp(View view) {
         startActivity(new Intent(SignIn.this, SignUp.class));
 

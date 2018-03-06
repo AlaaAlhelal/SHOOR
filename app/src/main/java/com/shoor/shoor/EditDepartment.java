@@ -32,7 +32,7 @@ public class EditDepartment extends AppCompatActivity {
         list.setAdapter(adapter);
         department_name = (EditText) findViewById(R.id.add_department);
     }
-
+/////////////////////////////////////////////////////////////////////////////////////////////////
     public void RetriveData() {
 
         //VERY IMPORTANT LINES
@@ -75,7 +75,7 @@ public class EditDepartment extends AppCompatActivity {
             errorToast.show();
         }
     }
-
+    /////////////////////////////////////////////////////////////////////////////////////////////////
     public void Do(View view) {
         String DepName = list.getSelectedItem().toString();
         //Validate inputs
@@ -124,7 +124,7 @@ public class EditDepartment extends AppCompatActivity {
             }
         }
     }
-
+    /////////////////////////////////////////////////////////////////////////////////////////////////
     public boolean isValid(String DepartmentName) {
         //validate all inputs
         if (DepartmentName.equals("")) {
@@ -133,4 +133,4 @@ public class EditDepartment extends AppCompatActivity {
         }
         return true;
     }
-}
+}//End

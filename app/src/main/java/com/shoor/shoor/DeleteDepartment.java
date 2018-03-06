@@ -28,11 +28,11 @@ public class DeleteDepartment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_department);
         RetriveData();
-        list =(Spinner) findViewById(R.id.department_list);
+        list =(Spinner)findViewById(R.id.department_list);
         ArrayAdapter<String> adapter =new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item , department);
         list.setAdapter(adapter);
     }
-
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void RetriveData() {
 
             //VERY IMPORTANT LINES
@@ -75,7 +75,7 @@ public class DeleteDepartment extends AppCompatActivity {
                 errorToast.show();
             }
         }
-
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void Do(View view) {
         //Validate inputs
         String DepName = list.getSelectedItem().toString();
@@ -121,4 +121,4 @@ public class DeleteDepartment extends AppCompatActivity {
                 errorToast.show();
             }
         }
-    }
+    }//End class
