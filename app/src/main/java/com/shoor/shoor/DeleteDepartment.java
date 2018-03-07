@@ -78,7 +78,6 @@ public class DeleteDepartment extends AppCompatActivity {
         }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void Do(View view) {
-        //Validate inputs
         String DepName = list.getSelectedItem().toString();
 
             //VERY IMPORTANT LINES

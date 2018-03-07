@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -34,8 +35,15 @@ public class AddDoctor  extends AppCompatActivity {
         DoctorPrice=(EditText)findViewById(R.id.Doctor_Price);
         hospitallist=(Spinner) findViewById(R.id.hospital_list);
         departmentlist=(Spinner) findViewById(R.id.department_list);
+        ArrayAdapter<String> department_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, department);
+        department_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        departmentlist.setAdapter(department_adapter);
 
+        ArrayAdapter<String> hospital_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, hospital);
+        department_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        hospitallist.setAdapter(hospital_adapter);
     }
+
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void Send(View view) {
@@ -63,7 +71,7 @@ public class AddDoctor  extends AppCompatActivity {
                 //STEP 4: Execute a query
                 stmt = conn.createStatement();
                 String sql;
-                sql = "INSERT INTO doctor (DoctorName)Values('" + DocName + "')";////////=========================????????????????????
+                sql = "INSERT INTO doctor(DoctorName, Specialties_ID, Hospital_ID, AvgRate, OfficeHours, Price) VALUES ('"+DocName+"',18,1,0.00,'"+DocHours+"',"+DocPrice+")";////////=========================????????????????????
                 int rs = stmt.executeUpdate(sql);
 
                 if(rs==1){
@@ -121,7 +129,7 @@ public class AddDoctor  extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
         //SETUP CONNECTION
         Connection conn = null;
-        Statement stmt = null;
+        Statement stmt = null , stmt2=null;
         try{
             //STEP 2: Register JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
@@ -131,19 +139,20 @@ public class AddDoctor  extends AppCompatActivity {
 
             //STEP 4: Execute a query
             stmt = conn.createStatement();
+            stmt2=conn.createStatement();
             String sql_department,sql_hospital;
-            sql_department = "SELECT SpecialtiesName FROM specialties";
+            sql_department = "SELECT * FROM specialties";
             ResultSet rs1 = stmt.executeQuery(sql_department);
-            sql_hospital   ="SELECT SpecialtiesName FROM specialties";
-            ResultSet rs2 = stmt.executeQuery( sql_hospital);
+            sql_hospital   ="SELECT * FROM hospital";
+            ResultSet rs2 = stmt2.executeQuery( sql_hospital);
 
             //STEP 5: Extract data from result set
             while(rs1.next())
-            {   String dp = rs1.toString();
+            {   String dp = rs1.getString("SpecialtiesName");
                 department.add(dp);
             }
             while(rs2.next())
-            {   String Ho = rs2.toString();
+            {   String Ho = rs2.getString("HospitalName");
                 hospital.add(Ho);
             }
 

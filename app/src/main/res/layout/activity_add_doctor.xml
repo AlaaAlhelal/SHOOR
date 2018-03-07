@@ -37,6 +37,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginStart="12dp"
             android:background="#00ffffff"
+            android:onClick="back"
             app:srcCompat="@drawable/ic_arrow_back" />
 
     </RelativeLayout>
@@ -197,6 +198,7 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/filter_style"
             android:fontFamily="@font/segoeuil"
+            android:onClick="Send"
             android:text="حفظ"
             android:textColor="@android:color/white"
             android:textSize="14sp"
