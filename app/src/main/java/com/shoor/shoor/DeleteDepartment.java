@@ -27,9 +27,10 @@ public class DeleteDepartment extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_department);
-        RetriveData();
         list =(Spinner)findViewById(R.id.department_list);
+        RetriveData();
         ArrayAdapter<String> adapter =new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item , department);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         list.setAdapter(adapter);
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,13 +52,13 @@ public class DeleteDepartment extends AppCompatActivity {
                 //STEP 4: Execute a query
                 stmt = conn.createStatement();
                 String sql;
-                sql = "SELECT SpecialtiesName FROM specialties";
+                sql = "SELECT * FROM specialties";
                 ResultSet rs = stmt.executeQuery(sql);
 
                 //STEP 5: Extract data from result set
 
                 while(rs.next())
-                {   String dp = rs.toString();
+                {   String dp = rs.getString("SpecialtiesName");
                   department.add(dp);
                 }
 
@@ -102,6 +103,7 @@ public class DeleteDepartment extends AppCompatActivity {
                 if(rs==1){
                     Toast done = Toast.makeText(DeleteDepartment.this, "تم  الحذف ", Toast.LENGTH_SHORT);
                     done.show();
+                    this.recreate();
                 }
                 else
                 {
@@ -121,4 +123,8 @@ public class DeleteDepartment extends AppCompatActivity {
                 errorToast.show();
             }
         }
-    }//End class
+
+    public void back(View view) {
+        startActivity(new Intent(DeleteDepartment.this,ManageContentActivity.class));
+    }
+}//End class

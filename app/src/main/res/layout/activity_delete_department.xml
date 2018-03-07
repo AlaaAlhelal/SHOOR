@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/imageView2"
+            android:layout_alignTop="@+id/back"
             android:layout_centerHorizontal="true"
             android:fontFamily="@font/segoeuil"
             android:gravity="center_vertical"
@@ -28,7 +28,7 @@
             tools:targetApi="jelly_bean" />
 
         <ImageButton
-            android:id="@+id/imageView2"
+            android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -37,6 +37,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginStart="12dp"
             android:background="#00ffffff"
+            android:onClick="back"
             app:srcCompat="@drawable/ic_arrow_back" />
 
     </RelativeLayout>

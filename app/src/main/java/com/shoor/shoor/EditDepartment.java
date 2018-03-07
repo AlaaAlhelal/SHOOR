@@ -1,6 +1,7 @@
 package com.shoor.shoor;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -104,6 +105,7 @@ public class EditDepartment extends AppCompatActivity {
                 if(rs==1){
                     Toast done = Toast.makeText(EditDepartment.this, "تم التعديل", Toast.LENGTH_SHORT);
                     done.show();
+                    department_name.setText("");
                 }
                 else
                 {
@@ -133,5 +135,10 @@ public class EditDepartment extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    public void back(View view) {
+        startActivity(new Intent(EditDepartment.this,ManageContentActivity.class));
+
     }
 }//End

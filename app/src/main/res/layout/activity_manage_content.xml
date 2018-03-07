@@ -42,15 +42,14 @@
 
 
     <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="500dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/head_content"
         app:layout_constraintVertical_chainStyle="spread_inside"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="40dp">
+        tools:layout_editor_absoluteX="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,7 +60,8 @@
             <RelativeLayout
                 android:id="@+id/managedoctor"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal">
 
                 <Button
                     android:id="@+id/delete_doctor"
@@ -70,7 +70,7 @@
                     android:layout_alignLeft="@+id/edit_doctor"
                     android:layout_alignStart="@+id/edit_doctor"
                     android:layout_below="@+id/edit_doctor"
-                    android:layout_marginTop="9dp"
+                    android:layout_marginTop="7dp"
                     android:background="@drawable/card_style"
                     android:backgroundTint="@color/colorFooter"
                     android:fontFamily="@font/segoeuil"
@@ -89,7 +89,7 @@
                     android:layout_below="@+id/add_doctor"
                     android:layout_marginEnd="14dp"
                     android:layout_marginRight="14dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="7dp"
                     android:background="@drawable/card_style"
                     android:backgroundTint="@color/colorFooter"
                     android:fontFamily="@font/segoeuil"
@@ -106,7 +106,7 @@
                     android:layout_alignLeft="@+id/edit_doctor"
                     android:layout_alignStart="@+id/edit_doctor"
                     android:layout_below="@+id/label1"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="7dp"
                     android:background="@drawable/card_style"
                     android:backgroundTint="@color/colorFooter"
                     android:fontFamily="@font/segoeuil"
@@ -133,7 +133,7 @@
                     android:layout_alignRight="@+id/doctorView"
                     android:layout_marginEnd="26dp"
                     android:layout_marginRight="26dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="20dp"
                     android:fontFamily="@font/segoeuil"
                     android:text="إدارة الأطباء"
                     android:textSize="20sp"
@@ -144,7 +144,8 @@
             <RelativeLayout
                 android:id="@+id/managespecialty"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal">
 
                 <Button
                     android:id="@+id/add_specialty"
@@ -226,7 +227,8 @@
             <RelativeLayout
                 android:id="@+id/managehospital"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal">
 
                 <Button
                     android:id="@+id/delete_hospital"

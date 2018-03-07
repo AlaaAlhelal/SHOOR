@@ -56,6 +56,7 @@ public class AddDepartment extends AppCompatActivity {
               if(rs==1){
               Toast done = Toast.makeText(AddDepartment.this, "تمت الإضافة", Toast.LENGTH_SHORT);
                 done.show();
+                department_name.setText("");
                }
               else
                {
