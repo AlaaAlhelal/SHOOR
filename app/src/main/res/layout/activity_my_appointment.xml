@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context="com.shoor.shoor.MyAppointmentActivity">
 
     <RelativeLayout
@@ -35,60 +36,119 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:layout_marginStart="12dp"
+            android:onClick="back"
             app:srcCompat="@drawable/ic_arrow_back" />
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/contents"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
         app:layout_constraintTop_toBottomOf="@+id/header">
 
-        <com.applandeo.materialcalendarview.CalendarView
-            android:id="@+id/UserCalendar"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorFooter"
-            android:showDividers="none"
-            android:textAlignment="center"
-            app:headerColor="@color/colorPrimary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.333"
-            app:selectionColor="@android:color/holo_purple"
-            app:todayLabelColor="@color/defaultColor"/>
+            app:layout_constraintTop_toTopOf="parent">
 
+            <ImageButton
+                android:id="@+id/preMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="19dp"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorTrancperncy"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="PreMonth"
+                app:srcCompat="@drawable/ic_left"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/MonthName"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/segoeuil"
+                android:text="---"
+                android:textAlignment="center"
+                android:textColor="#0259ca"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText"
+                tools:targetApi="jelly_bean" />
+
+            <ImageButton
+                android:id="@+id/nextMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="19dp"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorTrancperncy"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="NextMonth"
+                app:srcCompat="@drawable/ic_right"
+                tools:ignore="ContentDescription" />
+        </LinearLayout>
+
+        <com.github.sundeepk.compactcalendarview.CompactCalendarView
+            android:id="@+id/UserCalendar"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            app:compactCalendarBackgroundColor="#ffffff"
+            app:compactCalendarCurrentDayBackgroundColor="#366eff"
+            app:compactCalendarCurrentDayTextColor="@android:color/white"
+            app:compactCalendarCurrentSelectedDayBackgroundColor="#c3edff"
+            app:compactCalendarMultiEventIndicatorColor="#aa3ed9"
+            app:compactCalendarTargetHeight="250dp"
+            app:compactCalendarTextColor="#000000"
+            app:compactCalendarTextSize="12sp" />
+
+        <TextView
+            android:id="@+id/note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/segoeuil"
+            android:hint="ملاحظة..."
+            android:padding="6dp"
+            android:textDirection="rtl"
+            android:textSize="18sp"
+            tools:ignore="HardcodedText"
+            tools:targetApi="jelly_bean_mr1" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/note"
-        android:layout_width="288dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="496dp"
-        android:fontFamily="@font/segoeuil"
-        android:textSize="24sp"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_weight="1"
-        android:clickable="true"
-        android:focusable="true"
-        app:backgroundTint="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/ManageAppoint"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="1dp"
+        android:onClick="Menu"
+        app:fab_addButtonColorNormal="@color/colorPrimary"
+        app:fab_addButtonColorPressed="@color/colorPrimaryDark"
+        app:fab_expandDirection="up"
+        app:layout_constraintHorizontal_bias="0.99"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.939"
-        app:srcCompat="@drawable/ic_add" />
+        app:layout_constraintTop_toBottomOf="@+id/contents">
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+
+
+
+
 </android.support.constraint.ConstraintLayout>

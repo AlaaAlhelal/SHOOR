@@ -214,7 +214,9 @@
                     android:background="@drawable/card_style"
                     tools:ignore="MissingConstraints"
                     tools:layout_editor_absoluteX="6dp"
-                    tools:layout_editor_absoluteY="467dp">
+                    tools:layout_editor_absoluteY="467dp"
+                    android:clickable="true"
+                    android:onClick="LinkToAppoint">
 
                     <ImageButton
                         android:id="@+id/toAppoint"
@@ -346,8 +348,10 @@
                 android:background="@color/colorFooter"
                 android:orientation="horizontal"
                 android:paddingBottom="2dp"
+                android:paddingStart="10dp"
+                android:weightSum="4"
                 android:paddingLeft="10dp"
-                android:weightSum="4">
+               >
 
                 <TextView
                     android:layout_width="wrap_content"

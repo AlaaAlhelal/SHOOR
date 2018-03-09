@@ -2,9 +2,7 @@ package com.shoor.shoor;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import com.applandeo.materialcalendarview.EventDay;
-
 import java.util.Calendar;
 
 public class MyEventDay  extends EventDay implements Parcelable {
