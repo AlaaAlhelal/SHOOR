@@ -125,16 +125,16 @@
             tools:targetApi="jelly_bean_mr1" />
 
         <TextView
-            android:id="@+id/department_info"
+            android:id="@+id/hospital_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/segoeuil"
-            android:text=" اختر القسم :"
+            android:text=" اختر المستشفى :"
             android:textSize="16sp"
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="274dp"
-            tools:layout_editor_absoluteY="251dp" />
+            tools:layout_editor_absoluteX="242dp"
+            tools:layout_editor_absoluteY="343dp" />
 
         <Spinner
             android:id="@+id/hospital_list"
@@ -158,16 +158,16 @@
             tools:targetApi="jelly_bean_mr1" />
 
         <TextView
-            android:id="@+id/hospital_info"
+            android:id="@+id/department_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/segoeuil"
-            android:text=" اختر المستشفى :"
+            android:text=" اختر القسم :"
             android:textSize="16sp"
             android:textStyle="bold"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="242dp"
-            tools:layout_editor_absoluteY="343dp" />
+            tools:layout_editor_absoluteX="274dp"
+            tools:layout_editor_absoluteY="251dp" />
 
         <Spinner
             android:id="@+id/department_list"

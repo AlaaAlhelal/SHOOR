@@ -92,6 +92,7 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/filter_style"
             android:fontFamily="@font/segoeuil"
+            android:onClick="Do"
             android:text="حذف "
             android:textColor="@android:color/white"
             android:textSize="14sp"

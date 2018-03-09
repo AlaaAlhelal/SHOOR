@@ -64,7 +64,7 @@
             tools:layout_editor_absoluteY="220dp" />
 
         <EditText
-            android:id="@+id/Suggest_Doctor_Name"
+            android:id="@+id/Hospital_Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -96,7 +96,7 @@
             tools:layout_editor_absoluteY="63dp" />
 
         <EditText
-            android:id="@+id/Suggest_Doctor_Hospital"
+            android:id="@+id/Hospital_Number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -132,6 +132,7 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/filter_style"
             android:fontFamily="@font/segoeuil"
+            android:onClick="Send"
             android:text="حفظ"
             android:textColor="@android:color/white"
             android:textSize="14sp"
