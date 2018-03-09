@@ -37,6 +37,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginStart="12dp"
             android:background="#00ffffff"
+            android:onClick="back"
             app:srcCompat="@drawable/ic_arrow_back" />
 
     </RelativeLayout>
@@ -63,7 +64,7 @@
             tools:layout_editor_absoluteY="89dp" />
 
         <Spinner
-            android:id="@+id/department_list"
+            android:id="@+id/Doctor_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -92,6 +93,7 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/filter_style"
             android:fontFamily="@font/segoeuil"
+            android:onClick="Do"
             android:text="حذف "
             android:textColor="@android:color/white"
             android:textSize="14sp"
