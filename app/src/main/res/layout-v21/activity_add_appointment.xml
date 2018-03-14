@@ -35,8 +35,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:layout_marginStart="12dp"
-            app:srcCompat="@drawable/ic_arrow_back"
-            android:onClick="back"/>
+            app:srcCompat="@drawable/ic_arrow_back" />
     </RelativeLayout>
 
     <ScrollView
@@ -72,8 +71,7 @@
                 android:textDirection="rtl"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="19dp"
-                tools:layout_editor_absoluteY="487dp"
-                tools:targetApi="jelly_bean_mr1" />
+                tools:layout_editor_absoluteY="487dp" />
 
             <TextView
                 android:id="@+id/timelable"
@@ -103,12 +101,9 @@
                 android:timePickerMode="spinner"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="8dp"
-                tools:layout_editor_absoluteY="344dp"
-                tools:targetApi="lollipop" />
+                tools:layout_editor_absoluteY="344dp" />
 
-
-
-        <DatePicker
+            <DatePicker
                 android:id="@+id/datePicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

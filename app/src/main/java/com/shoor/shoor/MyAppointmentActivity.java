@@ -3,16 +3,10 @@ package com.shoor.shoor;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.Shape;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -72,7 +66,27 @@ public class MyAppointmentActivity extends AppCompatActivity {
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                Log.d("", "Month was scrolled to: " + firstDayOfNewMonth);
+                int month = firstDayOfNewMonth.getMonth()+1;
+
+                if(month<CurrentMonth ){
+                    if(month==1){
+                        setPreMonth(1);
+                    }
+                    else{
+                    setPreMonth(CurrentMonth);
+                    --CurrentMonth;}
+
+                }
+
+                if(month>CurrentMonth ) {
+                    if(month==12){
+                        setPreMonth(12);
+                    }
+                    else{
+                    setNextMonth(CurrentMonth);
+                    ++CurrentMonth;}
+                }
+                Log.d("", month+"  Month was scrolled to: " + CurrentMonth);
             }
         });
 
@@ -86,7 +100,7 @@ public class MyAppointmentActivity extends AppCompatActivity {
         addAppoint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              //  addAppoint.setVisibility(addAppoint.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+         //     addAppoint.setVisibility(addAppoint.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
                 startActivity(new Intent(MyAppointmentActivity.this,AddAppointmentActivity.class));
 
             }
@@ -149,7 +163,7 @@ public class MyAppointmentActivity extends AppCompatActivity {
                 String time = String.format(rs.getTime("Time").toString(), "HH:mm a");
 
                 String note = rs.getString("Note");
-                Event event = new Event(Color.BLUE ,date.getTime(), "الوقت: "+time+"\n"+note);
+                Event event = new Event(Color.parseColor("#FFAE44") ,date.getTime(), "الوقت: "+time+"\n"+note);
                 UserCalendarView.addEvent(event);
 
             }
@@ -194,27 +208,32 @@ public void setMonth(int monthNum){
     }
 
     public void NextMonth(View view) {
-    if(CurrentMonth==12) {
-        CurrentYear+=1;
+    setNextMonth(CurrentMonth);
+    }
+
+    public void PreMonth(View view) {
+        setPreMonth(CurrentMonth);
+    }
+
+ //////////////////////////////////////
+    public void setPreMonth(int month){
+        if(month==1) {
+            month-=1;
+            setMonth(12);
+            CurrentMonth=12;
+        }
+        else
+            setMonth(--month);
+    }
+///////////////////////////////////////////
+public void setNextMonth(int month){
+    if(month==12) {
+        month+=1;
         setMonth(1);
         CurrentMonth=1;
     }
     else
-        setMonth(++CurrentMonth);
-    }
+        setMonth(++month);
+}
 
-    public void PreMonth(View view) {
-    if(CurrentMonth==1) {
-        CurrentYear-=1;
-        setMonth(12);
-        CurrentMonth=12;
-    }
-    else
-        setMonth(--CurrentMonth);
-    }
-
-
-    public void Menu(View view) {
-
-    }
 }
