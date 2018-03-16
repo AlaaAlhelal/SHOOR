@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class DeleteDepartment extends AppCompatActivity {
     Spinner list ;
     ArrayList<String> department = new ArrayList<String>() ;
+    public  ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class DeleteDepartment extends AppCompatActivity {
         setContentView(R.layout.activity_delete_department);
         list =(Spinner)findViewById(R.id.department_list);
         RetriveData();
-        ArrayAdapter<String> adapter =new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item , department);
+        adapter =new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item , department);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         list.setAdapter(adapter);
     }
@@ -102,7 +103,9 @@ public class DeleteDepartment extends AppCompatActivity {
                 if(rs==1){
                     Toast done = Toast.makeText(DeleteDepartment.this, "تم  الحذف ", Toast.LENGTH_SHORT);
                     done.show();
-                    this.recreate();
+                    adapter.remove(DepName);
+                    list.setAdapter(adapter);
+                  //  this.recreate();
                 }
                 else
                 {

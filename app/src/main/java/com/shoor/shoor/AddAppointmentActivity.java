@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -120,7 +119,7 @@ public class AddAppointmentActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
-        startActivity(new Intent(AddAppointmentActivity.this,ProfileActivity.class));
+        startActivity(new Intent(AddAppointmentActivity.this,MyAppointmentActivity.class));
 
     }
 }

@@ -35,6 +35,8 @@
             android:layout_marginLeft="12dp"
             android:layout_marginStart="12dp"
             android:background="#00ffffff"
+
+
             android:onClick="back"
             app:srcCompat="@drawable/ic_arrow_back" />
 
@@ -43,9 +45,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints">
+        tools:layout_editor_absoluteY="0dp">
 
         <EditText
             android:id="@+id/UserName"
@@ -155,10 +157,9 @@
             android:id="@+id/edit_pass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="22dp"
-            android:layout_toEndOf="@+id/save_app"
-            android:layout_toRightOf="@+id/save_app"
+            android:layout_below="@+id/save_app"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="19dp"
             android:clickable="true"
             android:fontFamily="@font/segoeuil"
             android:text="تغيير كلمة المرور"

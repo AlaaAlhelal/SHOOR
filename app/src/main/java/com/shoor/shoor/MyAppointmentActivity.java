@@ -100,9 +100,7 @@ public class MyAppointmentActivity extends AppCompatActivity {
         addAppoint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-         //     addAppoint.setVisibility(addAppoint.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
                 startActivity(new Intent(MyAppointmentActivity.this,AddAppointmentActivity.class));
-
             }
         });
         //Edit
@@ -113,8 +111,7 @@ public class MyAppointmentActivity extends AppCompatActivity {
         EditAppoint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // EditAppoint.setVisibility(EditAppoint.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
-                startActivity(new Intent(MyAppointmentActivity.this,AddAppointmentActivity.class));
+                startActivity(new Intent(MyAppointmentActivity.this,EditAppointment.class));
 
             }
         });
