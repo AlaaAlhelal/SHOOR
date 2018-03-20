@@ -2,4 +2,5 @@
     <string name="app_name">شــور</string>
     <string name="segoeui">\@font/segoe-ui</string>
     <string name="title_activity_specialty">التخصصات</string>
+    <string name="google_maps_key">AIzaSyBXpZnYQjnQgcv8igtc3rcch-1-SYb0PRg</string>
 </resources>

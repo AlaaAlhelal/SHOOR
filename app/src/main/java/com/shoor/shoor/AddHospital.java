@@ -1,8 +1,7 @@
 package com.shoor.shoor;
 
-import android.content.Context;
+
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,24 +9,83 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 
-public class AddHospital  extends AppCompatActivity {
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+public class AddHospital  extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerDragListener {
     EditText HospitalName_input;
     EditText HospitalNumber_input;
-
+    public Marker  marker;
+    public GoogleMap Maps;
+    public int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
+    public PlaceAutocompleteFragment placeAutoComplete;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_hospital);
         HospitalName_input = (EditText) findViewById(R.id.Hospital_Name);
         HospitalNumber_input = (EditText) findViewById(R.id.Hospital_Number);
+
+
+        placeAutoComplete = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete);
+
+
+        try {
+            Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY).build(this);
+            startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+        } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
+            Log.d("Maps", "An error occurred: " + e.getMessage());
+        }
+
+        placeAutoComplete.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+
+                /////////////////
+                marker.remove();
+                MarkerOptions markerOptions = new MarkerOptions().position(place.getLatLng()).draggable(true);
+                marker = Maps.addMarker(markerOptions);
+                Log.d("Maps", "Place selected: " + place.getName());
+            }
+
+            @Override
+            public void onError(Status status) {
+                Log.d("Maps", "An error occurred: " + status);
+            }
+
+        });
+
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
     }
 
     public void Send (View view) {
@@ -53,7 +111,7 @@ public class AddHospital  extends AppCompatActivity {
                 //STEP 4: Execute a query
                 stmt = conn.createStatement();
                 String sql;
-                sql = "INSERT INTO hospital (HospitalName, PhoneNumber) Values('" + HospitalName + "','" + HospitalNumber + "')";
+                sql = "INSERT INTO hospital (HospitalName, PhoneNumber) Values('" + HospitalName + "','" + HospitalNumber + "') ";
                 int rs = stmt.executeUpdate(sql);
                 if(rs==1){
                     Toast done = Toast.makeText(AddHospital.this, "تمت الإضافة", Toast.LENGTH_SHORT);
@@ -105,6 +163,65 @@ public class AddHospital  extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onMarkerDragStart(Marker marker) {
+
+    }
+
+    @Override
+    public void onMarkerDrag(Marker marker) {
+
+    }
+
+    @Override
+    public void onMarkerDragEnd(Marker markerEnd) {
+        LatLng position=markerEnd.getPosition();
+
+        // Remove Old Marker
+        marker.remove();
+        // Add New marker position
+        MarkerOptions markerOptions =  new MarkerOptions().position(position).draggable(true);
+        markerOptions.draggable(true);
+        marker = Maps.addMarker(markerOptions);
+        marker.showInfoWindow();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        Maps = googleMap;
+        LatLng sydney = new LatLng(24.717, 46.620);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        marker = googleMap.addMarker(new MarkerOptions().position(sydney).draggable(true));
+        marker.setDraggable(true);
+        googleMap.setOnMarkerDragListener(this);
+
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlaceAutocomplete.getPlace(this, data);
+                Log.i("", "Place: " + place.getName());
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                Status status = PlaceAutocomplete.getStatus(this, data);
+                // TODO: Handle the error.
+                Log.i("", status.getStatusMessage());
+
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+        }
+    }
+
+    public double getLocation_V1(){
+       return marker.getPosition().latitude;
+    }
+    public double getLocation_V2(){
+        return marker.getPosition().longitude;
+    }
 }
 
 
