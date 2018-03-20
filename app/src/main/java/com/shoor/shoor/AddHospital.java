@@ -3,8 +3,8 @@ package com.shoor.shoor;
 
 import android.content.Intent;
 import android.os.StrictMode;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,15 +13,11 @@ import com.google.android.gms.maps.GoogleMap;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
+
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -31,7 +27,6 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -111,11 +106,13 @@ public class AddHospital  extends FragmentActivity implements OnMapReadyCallback
                 //STEP 4: Execute a query
                 stmt = conn.createStatement();
                 String sql;
-                sql = "INSERT INTO hospital (HospitalName, PhoneNumber) Values('" + HospitalName + "','" + HospitalNumber + "') ";
+                sql = "INSERT INTO hospital (HospitalName, Location_V1, Location_V2, PhoneNumber, AvgRate) Values('" + HospitalName + "', "+ getLocation_V1() +" , "+ getLocation_V2()+" , '" + HospitalNumber +"' , 5.00) ";
                 int rs = stmt.executeUpdate(sql);
                 if(rs==1){
                     Toast done = Toast.makeText(AddHospital.this, "تمت الإضافة", Toast.LENGTH_SHORT);
                     done.show();
+                    HospitalName_input.setText("");
+                    HospitalNumber_input.setText("");
                 }
                 else {
                     Toast done = Toast.makeText(AddHospital.this, "حدثت مشكلة أثناء الاضافة", Toast.LENGTH_SHORT);
