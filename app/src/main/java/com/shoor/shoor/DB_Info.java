@@ -1,8 +1,6 @@
 package com.shoor.shoor;
 
-/**
- * Created by loly- on 2/24/2018.
- */
+
 
 public class DB_Info {
     //JDBC driver name and database URL server-mysql6001.site4now.net(SMARTASP)
