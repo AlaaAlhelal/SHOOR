@@ -68,7 +68,7 @@ public class SignIn extends AppCompatActivity {
                     SharedPreferences sharedpreferences = getSharedPreferences(user_id, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString("user_id",user_id);
-                    editor.commit();
+                    editor.apply();
                     //redirect to home activity (spicalty)
                     startActivity(new Intent(SignIn.this, Specialty.class));
                 }

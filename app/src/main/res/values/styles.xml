@@ -11,8 +11,7 @@
     </style>
 
     <style name="CustomRatingBar"  >
-        <item name="colorControlNormal">#878787</item>
+        <item name="colorControlNormal">#000000</item>
         <item name="colorControlActivated">#fdea16</item>
     </style>
-
 </resources>

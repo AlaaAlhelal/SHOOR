@@ -3,4 +3,12 @@
     <string name="segoeui">\@font/segoe-ui</string>
     <string name="title_activity_specialty">التخصصات</string>
     <string name="google_maps_key">AIzaSyBXpZnYQjnQgcv8igtc3rcch-1-SYb0PRg</string>
+    <string name="RateTab">التقييم</string>
+    <string name="LocationTab">الموقع</string>
+    <string name="InfoTab">المعلومات</string>
+    <string name="doctorTab">الطبيب</string>
+    <string name="hospitalTab">المستشفى</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

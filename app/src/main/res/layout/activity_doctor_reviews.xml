@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.shoor.shoor.DoctorReviews">
+    <RelativeLayout
+        android:id="@+id/theheader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/back_arrow"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/segoeuil"
+            android:gravity="center_vertical"
+            android:text="تقييم الطبيب"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText"
+            tools:targetApi="jelly_bean" />
+
+
+        <ImageButton
+            android:id="@+id/back_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:background="#00ffffff"
+            app:srcCompat="@drawable/ic_arrow_back" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/AllDoctorReviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:addStatesFromChildren="false"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:verticalScrollbarPosition="right"
+        app:layout_constraintTop_toBottomOf="@+id/theheader"
+        tools:layout_editor_absoluteX="10dp"
+        tools:listitem="@layout/review"
+        tools:ignore="MissingConstraints" />
+
+</android.support.constraint.ConstraintLayout>

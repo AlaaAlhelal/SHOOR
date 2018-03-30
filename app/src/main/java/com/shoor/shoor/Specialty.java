@@ -4,20 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toolbar;
 
 public class Specialty extends AppCompatActivity {
 
 
-    private String SpecialtyClicked="";
-
+    public static String SpecialtyName="";
+    public static String Specialty_ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,29 +20,39 @@ public class Specialty extends AppCompatActivity {
     }
 
     public void dentist_doctors(View view) {
-        setSpecialtyClicked("dentist");
+        setSpecialtyClicked("أسنان","20");
     }
 
     public void Internal_Medicine_doctors(View view) {
-        setSpecialtyClicked("Internal_Medicine");
+        setSpecialtyClicked("باطنية", "22");
     }
 
     public void Otolaryngology_doctor(View view) {
-        setSpecialtyClicked("Otolaryngology");
+        setSpecialtyClicked("أنف وأذن وحنجرة","21");
     }
 
     public void Dermatology_doctor(View view) {
-        setSpecialtyClicked("Dermatology");
+        setSpecialtyClicked("جلدية","18");
     }
 
     public void Pediatrics_doctors(View view) {
-        setSpecialtyClicked("Pediatrics");
+        setSpecialtyClicked("أطفال","19");
     }
 
-    public void setSpecialtyClicked(String sp) {
-        SpecialtyClicked =sp;
+    public void setSpecialtyClicked(String sp ,String id) {
+        SpecialtyName =sp;
+        Specialty_ID=  id;
         //set session SpecialtyClicked
-        SharedPreferences sharedpreferences = getSharedPreferences(SpecialtyClicked, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = getSharedPreferences(SpecialtyName, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString("SpecialtyName",SpecialtyName);
+        editor.apply();
+
+        //set session SpecialtyClicked
+        SharedPreferences sharedpreferences2 = getSharedPreferences(Specialty_ID, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor2 = sharedpreferences2.edit();
+        editor2.putString("Specialty_ID",Specialty_ID);
+        editor2.apply();
         //redirect to doctors
         startActivity(new Intent(Specialty.this, Doctors.class));
 
