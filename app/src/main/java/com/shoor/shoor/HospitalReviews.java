@@ -31,7 +31,7 @@ public class HospitalReviews extends AppCompatActivity {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(DB_Info.DB_URL,DB_Info.USER,DB_Info.PASS);
             Statement stmt = conn.createStatement();
-            String sql  = "SELECT * FROM hospitalreview where Hospital_ID=4";
+            String sql  = "SELECT * FROM hospitalreview where Hospital_ID="+DoctorProfileActivity.Hospital_ID;
             ResultSet rs = stmt.executeQuery(sql);
 
             while(rs.next())

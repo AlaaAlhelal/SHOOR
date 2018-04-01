@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
+    android:id="@+id/DoctorProfile"
     tools:context="com.shoor.shoor.DoctorProfileActivity">
 
     <ScrollView
@@ -16,7 +17,8 @@
             android:id="@+id/ScrollContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="20dp">
 
             <RelativeLayout
                 android:id="@+id/infoSection"
@@ -24,15 +26,34 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/card_doctor_style_fill"
-                android:padding="10dp"
-                app:layout_constraintTop_toBottomOf="parent">
+                android:padding="10dp">
+
+                <ImageButton
+                    android:id="@+id/share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_share"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="10dp"
+                    android:onClick="Share"
+                    tools:ignore="VectorDrawableCompat" />
+                <ImageButton
+                    android:id="@+id/favorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_favorite"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/share"
+                    android:onClick="Favorite"
+                    tools:ignore="VectorDrawableCompat" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/Doctor_pic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="false"
-                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
                     android:src="@drawable/doctor_pic"
@@ -41,9 +62,9 @@
                     app:civ_border_width="1dp" />
 
                 <LinearLayout
-                    android:layout_width="180dp"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="110dp"
+                    android:layout_marginRight="110dp"
                     android:layout_marginStart="110dp"
                     android:layoutDirection="rtl"
                     android:orientation="vertical">
@@ -94,7 +115,15 @@
                         android:textDirection="rtl"
                         android:textSize="18sp"
                         android:textStyle="bold" />
-
+                    <TextView
+                        android:id="@+id/PhoneNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/segoeuil"
+                        android:text="---"
+                        android:textDirection="rtl"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -114,6 +143,7 @@
                             android:textStyle="bold" />
 
                         <RatingBar
+                            android:id="@+id/AvgRate"
                             style="@style/Widget.AppCompat.RatingBar.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -128,34 +158,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <ImageButton
-                    android:id="@+id/share"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="false"
-                    android:layout_alignParentTop="false"
-                    android:background="#00ffffff"
-                    android:onClick="Share"
-                    app:srcCompat="@drawable/ic_share"
-                    tools:ignore="ContentDescription"
-                    tools:layout_editor_absoluteX="331dp"
-                    tools:layout_editor_absoluteY="46dp" />
 
-                <ImageButton
-                    android:id="@+id/favorite"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="false"
-                    android:layout_below="@+id/share"
-                    android:layout_marginTop="10dp"
-                    android:background="#00ffffff"
-                    android:onClick="Favorite"
-                    app:srcCompat="@drawable/ic_favorite"
-                    tools:ignore="ContentDescription"
-                    tools:layout_editor_absoluteX="331dp"
-                    tools:layout_editor_absoluteY="5dp" />
             </RelativeLayout>
 
             <TextView
@@ -184,7 +187,6 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
                 app:layout_constraintTop_toBottomOf="@+id/location_info"
-                tools:context="com.example.mapwithmarker.MapsMarkerActivity"
                 tools:ignore="MissingConstraints" />
 
 
@@ -298,17 +300,21 @@
 
         </LinearLayout>
       </ScrollView>
-    <android.support.design.widget.FloatingActionButton
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:background="@color/colorPrimaryDark"
+        app:fab_colorNormal="@color/colorPrimaryDark"
         android:clickable="true"
         android:focusable="true"
-        app:srcCompat="@drawable/ic_edit"
+        android:onClick="AddReview"
+        app:fab_icon="@drawable/ic_edit"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="284dp"
-        tools:layout_editor_absoluteY="500dp" />
+        tools:layout_editor_absoluteY="500dp"
+        app:layout_constraintBottom_toTopOf="parent"
+        />
 
 
 

@@ -4,6 +4,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +17,9 @@ import android.support.v7.widget.RecyclerView;
 
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +38,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class DoctorProfileActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+public class DoctorProfileActivity extends FragmentActivity implements OnMapReadyCallback , ListFragment.OnFragmentInteractionListener {
     public Marker marker;
     public GoogleMap Maps;
     public static ArrayList<Review> Doctorreviews = new ArrayList<>();
@@ -40,9 +48,11 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnMapRea
     RecyclerView.Adapter dAdapter;
     RecyclerView.LayoutManager hLayoutManager;
     RecyclerView.Adapter hAdapter;
-    public String DoctorName , DoctorDescription , userID, Doctor_ID;
-    public float AvgRate , Lat ,Lng;
-    public double price;
+    public String   userID, Doctor_ID ,DoctorName ,HospitalName;
+    public static String Hospital_ID;
+    public float Lat , Lng;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +64,24 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnMapRea
         SharedPreferences sharedpreferences2 = getSharedPreferences(DoctorListAdapter.Doc_Id, Context.MODE_PRIVATE);
         Doctor_ID = sharedpreferences2.getString("Doctor_ID", "");
 
-        //reterive  doctor info
+        //retrieve  doctor info
         DoctorInfo();
         //set map
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapLocation);
         mapFragment.getMapAsync(this);
+
+
+
+        //check if this doctor in the favorite list or not
+        boolean In = InTheFavoriteList();
+        if(In)
+        {
+            ImageButton fav = ((ImageButton)findViewById(R.id.favorite));
+            fav.setImageResource(R.drawable.ic_favorite_fill);
+            fav.setClickable(false);
+        }
+        //retrieve doctor reviews and hospital reviews
+        DoctorReviews();
 
         if(Doctorreviews.size()==0)
         {
@@ -73,8 +96,6 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnMapRea
 
         }
         else {
-            //retrieve doctor reviews and hospital reviews
-            DoctorReviews();
 
             // Calling the RecyclerView of doctor and hospital reviews
             RecyclerView dRecyclerView = (RecyclerView) findViewById(R.id.DoctorReviewsHorizontal);
@@ -89,6 +110,8 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnMapRea
             dRecyclerView.setAdapter(dAdapter);
         }
 
+        //retrieve doctor reviews and hospital reviews
+        HospitalReviews();
         if(Hospitalreviews.size()==0){
             LinearLayout ScrollContent = (LinearLayout)findViewById(R.id.ScrollContent);
             TextView unavailable = new TextView(this);
@@ -99,8 +122,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnMapRea
             ((TextView)findViewById(R.id.HospitalReviewsMore)).setVisibility(View.INVISIBLE);
             ScrollContent.addView(unavailable);
         }else {
-            //retrieve doctor reviews and hospital reviews
-            HospitalReviews();
+
 
             // Calling the RecyclerView of doctor and hospital reviews
             RecyclerView hRecyclerView = (RecyclerView) findViewById(R.id.HospitalReviewsHorizontal);
@@ -122,12 +144,15 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnMapRea
 
 
     public void Share(View view) {
-        String message ="محتوى الرساله"+DoctorName;
+        String message ="أنصحك بالطبيب "+DoctorName+" في "+HospitalName+" يمكنك معرفة المزيد من المعلومات على تطبيق شور" ;
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_TEXT, message);
-        startActivity(Intent.createChooser(share, "Title "));
+        startActivity(Intent.createChooser(share, "مشاركة مع "));
     }
+
+
+
 
     public void Favorite(View view) {
         ArrayList<String> ListsName = new ArrayList<String>();
@@ -136,7 +161,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnMapRea
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(DB_Info.DB_URL,DB_Info.USER,DB_Info.PASS);
             Statement stmt = conn.createStatement();
-            String sql  = "Select From List where User_ID="+userID;
+            String sql  = "Select * From List where User_ID="+userID;
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()){
                 ListsName.add(rs.getString("ListName"));
@@ -156,70 +181,11 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnMapRea
             error.show();
         }
 
-        final CharSequence[] Items = ListsName.toArray(new CharSequence[ListsName.size()]);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("إضافة إلى..");
-        builder.setItems(Items , new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try{
-                    Class.forName("com.mysql.jdbc.Driver");
-                    Connection conn = DriverManager.getConnection(DB_Info.DB_URL,DB_Info.USER,DB_Info.PASS);
-                    Statement stmt = conn.createStatement();
-                    String sql  = "Insert into List (List_ID, Doctor_ID , User_ID) Values('"+ListsID.get(which)+"', '"+Doctor_ID+"' , '"+userID+"')";
-                    int rs = stmt.executeUpdate(sql);
-                    stmt.close();
-                    conn.close();
-                }//end try
-                catch (SQLException sqle){
-                    Toast error = Toast.makeText(getApplicationContext() ,sqle.getMessage() ,Toast.LENGTH_LONG);
-                    error.show();
-                } catch (ClassNotFoundException e) {
-                    Toast error = Toast.makeText(getApplicationContext() ,e.getMessage() ,Toast.LENGTH_LONG);
-                    error.show();
-                }
-            }
-        });
-        builder.setPositiveButton("إضافة قائمة جديدة" ,new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                builder.setTitle("أدخل اسم القائمة");
-                final EditText view = new EditText(getApplicationContext());
-                builder.setView(view);
-                builder.setPositiveButton("حفظ", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(view.getText().length()!=0){
-                        try{
-                            Class.forName("com.mysql.jdbc.Driver");
-                            Connection conn = DriverManager.getConnection(DB_Info.DB_URL,DB_Info.USER,DB_Info.PASS);
-                            Statement stmt = conn.createStatement();
-                            String sql  = "Insert into List (ListName , User_ID) Values('"+view.getText()+"' , '"+userID+"')";
-                            int rs = stmt.executeUpdate(sql);
-                            stmt.close();
-                            conn.close();
-                        }//end try
-                        catch (SQLException sqle){
-                            Toast error = Toast.makeText(getApplicationContext() ,sqle.getMessage() ,Toast.LENGTH_LONG);
-                            error.show();
-                        } catch (ClassNotFoundException e) {
-                            Toast error = Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG);
-                            error.show();
-                        }   }
-                        else {
-                            view.setError("يجب ملء الخانة");
-                        }
-                    }
-                });
-                builder.show();
-            }
-        });
-        builder.show();
+        Fragment fragment = ListFragment.newInstance("","" , ListsName ,ListsID, userID, Doctor_ID);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.DoctorProfile, fragment).addToBackStack(null).commit();
 
-
-
-    }
+    }//end
 
 
     @Override
@@ -280,7 +246,7 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnMapRea
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(DB_Info.DB_URL,DB_Info.USER,DB_Info.PASS);
             Statement stmt = conn.createStatement();
-            String sql  = "SELECT * FROM hospitalreview where Hospital_ID=4";
+            String sql  = "SELECT * FROM hospitalreview where Hospital_ID="+Hospital_ID;
             ResultSet rs = stmt.executeQuery(sql);
             int size=0;
             while(rs.next()&& size<4)
@@ -315,21 +281,68 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnMapRea
 
 
     public void DoctorInfo(){
+
+        int size = Doctors.Doctors.size();
+        for (int i = 0 ; i<size ;i++){
+            String id =Doctors.Doctors.get(i).getDoctor_ID();
+            if(id.equals(Doctor_ID)){
+                System.out.println("id="+id+" Doctor_ID="+Doctor_ID);
+                DoctorName =Doctors.Doctors.get(i).getDoctorName();
+                Hospital_ID=Doctors.Doctors.get(i).getHospital_ID();
+                ((TextView)findViewById(R.id.DoctorName)).setText(DoctorName);
+                HospitalName = Doctors.Doctors.get(i).getHospitalName();
+                ((TextView)findViewById(R.id.Hospital)).setText(HospitalName);
+                ((TextView)findViewById(R.id.WorkingHours)).setText(Doctors.Doctors.get(i).getOfficeHours());
+                ((TextView)findViewById(R.id.PhoneNo)).setText(Doctors.Doctors.get(i).getPhoneNo());
+                ((TextView)findViewById(R.id.Price)).setText(String.format("%s", Doctors.Doctors.get(i).getPrice()));
+                ((RatingBar)findViewById(R.id.AvgRate)).setRating(Doctors.Doctors.get(i).getAvgRate());
+                Lat = Doctors.Doctors.get(i).getLocationLat();
+                Lng =Doctors.Doctors.get(i).getLocationLng();
+                break;
+            }
+        }
+    }
+
+
+
+    public void GoToMoreDoctorReviews(View view) {
+        startActivity(new Intent(DoctorProfileActivity.this,DoctorReviews.class));
+        this.finish();
+    }
+
+
+    public void GoToMoreHospitalReviews(View view) {
+
+        startActivity(new Intent(DoctorProfileActivity.this,HospitalReviews.class));
+        this.finish();
+
+    }
+
+    public void AddReview(View view) {
+        startActivity(new Intent(DoctorProfileActivity.this, AddReviewActivity.class));
+        this.finish();
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    public boolean  InTheFavoriteList(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(DB_Info.DB_URL,DB_Info.USER,DB_Info.PASS);
             Statement stmt = conn.createStatement();
-            String sql  = "SELECT * FROM Doctor where Doctor_ID="+Doctor_ID;
+            String sql  = "Select * From ListOfDoctors where User_ID="+userID+" AND Doctor_ID="+Doctor_ID;
             ResultSet rs = stmt.executeQuery(sql);
-            while(rs.next())
-            {
-                DoctorName = rs.getString("Doctor_Name");
-      //          DoctorDescription = rs.getString("");
-                AvgRate = rs.getFloat("AvgRate");
-                price =rs.getDouble("Price");
-                Lat =rs.getFloat("LocationV1");
-                Lng =rs.getFloat("LocationV2");
+            int count=0;
+            while (rs.next()){
+                count++;
             }
+
+            if(count!=0)
+                return true;
+
             rs.close();
             stmt.close();
             conn.close();
@@ -340,18 +353,9 @@ public class DoctorProfileActivity extends AppCompatActivity implements OnMapRea
             error.show();
         }
         catch (Exception e){Toast error = Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG);
-            error.show();}
-    }
+            error.show();
+        }
 
-
-
-    public void GoToMoreDoctorReviews(View view) {
-        startActivity(new Intent(DoctorProfileActivity.this,DoctorReviews.class));
-    }
-
-
-    public void GoToMoreHospitalReviews(View view) {
-        startActivity(new Intent(DoctorProfileActivity.this,HospitalReviews.class));
-
+        return false;
     }
 }

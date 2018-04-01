@@ -136,7 +136,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginTop="1dp"
-        android:onClick="Menu"
         app:fab_addButtonColorNormal="@color/colorPrimary"
         app:fab_addButtonColorPressed="@color/colorPrimaryDark"
         app:fab_expandDirection="up"

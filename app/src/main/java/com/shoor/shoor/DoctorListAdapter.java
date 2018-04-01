@@ -91,14 +91,18 @@ public class DoctorListAdapter extends BaseAdapter {
             doc.setText(Doctors.get(i).getDoctorName());
             hos.setText(Doctors.get(i).getHospitalName());
             icon.setBackgroundResource(R.drawable.doctor_pic);
+            Doc_Id = Doctors.get(i).getDoctor_ID();
+
+            final int index =i;
+            final View finalView = view;
             view.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-
+        Doc_Id = Doctors.get(index).getDoctor_ID();
         SharedPreferences sharedpreferences = context.getSharedPreferences(Doc_Id, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putString("Doctor_ID",Doc_Id);
-        editor.apply();
+        editor.commit();
         Intent intent =new Intent(v.getContext(),DoctorProfileActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity( intent);

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class Doctors extends AppCompatActivity {
     ListView DoctorsList;
-    public ArrayList<Doctor> Doctors = new ArrayList<>();
+    public static ArrayList<Doctor> Doctors = new ArrayList<>();
     public String SpecialtyName;
     public String SpecialtyID;
 
@@ -55,19 +55,24 @@ public class Doctors extends AppCompatActivity {
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next())
             {
-                String hospoitalname="";
+                String hosname="", PhoneNo="---";
+                float lat=24 , lng=46;
                 Statement stmt2 = conn.createStatement();
                 String sql2  = "SELECT * FROM hospital where Hospital_ID="+rs.getInt("Hospital_ID");
                 ResultSet rs2 = stmt2.executeQuery(sql2);
+                String hos_ID = rs.getString("Hospital_ID");
                 String Doc_id = rs.getString("Doctor_ID");
                 String doc_name=rs.getString("DoctorName");
                 float ratingscore = rs.getFloat("AvgRate");
                 String officeHours = rs.getString("OfficeHours");
                 double price = rs.getDouble("Price");
                 while (rs2.next()) {
-                    hospoitalname = rs2.getString("HospitalName");
+                    hosname =rs2.getString("HospitalName");
+                    lat = rs2.getFloat("Location_V1");
+                    lng = rs2.getFloat("Location_V2");
+                    PhoneNo=rs2.getString("PhoneNumber");
                 }
-                Doctor doc  = new Doctor(Doc_id, doc_name,hospoitalname, ratingscore,officeHours, price);
+                Doctor doc  = new Doctor(Doc_id, doc_name, hos_ID ,hosname, lat , lng, PhoneNo ,ratingscore,officeHours, price);
                 Doctors.add(doc);
                 rs2.close();
                 stmt2.close();
