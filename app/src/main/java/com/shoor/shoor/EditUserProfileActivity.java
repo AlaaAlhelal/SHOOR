@@ -22,4 +22,12 @@ public class EditUserProfileActivity extends AppCompatActivity {
     public void back(View view) {
         startActivity(new Intent(EditUserProfileActivity.this,ProfileActivity.class));
     }
+
+
+
+    public void editpass(View view) {
+        startActivity(new Intent(EditUserProfileActivity.this,EditPasswordActivity.class));
+        this.finish();
+
+    }
 }

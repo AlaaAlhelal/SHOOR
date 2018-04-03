@@ -163,6 +163,7 @@
             android:clickable="true"
             android:fontFamily="@font/segoeuil"
             android:text="تغيير كلمة المرور"
+            android:onClick="editpass"
             android:textSize="14sp"
             android:textStyle="bold" />
 
