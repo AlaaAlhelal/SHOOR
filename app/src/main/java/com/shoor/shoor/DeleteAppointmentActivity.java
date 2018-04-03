@@ -114,6 +114,7 @@ public  ArrayAdapter<String> adapter;
 
     public void back(View view) {
         startActivity(new Intent(DeleteAppointmentActivity.this,MyAppointmentActivity.class));
+        this.finish();
 
     }
 

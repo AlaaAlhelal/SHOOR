@@ -42,8 +42,8 @@ public class AddAppointmentActivity extends AppCompatActivity {
         DatePickerByUser = findViewById(R.id.datePicker);
 
         //get session
-        SharedPreferences sharedpreferences = getSharedPreferences(SignIn.user_id, Context.MODE_PRIVATE);
-        userID = sharedpreferences.getString("user_id", "");
+        userID = SaveLogin.getUserID(getApplicationContext());
+
     }
 
 

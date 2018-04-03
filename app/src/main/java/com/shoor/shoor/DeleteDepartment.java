@@ -105,7 +105,6 @@ public class DeleteDepartment extends AppCompatActivity {
                     done.show();
                     adapter.remove(DepName);
                     list.setAdapter(adapter);
-                  //  this.recreate();
                 }
                 else
                 {

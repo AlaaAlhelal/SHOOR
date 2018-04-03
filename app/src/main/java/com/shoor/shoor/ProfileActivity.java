@@ -2,6 +2,7 @@ package com.shoor.shoor;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -64,15 +65,17 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void DisplayInfo(){
-        //get session
-        SharedPreferences sharedpreferences = getSharedPreferences(SignIn.user_id, Context.MODE_PRIVATE);
-        String userID = sharedpreferences.getString("user_id", "");
+//        //get session
+//        SharedPreferences sharedpreferences = getSharedPreferences(SignIn.user_id, Context.MODE_PRIVATE);
+//        String userID = sharedpreferences.getString("user_id", "");
+
+        String userID =  SaveLogin.getUserID(getApplicationContext());
         try{
-
+            //VERY IMPORTANT LINES
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
             Class.forName("com.mysql.jdbc.Driver");
-
             Connection conn = DriverManager.getConnection(DB_Info.DB_URL,DB_Info.USER,DB_Info.PASS);
-
             Statement stmt = conn.createStatement();
             String sql  = "SELECT * FROM user where User_ID="+userID;
             ResultSet rs = stmt.executeQuery(sql);

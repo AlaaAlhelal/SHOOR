@@ -6,10 +6,8 @@ import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import java.sql.*;
@@ -26,6 +24,13 @@ public class SignIn extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
         email_input =(EditText)findViewById(R.id.email_field);
         pass_input = (EditText) findViewById(R.id.pass_field);
+        String userid= SaveLogin.getUserID(getApplicationContext());
+         if(userid.length()!=0)
+         {
+             this.finish();
+             startActivity(new Intent(SignIn.this,Specialty.class));
+         }
+
     }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -64,11 +69,10 @@ public class SignIn extends AppCompatActivity {
                     count++;
                 }
                 if(count==1) {
-                    //set session user_id
-                    SharedPreferences sharedpreferences = getSharedPreferences(user_id, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString("user_id",user_id);
-                    editor.apply();
+
+
+                    //set Login status
+                    SaveLogin.setUserID(getApplicationContext(),user_id);
                     //redirect to home activity (spicalty)
                     startActivity(new Intent(SignIn.this, Specialty.class));
                 }
@@ -85,13 +89,12 @@ public class SignIn extends AppCompatActivity {
                     }
 
                     if(count2==1) {
-                        //set session admin_id
-                        SharedPreferences sharedpreferences = getSharedPreferences(admin_id, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedpreferences.edit();
-                        editor.putString("admin_id",admin_id);
-                        editor.commit();
+
+                        //set Login status
+                        SaveLogin.setAdminId(getApplicationContext(),admin_id);
                         //redirect to home activity (spicalty)
                         startActivity(new Intent(SignIn.this, ManageContentActivity.class));
+                        this.finish();
                     }
                     else {
                         //error message
@@ -169,6 +172,10 @@ public boolean ValidateInputs(String useremail , String password){
     ///////////////////////////////////////////////////////////////////////////////
     public void ToSignUp(View view) {
         startActivity(new Intent(SignIn.this, SignUp.class));
+        this.finish();
 
     }
+
+
+
 }

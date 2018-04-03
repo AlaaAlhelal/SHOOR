@@ -3,6 +3,7 @@ package com.shoor.shoor;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.DataSetObserver;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,6 +49,9 @@ public class Doctors extends AppCompatActivity {
     public void getAllDoctors(){
         Doctors.clear();
         try{
+            //VERY IMPORTANT LINES
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(DB_Info.DB_URL,DB_Info.USER,DB_Info.PASS);
             Statement stmt = conn.createStatement();

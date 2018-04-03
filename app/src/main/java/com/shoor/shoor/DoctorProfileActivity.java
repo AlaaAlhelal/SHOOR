@@ -1,22 +1,17 @@
 package com.shoor.shoor;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -58,11 +53,12 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_profile);
-        SharedPreferences sharedpreferences = getSharedPreferences(SignIn.user_id, Context.MODE_PRIVATE);
-         userID = sharedpreferences.getString("user_id", "");
+
 
         SharedPreferences sharedpreferences2 = getSharedPreferences(DoctorListAdapter.Doc_Id, Context.MODE_PRIVATE);
         Doctor_ID = sharedpreferences2.getString("Doctor_ID", "");
+
+        userID = SaveLogin.getUserID(getApplicationContext());
 
         //retrieve  doctor info
         DoctorInfo();
@@ -333,11 +329,15 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(DB_Info.DB_URL,DB_Info.USER,DB_Info.PASS);
             Statement stmt = conn.createStatement();
-            String sql  = "Select * From ListOfDoctors where User_ID="+userID+" AND Doctor_ID="+Doctor_ID;
+            String sql  = "Select * From listofdoctors where User_ID='"+userID+"' AND Doctor_ID='"+Doctor_ID+"' ";
             ResultSet rs = stmt.executeQuery(sql);
             int count=0;
+            System.out.println(" ----------------------------------- "+count);
+
             while (rs.next()){
                 count++;
+                System.out.println(" ----------------------------------- "+count);
+
             }
 
             if(count!=0)

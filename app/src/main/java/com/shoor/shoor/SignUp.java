@@ -51,6 +51,8 @@ public class SignUp extends AppCompatActivity {
             Statement stmt = null;
 
             try {
+
+
                 //STEP 2: Register JDBC driver
                 Class.forName("com.mysql.jdbc.Driver");
 
@@ -89,10 +91,8 @@ public class SignUp extends AppCompatActivity {
                         result.close();
                         stmt2.close();
                         //set session user_id
-                        SharedPreferences sharedpreferences = getSharedPreferences(user_id, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedpreferences.edit();
-                        editor.putString("user_id",user_id);
-                        editor.commit();
+                        SaveLogin.setUserID(getApplicationContext(),user_id);
+
                         //redirect to home activity (spicalty)
                         startActivity(new Intent(SignUp.this, Specialty.class));
                     } else {
