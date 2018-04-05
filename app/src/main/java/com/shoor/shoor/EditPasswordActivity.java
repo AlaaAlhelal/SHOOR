@@ -66,7 +66,7 @@ System.out.println("Enter Do()");
                 }
 
                 assert v != null;
-                if(v.equals(oldpass))
+               /* if(v.equals(oldpass))
                 {
                     Old_pass.setError("");
                     Toast done = Toast.makeText(EditPasswordActivity.this, "right" , Toast.LENGTH_SHORT);
@@ -76,14 +76,13 @@ System.out.println("Enter Do()");
                 {
                     Toast done = Toast.makeText(EditPasswordActivity.this, "wrong", Toast.LENGTH_SHORT);
                     done.show();
-                }
+                }*/
 
-               /* if (rs.equals(oldpass))
+                if(v.equals(oldpass))
                 {//IF equal -------------------------------------------------------------------------
-
                     stmt = conn.createStatement();
                     String sql1;
-                    sql1 = "UPDATE user SET Password= ('" + newpass + "') WHERE UserEmail= ('" + Value_email  + "')";
+                    sql1 = "UPDATE user SET Password= ('" + newpass + "') WHERE User_ID= ('" + userid+ "')";
                     int rs1 = stmt.executeUpdate(sql1);
 
                     if(rs1==1){
@@ -104,7 +103,7 @@ System.out.println("Enter Do()");
 
                 }
                 //STEP 6: Clean-up environment
-                */
+
                 rs.close();
                 stmt.close();
                 conn.close();
