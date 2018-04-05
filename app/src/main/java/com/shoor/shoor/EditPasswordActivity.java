@@ -1,8 +1,6 @@
 package com.shoor.shoor;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,18 +23,18 @@ public class EditPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_password);
 
-        Old_pass = ((EditText)findViewById(R.id.Old_password));
-        New_pass= ((EditText)findViewById(R.id.New_password));
+        Old_pass = ((EditText)findViewById(R.id.user_name));
+        New_pass= ((EditText)findViewById(R.id.user_email));
 
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void Do(View view) {
 
-        String Value_email=null;
+
         String oldpass= Old_pass.getText().toString();
         String newpass= New_pass.getText().toString();
 
-System.out.println("Enter Do()");
+
         //validate input
         boolean isValid =ValidateInputs(oldpass,newpass);
         if (isValid){
@@ -143,7 +141,7 @@ System.out.println("Enter Do()");
 
     public boolean ValidateInputs(String passOld ,String passNew){
 
-        System.out.println("Enter validate");
+
         if (passOld.equals("")){
             Old_pass.setError("يجب ملء الخانة");
             return false;

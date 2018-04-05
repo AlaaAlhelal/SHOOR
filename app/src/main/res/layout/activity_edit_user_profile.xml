@@ -50,7 +50,7 @@
         tools:layout_editor_absoluteY="0dp">
 
         <EditText
-            android:id="@+id/Old_password"
+            android:id="@+id/user_name"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -71,12 +71,12 @@
 
 
         <EditText
-            android:id="@+id/New_password"
+            android:id="@+id/user_email"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/Old_password"
-            android:layout_alignStart="@+id/Old_password"
-            android:layout_below="@+id/Old_password"
+            android:layout_alignLeft="@+id/user_name"
+            android:layout_alignStart="@+id/user_name"
+            android:layout_below="@+id/user_name"
             android:layout_marginTop="19dp"
             android:ems="10"
             android:fontFamily="@font/segoeuil"
@@ -93,9 +93,9 @@
             android:id="@+id/female"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/New_password"
-            android:layout_alignStart="@+id/New_password"
-            android:layout_below="@+id/New_password"
+            android:layout_alignLeft="@+id/user_email"
+            android:layout_alignStart="@+id/user_email"
+            android:layout_below="@+id/user_email"
             android:layout_marginLeft="79dp"
             android:layout_marginStart="79dp"
             android:layout_marginTop="33dp"
@@ -118,8 +118,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/female"
             android:layout_alignBottom="@+id/female"
-            android:layout_alignEnd="@+id/New_password"
-            android:layout_alignRight="@+id/New_password"
+            android:layout_alignEnd="@+id/user_email"
+            android:layout_alignRight="@+id/user_email"
             android:layout_marginEnd="61dp"
             android:layout_marginRight="61dp"
             android:button="@null"
