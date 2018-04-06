@@ -50,7 +50,7 @@
         tools:layout_editor_absoluteY="0dp">
 
         <EditText
-            android:id="@+id/UserName"
+            android:id="@+id/user_name"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -74,9 +74,9 @@
             android:id="@+id/user_email"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/UserName"
-            android:layout_alignStart="@+id/UserName"
-            android:layout_below="@+id/UserName"
+            android:layout_alignLeft="@+id/user_name"
+            android:layout_alignStart="@+id/user_name"
+            android:layout_below="@+id/user_name"
             android:layout_marginTop="19dp"
             android:ems="10"
             android:fontFamily="@font/segoeuil"

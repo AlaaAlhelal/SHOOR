@@ -1,8 +1,6 @@
 package com.shoor.shoor;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,18 +23,18 @@ public class EditPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_password);
 
-        Old_pass = ((EditText)findViewById(R.id.Old_password));
-        New_pass= ((EditText)findViewById(R.id.New_password));
+        Old_pass = ((EditText)findViewById(R.id.user_name));
+        New_pass= ((EditText)findViewById(R.id.user_email));
 
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void Do(View view) {
 
-        String Value_email=null;
+
         String oldpass= Old_pass.getText().toString();
         String newpass= New_pass.getText().toString();
 
-System.out.println("Enter Do()");
+
         //validate input
         boolean isValid =ValidateInputs(oldpass,newpass);
         if (isValid){
@@ -66,7 +64,7 @@ System.out.println("Enter Do()");
                 }
 
                 assert v != null;
-                if(v.equals(oldpass))
+               /* if(v.equals(oldpass))
                 {
                     Old_pass.setError("");
                     Toast done = Toast.makeText(EditPasswordActivity.this, "right" , Toast.LENGTH_SHORT);
@@ -76,14 +74,13 @@ System.out.println("Enter Do()");
                 {
                     Toast done = Toast.makeText(EditPasswordActivity.this, "wrong", Toast.LENGTH_SHORT);
                     done.show();
-                }
+                }*/
 
-               /* if (rs.equals(oldpass))
+                if(v.equals(oldpass))
                 {//IF equal -------------------------------------------------------------------------
-
                     stmt = conn.createStatement();
                     String sql1;
-                    sql1 = "UPDATE user SET Password= ('" + newpass + "') WHERE UserEmail= ('" + Value_email  + "')";
+                    sql1 = "UPDATE user SET Password= ('" + newpass + "') WHERE User_ID= ('" + userid+ "')";
                     int rs1 = stmt.executeUpdate(sql1);
 
                     if(rs1==1){
@@ -104,7 +101,7 @@ System.out.println("Enter Do()");
 
                 }
                 //STEP 6: Clean-up environment
-                */
+
                 rs.close();
                 stmt.close();
                 conn.close();
@@ -144,7 +141,7 @@ System.out.println("Enter Do()");
 
     public boolean ValidateInputs(String passOld ,String passNew){
 
-        System.out.println("Enter validate");
+
         if (passOld.equals("")){
             Old_pass.setError("يجب ملء الخانة");
             return false;
