@@ -59,18 +59,6 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageButton
-                android:id="@+id/preMonth"
-                android:layout_width="wrap_content"
-                android:layout_height="19dp"
-                android:layout_gravity="center_horizontal|center"
-                android:layout_marginTop="5dp"
-                android:background="@color/colorTrancperncy"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="PreMonth"
-                app:srcCompat="@drawable/ic_left"
-                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/MonthName"
@@ -85,18 +73,6 @@
                 tools:ignore="HardcodedText"
                 tools:targetApi="jelly_bean" />
 
-            <ImageButton
-                android:id="@+id/nextMonth"
-                android:layout_width="wrap_content"
-                android:layout_height="19dp"
-                android:layout_gravity="center_horizontal|center"
-                android:layout_marginTop="5dp"
-                android:background="@color/colorTrancperncy"
-                android:clickable="true"
-                android:focusable="true"
-                android:onClick="NextMonth"
-                app:srcCompat="@drawable/ic_right"
-                tools:ignore="ContentDescription" />
         </LinearLayout>
 
         <com.github.sundeepk.compactcalendarview.CompactCalendarView

@@ -76,72 +76,103 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/price"
-                    android:layout_width="75dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="10dp"
+                <HorizontalScrollView
+                    android:id="@+id/filterbar"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:background="@drawable/filter_style"
-                    android:drawableLeft="@drawable/ic_dollar"
-                    android:fontFamily="@font/segoeuil"
-                    android:gravity="center_vertical"
-                    android:paddingEnd="5dp"
-                    android:paddingRight="5dp"
-                    android:text="السعر"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    tools:ignore="RtlSymmetry" />
+                    android:fillViewport="true"
+                    android:scrollbars="none"
+                    android:layoutDirection="rtl">
 
-                <Button
-                    android:id="@+id/rate"
-                    android:layout_width="75dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/filter_style"
-                    android:drawableLeft="@drawable/ic_star"
-                    android:fontFamily="@font/segoeuil"
-                    android:gravity="center_vertical"
-                    android:paddingEnd="5dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:text="التقييم"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    tools:ignore="RtlSymmetry" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="start"
+                        android:layoutDirection="rtl"
+                        android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/location"
-                    android:layout_width="75dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/filter_style"
-                    android:drawableLeft="@drawable/ic_my_location"
-                    android:fontFamily="@font/segoeuil"
-                    android:gravity="center_vertical"
-                    android:paddingEnd="5dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:text="الموقع"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    tools:ignore="RtlSymmetry" />
+                        <Button
+                            android:id="@+id/rate"
+                            android:layout_width="80dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/filter_style"
+                            android:drawableLeft="@drawable/ic_star"
+                            android:fontFamily="@font/segoeuil"
+                            android:gravity="center_vertical"
+                            android:paddingEnd="5dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:text="التقييم"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            tools:ignore="RtlSymmetry" />
+
+                        <Button
+                            android:id="@+id/location"
+                            android:layout_width="80dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/filter_style"
+                            android:drawableLeft="@drawable/ic_my_location"
+                            android:fontFamily="@font/segoeuil"
+                            android:gravity="center_vertical"
+                            android:paddingEnd="5dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:text="الموقع"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            tools:ignore="RtlSymmetry" />
+
+                        <LinearLayout
+                            android:id="@+id/price_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="start"
+                            android:layoutDirection="rtl"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/price"
+                                android:layout_width="80dp"
+                                android:layout_height="30dp"
+                                android:layout_marginTop="10dp"
+                                android:background="@drawable/filter_style"
+                                android:drawableLeft="@drawable/dollar"
+                                android:fontFamily="@font/segoeuil"
+                                android:gravity="center_vertical"
+                                android:onClick="Expand"
+                                android:paddingEnd="5dp"
+                                android:paddingRight="5dp"
+                                android:text="السعر"
+                                android:textColor="@android:color/white"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                tools:ignore="RtlSymmetry" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                </HorizontalScrollView>
 
                 <TextView
                     android:id="@+id/filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginTop="4dp"
                     android:text="تصفية البحث"
+                    android:fontFamily="@font/segoeuil"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />

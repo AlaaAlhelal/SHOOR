@@ -44,10 +44,8 @@ public class MyAppointmentActivity extends AppCompatActivity {
        String yearformat = today.getYear()+"";
        CurrentYear=Integer.parseInt(yearformat.substring(1))+2000;
        setMonth(CurrentMonth);
-
         //get session
-        SharedPreferences sharedpreferences = getSharedPreferences(SignIn.user_id, Context.MODE_PRIVATE);
-        userID = sharedpreferences.getString("user_id", "");
+        userID = SaveLogin.getUserID(getApplicationContext());
         //Display Appointments
         displayAppointments();
 
@@ -66,27 +64,8 @@ public class MyAppointmentActivity extends AppCompatActivity {
 
             @Override
             public void onMonthScroll(Date firstDayOfNewMonth) {
-                int month = firstDayOfNewMonth.getMonth()+1;
 
-                if(month<CurrentMonth ){
-                    if(month==1){
-                        setPreMonth(1);
-                    }
-                    else{
-                    setPreMonth(CurrentMonth);
-                    --CurrentMonth;}
-
-                }
-
-                if(month>CurrentMonth ) {
-                    if(month==12){
-                        setPreMonth(12);
-                    }
-                    else{
-                    setNextMonth(CurrentMonth);
-                    ++CurrentMonth;}
-                }
-                Log.d("", month+"  Month was scrolled to: " + CurrentMonth);
+                setDate();
             }
         });
 
@@ -205,32 +184,70 @@ public void setMonth(int monthNum){
     }
 
     public void NextMonth(View view) {
-    setNextMonth(CurrentMonth);
+        System.out.println("CurrentMonth "+CurrentMonth);
+        System.out.println("Before date========================"+UserCalendarView.getFirstDayOfCurrentMonth());
+        setNextMonth(CurrentMonth);
+        Date date =UserCalendarView.getFirstDayOfCurrentMonth();
+        date.setMonth(CurrentMonth-1);
+        System.out.println("After date========================"+date);
+        UserCalendarView.setCurrentDate(date);
+
     }
 
     public void PreMonth(View view) {
+        System.out.println("CurrentMonth "+CurrentMonth);
+        System.out.println("Before date========================"+UserCalendarView.getFirstDayOfCurrentMonth());
         setPreMonth(CurrentMonth);
+        Date date =UserCalendarView.getFirstDayOfCurrentMonth();
+        date.setMonth(CurrentMonth-1);
+        System.out.println("After date========================"+date);
+        UserCalendarView.setCurrentDate(date);
     }
 
  //////////////////////////////////////
     public void setPreMonth(int month){
+    System.out.println("setPreMonth===="+month);
         if(month==1) {
-            month-=1;
-            setMonth(12);
             CurrentMonth=12;
+            --CurrentYear;
+            Date date = UserCalendarView.getFirstDayOfCurrentMonth();
+            date.setYear(CurrentYear-1900);
+            date.setMonth(CurrentMonth-1);
+            setMonth(12);
+            UserCalendarView.setCurrentDate(date);
+
         }
-        else
-            setMonth(--month);
+        else{
+            setMonth(--CurrentMonth);
+            Date date = UserCalendarView.getFirstDayOfCurrentMonth();
+            date.setMonth(CurrentMonth);
+            UserCalendarView.setCurrentDate(date);
+        }
     }
 ///////////////////////////////////////////
 public void setNextMonth(int month){
     if(month==12) {
-        month+=1;
-        setMonth(1);
         CurrentMonth=1;
+        ++CurrentYear;
+        Date date = UserCalendarView.getFirstDayOfCurrentMonth();
+        date.setYear(CurrentYear-1900);
+        date.setMonth(CurrentMonth-1);
+        UserCalendarView.setCurrentDate(date);
+        setMonth(1);
     }
-    else
-        setMonth(++month);
+    else {
+        setMonth(++CurrentMonth);
+        Date date = UserCalendarView.getFirstDayOfCurrentMonth();
+        date.setMonth(CurrentMonth);
+        UserCalendarView.setCurrentDate(date);
+    }
+}
+
+
+public void setDate(){
+Date date = UserCalendarView.getFirstDayOfCurrentMonth();
+CurrentYear = date.getYear()+1900;
+setMonth(date.getMonth()+1);
 }
 
 }
