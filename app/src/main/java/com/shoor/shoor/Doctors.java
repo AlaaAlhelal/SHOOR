@@ -1,9 +1,12 @@
 package com.shoor.shoor;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.DataSetObserver;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -13,16 +16,21 @@ import android.os.Build;
 import android.os.StrictMode;
 import android.print.PrintAttributes;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.MarginLayoutParamsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Layout;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -34,8 +42,10 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -50,13 +60,12 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
     public static ArrayList<Doctor> Doctors = new ArrayList<>();
     public String SpecialtyName;
     public String SpecialtyID;
-    public boolean isExpanded=false;
-    public Button oneDollar ;
+    public boolean isExpanded = false;
+    public Button oneDollar;
     public Button twoDollar;
     public Button threeDollar;
-    public Button fourDollar ;
     public String SearchDoc;
-    public String sql ;
+    public String sql;
 
     // LogCat tag
     private static final String TAG = Doctors.class.getSimpleName();
@@ -79,14 +88,73 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
     private static int DISPLACEMENT = 10; // 10 meters
 
     // UI elements
-    double latitude ;
-    double longitude ;
+    double latitude;
+    double longitude;
+
+
+    FusedLocationProviderClient mFusedLocationClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctors);
-        sql  = "SELECT * FROM doctor where Specialties_ID='"+SpecialtyID+"' ORDER BY Doctor_ID ASC";
+        SharedPreferences sharedpreferences = getSharedPreferences(Specialty.SpecialtyName, Context.MODE_PRIVATE);
+        SpecialtyName = sharedpreferences.getString("SpecialtyName", "");
+
+        TextView Specialtyname = (TextView) findViewById(R.id.SpecialtyName);
+        Specialtyname.setText(SpecialtyName);
+
+        SharedPreferences sharedpreferences2 = getSharedPreferences(Specialty.Specialty_ID, Context.MODE_PRIVATE);
+        SpecialtyID = sharedpreferences2.getString("Specialty_ID", "");
+
+        //get All Doctor "Normal state"
+        sql = "SELECT * FROM doctor where Specialties_ID='" + SpecialtyID + "' ORDER BY Doctor_ID DESC";
+        getAllDoctors();
+        System.out.println("----------------------" + Doctors.size());
+        DoctorsList = (ListView) findViewById(R.id.listofdoctors);
+        DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
+        DoctorsList.setAdapter(AdapterList);
+
+        //filter buttons
+
+        oneDollar = new Button(this);
+        twoDollar = new Button(this);
+        threeDollar = new Button(this);
+
+
+
+
+        // Get the search value
+        AutoCompleteTextView Doctitle = findViewById(R.id.search);
+        Doctitle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.equals("") && s != null) {
+                    sql = "SELECT * FROM doctor where Specialties_ID='" + SpecialtyID + "' AND DoctorName LIKE '" + s + "%' ORDER BY Doctor_ID ASC";
+                    getAllDoctors();
+                    if (Doctors.size() != 0) {
+                        DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
+                        DoctorsList.setAdapter(AdapterList);
+                    }
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         // First we need to check availability of play services
         if (checkPlayServices()) {
@@ -94,59 +162,81 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
             buildGoogleApiClient();
         }
 
-        oneDollar= new Button(this);
-        twoDollar= new Button(this);
-        threeDollar= new Button(this);
-        fourDollar= new Button(this);
-
-        SharedPreferences sharedpreferences = getSharedPreferences(Specialty.SpecialtyName, Context.MODE_PRIVATE);
-        SpecialtyName = sharedpreferences.getString("SpecialtyName", "");
-
-        SharedPreferences sharedpreferences2 = getSharedPreferences(Specialty.Specialty_ID, Context.MODE_PRIVATE);
-        SpecialtyID = sharedpreferences2.getString("Specialty_ID", "");
-
-       // Get the search value
-        AutoCompleteTextView Doctitle  = findViewById(R.id.search);
-        SearchDoc= Doctitle+"";
-        if (! SearchDoc.equals(null))
-        {
-            sql  = "SELECT * FROM doctor where Specialties_ID='"+SpecialtyID+"' AND DoctorName='"+SearchDoc+"' ORDER BY Doctor_ID ASC";
-        }
-
-        Button Location = (Button)findViewById(R.id.location);
+        //get Doctors Based on price
+        Button Location = (Button) findViewById(R.id.location);
         Location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayLocation();
+                System.out.println("Enter              onclick");
 
-                sql = " SELECT * FROM doctor WHERE Specialties_ID='"+SpecialtyID+"' LEFT JOIN hospital ON doctor.Hospital_ID = hospital.Hospital_ID WHERE " + "Location_V1 >=('"+latitude+"' * .9) " + "AND Location_V2 <=('"+longitude+"' * 1.1) ORDER BY abs(latitude - '"+latitude+"') + abs(longitude - '"+longitude+"') limit 20 ";
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    mFusedLocationClient.getLastLocation()
+                            .addOnSuccessListener((Activity) getApplicationContext(), new OnSuccessListener<Location>() {
+                                @Override
+                                public void onSuccess(Location location) {
 
-            }});
+                                    System.out.println("Enter              onsssss");
+                                    // Got last known location. In some rare situations this can be null.
+                                    if (location != null) {
+                                        latitude= location.getLatitude();
+                                        longitude=location.getLongitude();
+                                        System.out.println("Enter              if");
+                                        sql = "SELECT * FROM doctor WHERE Specialties_ID='" + SpecialtyID + "' AND doctor.Hospital_ID IN ( SELECT Hospital_ID From hospital WHERE Location_V1 >=('" + latitude + "' * .9) AND Location_V2 <=('" + longitude + "'* 1.1) ORDER BY abs(Location_V1 - '" + latitude + "')+abs(Location_V2 - '" + longitude + "') )";
+                                        //sql = " SELECT * FROM doctor WHERE Specialties_ID='" + SpecialtyID + "' LEFT JOIN hospital ON doctor.Hospital_ID = hospital.Hospital_ID WHERE  Location_V1 >=('" + latitude + "' * .9) " + " Location_V2 <=('" + longitude + "' * 1.1) ORDER BY abs(latitude - '" + latitude + "') + abs(longitude - '" + longitude + "') limit 20 ";
+                                        getAllDoctors();
+                                        if (Doctors.size() != 0) {
+                                            DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
+                                            DoctorsList.setAdapter(AdapterList);
+                                        }                                    }
+                                }
+                            });
+                }
+                else{
+                    Toast error = Toast.makeText(Doctors.this, "لم يتم التمكن من تحديد موقعك ، الرجاء تمكين تحديد الموقع ", Toast.LENGTH_SHORT);
+                    error.show();
+                }
 
-        Button rate = (Button)findViewById(R.id.rate);
+
+            }
+        });
+
+        // get Doctors Based on rate
+        Button rate = (Button) findViewById(R.id.rate);
         rate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sql  = "SELECT * FROM doctor where Specialties_ID='"+SpecialtyID+"' ORDER BY AvgRate DESC";
-            }});
+                sql = "SELECT * FROM doctor where Specialties_ID='" + SpecialtyID + "' ORDER BY AvgRate DESC";
+                getAllDoctors();
+                if(Doctors.size()!=0){
+                    DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
+                    DoctorsList.setAdapter(AdapterList);}
 
-        getAllDoctors();
-        System.out.println("----------------------"+Doctors.size());
-        DoctorsList = (ListView) findViewById(R.id.listofdoctors);
-        DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
-        DoctorsList.setAdapter(AdapterList);
+            }
+        });
+
+
     }
 
-    private void displayLocation() {
+    private boolean displayLocation() {
 
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-        if (mLastLocation != null) {
-             latitude = mLastLocation.getLatitude();
-             longitude = mLastLocation.getLongitude();
-        } else {
-            Toast error = Toast.makeText(Doctors.this, "لم يتم التمكن من تحديد موقعك ، الرجاء تمكين تحديد الموقع ", Toast.LENGTH_SHORT);
+            if (mLastLocation != null) {
+                latitude = mLastLocation.getLatitude();
+                longitude = mLastLocation.getLongitude();
+                return true;
+
+            } else {
+                Toast error = Toast.makeText(Doctors.this, "لم يتم التمكن من تحديد موقعك ، الرجاء تمكين تحديد الموقع ", Toast.LENGTH_SHORT);
+            error.show();
+            }
+
+        }else {
+            Toast error = Toast.makeText(Doctors.this, "لم يتم التمكن من تحديد موقعك ، الرجاء تمكين تحديد الموقع للتطبيق", Toast.LENGTH_SHORT);
+        error.show();
         }
+return false;
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -185,6 +275,7 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next())
             {
+                System.out.println(" --------------------------------------"+rs.getString("DoctorName")+"---------------------------------------------");
                 String hosname="", PhoneNo="---";
                 float lat=24 , lng=46;
                 Statement stmt2 = conn.createStatement();
@@ -240,8 +331,7 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
             view.setBackgroundResource(R.drawable.filter_right_style);
             oneDollar.setBackgroundResource(R.drawable.filter_center_style);
             twoDollar.setBackgroundResource(R.drawable.filter_center_style);
-            threeDollar.setBackgroundResource(R.drawable.filter_center_style);
-            fourDollar.setBackgroundResource(R.drawable.filter_left_style);
+            threeDollar.setBackgroundResource(R.drawable.filter_left_style);
 
             LinearLayout.LayoutParams p =new LinearLayout.LayoutParams(60, 90);
             p.setMargins(0,30,5,0);
@@ -259,45 +349,45 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
             threeDollar.setLayoutParams(p3);
             threeDollar.setCompoundDrawablesWithIntrinsicBounds(getDrawable(R.drawable.threedollars),null,null,null);
 
-            LinearLayout.LayoutParams p4 =new LinearLayout.LayoutParams(150, 90);
-            p4.setMargins(0,30,5,0);
-            fourDollar.setLayoutParams(p4);
-            fourDollar.setCompoundDrawablesWithIntrinsicBounds(getDrawable(R.drawable.fourdollars),null,null,null);
+
 
 
             oneDollar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-              //here the filter code
                     sql  = "SELECT * FROM doctor where Specialties_ID='"+SpecialtyID+"' AND Price < 200 ORDER BY Price ASC ";
+                    getAllDoctors();
+                    if(Doctors.size()!=0){
+                        DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
+                        DoctorsList.setAdapter(AdapterList);}
                 }
             });
 
             twoDollar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //here the filter code
                     sql  = "SELECT * FROM doctor where Specialties_ID='"+SpecialtyID+"' AND Price >= 200 AND Price < 400  ORDER BY Price ASC ";
+                    getAllDoctors();
+                    if(Doctors.size()!=0){
+                        DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
+                        DoctorsList.setAdapter(AdapterList);}
                 }
             });
             threeDollar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //here the filter code
                     sql  = "SELECT * FROM doctor where Specialties_ID='"+SpecialtyID+"' AND Price >= 400 ORDER BY Price ASC ";
+                    getAllDoctors();
+                    if(Doctors.size()!=0){
+                        DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
+                        DoctorsList.setAdapter(AdapterList);}
                 }
             });
-            fourDollar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //here the filter code
-                }
-            });
+
             //add them in the layout
             layout.addView(oneDollar);
             layout.addView(twoDollar);
             layout.addView(threeDollar);
-            layout.addView(fourDollar);
             isExpanded=true;
         }
         //Conscall
@@ -308,7 +398,6 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
             layout.removeView(oneDollar);
             layout.removeView(twoDollar);
             layout.removeView(threeDollar);
-            layout.removeView(fourDollar);
             isExpanded=false;
         }
     }
@@ -342,5 +431,15 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
     @Override
     public void onConnectionSuspended(int arg0) {
         mGoogleApiClient.connect();
+    }
+
+
+
+
+
+
+    public void back(View view) {
+        this.finish();
+        startActivity(new Intent(com.shoor.shoor.Doctors.this, Specialty.class));
     }
 }

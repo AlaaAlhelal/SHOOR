@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:id="@+id/DoctorProfile"
     tools:context="com.shoor.shoor.DoctorProfileActivity">
 
@@ -77,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/segoeuil"
                         android:text="---"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -86,7 +87,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/segoeuil"
                         android:text="---"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -96,7 +97,7 @@
                         android:fontFamily="@font/segoeuil"
                         android:text="---"
                         android:textDirection="rtl"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -104,19 +105,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/segoeuil"
-                        android:text="---"
+                        android:text="ساعات العمل:"
                         android:textDirection="rtl"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/Price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/segoeuil"
-                        android:text="---"
-                        android:textDirection="rtl"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -126,9 +117,17 @@
                         android:fontFamily="@font/segoeuil"
                         android:text="---"
                         android:textDirection="rtl"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
-
+                    <ImageView
+                        android:id="@+id/Price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="5dp"
+                        android:src="@drawable/pricerange1"
+                        android:textDirection="rtl"
+                        />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -184,7 +183,7 @@
             <fragment xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/mapLocation"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
+                class="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="338dp"
                 android:layout_height="250dp"
                 android:layout_marginLeft="10dp"
@@ -309,19 +308,46 @@
         </LinearLayout>
     </ScrollView>
 
-    <com.getbase.floatingactionbutton.FloatingActionButton
+
+
+
+
+    <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/floatingActionButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
         android:onClick="AddReview"
-        app:fab_colorNormal="@color/colorPrimaryDark"
-        app:fab_icon="@drawable/ic_edit"
+        fab:menu_icon="@drawable/ic_edit"
+        fab:menu_colorNormal="@color/colorPrimaryDark"
+        fab:menu_labels_position="right"
+        fab:menu_labels_ellipsize="start"
+        fab:menu_labels_singleLine="true"
         app:layout_constraintBottom_toTopOf="parent"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="284dp"
-        tools:layout_editor_absoluteY="500dp" />
+        tools:layout_editor_absoluteY="500dp">
 
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/AddDoctorReview"
+            android:src="@drawable/ic_edit"
+            fab:fab_label="@string/doctor"
+            fab:fab_colorNormal="@color/colorPrimaryLight"
+            android:onClick="AddDoctorReview"
+            tools:ignore="VectorDrawableCompat" />
+        <com.github.clans.fab.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/AddHospitalReview"
+            android:src="@drawable/ic_edit"
+            app:fab_label="@string/hospital"
+            fab:fab_colorNormal="@color/colorPrimary"
+            android:onClick="AddHospitalReview"
+            tools:ignore="VectorDrawableCompat" />
+
+    </com.github.clans.fab.FloatingActionMenu>
 
 </android.support.constraint.ConstraintLayout>

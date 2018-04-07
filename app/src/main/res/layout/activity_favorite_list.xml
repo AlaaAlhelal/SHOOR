@@ -5,5 +5,177 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.shoor.shoor.FavoriteList">
+    <RelativeLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/pagename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/back_arrow"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/segoeuil"
+            android:gravity="center_vertical"
+            android:text="لمفضلة"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText"
+            tools:targetApi="jelly_bean" />
+
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/messagefav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/head">
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/FavoriteLists"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/head"
+        />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="31dp">
+
+        <LinearLayout
+            android:id="@+id/toolbarmenucontainer"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorFooter"
+            android:gravity="start"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:weightSum="4">
+
+            <ImageButton
+                android:id="@+id/linktosuggest"
+                android:layout_width="64px"
+                android:layout_height="64px"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorFooter"
+                android:clickable="true"
+                android:onClick="linkToSuggest"
+                android:scaleType="fitXY"
+                android:src="@drawable/suggest" />
+
+
+            <ImageButton
+                android:id="@+id/linktospecialty"
+                android:layout_width="64px"
+                android:layout_height="64px"
+                android:layout_marginLeft="50dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorFooter"
+                android:clickable="true"
+                android:onClick="linkToSpecialty"
+                android:scaleType="fitXY"
+                android:src="@drawable/specialty"
+                android:title="التخصصات" />
+
+
+            <ImageButton
+                android:id="@+id/linktofavorite"
+                android:layout_width="64px"
+                android:layout_height="64px"
+                android:layout_marginLeft="75dp"
+                android:layout_marginStart="75dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorFooter"
+                android:clickable="true"
+                android:onClick="linkToFavorite"
+                android:scaleType="fitXY"
+                android:src="@drawable/list" />
+
+            <ImageButton
+                android:id="@+id/linktomyprofile"
+                android:layout_width="64px"
+                android:layout_height="64px"
+                android:layout_marginLeft="65dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorFooter"
+                android:clickable="true"
+                android:onClick="linkToMyprofile"
+                android:scaleType="fitXY"
+                android:src="@drawable/myprofile" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/colorFooter"
+            android:orientation="horizontal"
+            android:paddingBottom="2dp"
+            android:paddingLeft="10dp"
+            android:weightSum="4">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:fontFamily="@font/segoeuil"
+                android:text="اقترح طبيباً"
+                android:textColor="#70ADD7"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:fontFamily="@font/segoeuil"
+                android:text="التخصصات"
+                android:textColor="#70ADD7"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:fontFamily="@font/segoeuil"
+                android:text="المفضلة"
+                android:textColor="#70ADD7"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="45dp"
+                android:fontFamily="@font/segoeuil"
+                android:text="صفحتي"
+                android:textColor="#70ADD7"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </android.support.design.widget.BottomNavigationView>
+
 
 </android.support.constraint.ConstraintLayout>

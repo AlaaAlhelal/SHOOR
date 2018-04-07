@@ -86,7 +86,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                 Date today = new Date();
                 String date_str = dateFormat.format(date);
                 String today_str = dateFormat.format(today);
-                System.out.println("Today is "+today_str+"  The date in DB is "+date);
                 String note = rs.getString("Note");
                 Time time = rs.getTime("Time");
                 if(date_str.equals(today_str)) {

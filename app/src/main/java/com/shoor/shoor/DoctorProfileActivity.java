@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -26,6 +27,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.w3c.dom.Text;
+
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -43,7 +47,7 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
     RecyclerView.Adapter dAdapter;
     RecyclerView.LayoutManager hLayoutManager;
     RecyclerView.Adapter hAdapter;
-    public String   userID, Doctor_ID ,DoctorName ,HospitalName;
+    public String   userID, Doctor_ID ,DoctorName ,HospitalName , SpecialtyName;
     public static String Hospital_ID;
     public float Lat , Lng;
 
@@ -58,6 +62,8 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
         SharedPreferences sharedpreferences2 = getSharedPreferences(DoctorListAdapter.Doc_Id, Context.MODE_PRIVATE);
         Doctor_ID = sharedpreferences2.getString("Doctor_ID", "");
 
+        SharedPreferences sharedPreferences = getSharedPreferences(Specialty.SpecialtyName,Context.MODE_PRIVATE);
+        SpecialtyName = sharedPreferences.getString("SpecialtyName","");
         userID = SaveLogin.getUserID(getApplicationContext());
 
         //retrieve  doctor info
@@ -129,7 +135,7 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
             hRecyclerView.setLayoutManager(hLayoutManager);
 
             //set adapter
-            hAdapter = new HLVAdapter(DoctorProfileActivity.this, Hospitalreviews);
+            hAdapter = new HospitalReviewAdapter(DoctorProfileActivity.this, Hospitalreviews);
             hRecyclerView.setAdapter(hAdapter);
 
         }
@@ -256,7 +262,13 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
                     user_name = rs2.getString("UserName");
                 }
                 float ratingscore = rs.getFloat("HospitalRate");
-                Review HospitalReview = new Review(user_name, comments, ratingscore);
+                Blob b = rs.getBlob("HospitalPicture");
+                byte[] pic =null;
+
+                if(b.length()!=0){
+                    pic = b.getBytes(1, (int) b.length());
+                }
+                Review HospitalReview = new Review(user_name, comments, ratingscore, pic);
                 Hospitalreviews.add(HospitalReview);
                 size++;
                 rs2.close();
@@ -286,12 +298,23 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
                 DoctorName =Doctors.Doctors.get(i).getDoctorName();
                 Hospital_ID=Doctors.Doctors.get(i).getHospital_ID();
                 ((TextView)findViewById(R.id.DoctorName)).setText(DoctorName);
+                ((TextView)findViewById(R.id.DoctorDescription)).setText("طبيب "+SpecialtyName);
                 HospitalName = Doctors.Doctors.get(i).getHospitalName();
                 ((TextView)findViewById(R.id.Hospital)).setText(HospitalName);
+                if(Doctors.Doctors.get(i).getOfficeHours()!=null || Doctors.Doctors.get(i).getOfficeHours()!= null)
                 ((TextView)findViewById(R.id.WorkingHours)).setText(Doctors.Doctors.get(i).getOfficeHours());
-                ((TextView)findViewById(R.id.PhoneNo)).setText(Doctors.Doctors.get(i).getPhoneNo());
-                ((TextView)findViewById(R.id.Price)).setText(String.format("%s", Doctors.Doctors.get(i).getPrice()));
+                ((TextView)findViewById(R.id.PhoneNo)).setText("رقم المستشفى: "+Doctors.Doctors.get(i).getPhoneNo());
+
                 ((RatingBar)findViewById(R.id.AvgRate)).setRating(Doctors.Doctors.get(i).getAvgRate());
+
+
+                double price = Doctors.Doctors.get(i).getPrice();
+                if(price>=200 && price <400)
+                    ((ImageView)findViewById(R.id.Price)).setImageResource(R.drawable.pricerange2);
+                else
+                 if(price>=400 )
+                     ((ImageView)findViewById(R.id.Price)).setImageResource(R.drawable.pricerange3);
+
                 Lat = Doctors.Doctors.get(i).getLocationLat();
                 Lng =Doctors.Doctors.get(i).getLocationLng();
                 break;
@@ -315,7 +338,7 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
     }
 
     public void AddReview(View view) {
-        startActivity(new Intent(DoctorProfileActivity.this, AddReviewActivity.class));
+        startActivity(new Intent(DoctorProfileActivity.this, AddDoctorReviewActivity.class));
         this.finish();
     }
 
@@ -357,5 +380,17 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
         }
 
         return false;
+    }
+
+    public void AddHospitalReview(View view) {
+        this.finish();
+        startActivity(new Intent(DoctorProfileActivity.this,AddHospitalReviewActivity.class));
+    }
+
+    public void AddDoctorReview(View view) {
+        this.finish();
+        startActivity(new Intent(DoctorProfileActivity.this,AddDoctorReviewActivity.class));
+
+
     }
 }

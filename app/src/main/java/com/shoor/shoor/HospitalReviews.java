@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -21,7 +22,7 @@ public class HospitalReviews extends AppCompatActivity {
         setContentView(R.layout.activity_hospital_reviews);
         AllHospitalReviews();
         ListView List = (ListView) findViewById(R.id.AllHospitalReviews);
-        ReviewListAdpter AdapterList = new ReviewListAdpter(getApplicationContext(), HospitalReviews);
+        AllHospitalReviews AdapterList = new AllHospitalReviews(getApplicationContext(), HospitalReviews);
         List.setAdapter(AdapterList);
     }
 
@@ -45,7 +46,12 @@ public class HospitalReviews extends AppCompatActivity {
                     user_name = rs2.getString("UserName");
                 }
                 float ratingscore = rs.getFloat("HospitalRate");
-                Review HospitalReview = new Review(user_name, comments, ratingscore);
+                Blob b = rs.getBlob("HospitalPicture");
+                byte[] pic =null;
+            if(b.length()!=0){
+                    pic = b.getBytes(1, (int) b.length());
+            }
+                Review HospitalReview = new Review(user_name, comments, ratingscore, pic);
                 HospitalReviews.add(HospitalReview);
                 rs2.close();
                 stmt2.close();

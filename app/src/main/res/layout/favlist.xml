@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@drawable/favoritestyle">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/Listname"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:fontFamily="@font/segoeuil"
+            android:gravity="left|end|center_vertical"
+            android:textAlignment="viewEnd"
+            android:text="----"
+            android:textColor="#3d3d3d"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_alignParentEnd="true"
+            tools:ignore="RtlHardcoded" />
+
+        <ImageButton
+            android:id="@+id/menuOption"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/ic_menu"
+            android:layout_alignParentLeft="true"
+            android:background="@color/colorTrancperncy"
+            tools:ignore="VectorDrawableCompat" />
+
+
+    </RelativeLayout>
+
+    </LinearLayout>

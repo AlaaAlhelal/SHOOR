@@ -45,7 +45,8 @@
             android:textStyle="bold" />
 
         <RatingBar
-            style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small"
+            android:id="@+id/DoctorRate"
+            style="@android:style/Widget.DeviceDefault.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:isIndicator="true"

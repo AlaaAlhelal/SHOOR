@@ -11,12 +11,16 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.location" android:required="true" />
-    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
 
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -37,9 +41,11 @@
         <receiver android:name=".AlarmReceiver">
             <intent-filter>
                 <action android:name="android.media.action.DISPLAY_NOTIFICATION" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -61,7 +67,7 @@
         <activity android:name=".EditUserProfileActivity" />
         <activity android:name=".EditPasswordActivity" />
         <activity android:name=".SuggestDoctorActivity" />
-        <activity android:name=".AddReviewActivity" />
+        <activity android:name=".AddDoctorReviewActivity" />
         <activity android:name=".FavoriteList" />
         <activity android:name=".ManageContentActivity" />
         <activity android:name=".AddDoctor" />
@@ -76,7 +82,10 @@
         <activity android:name=".EditAppointment" />
         <activity android:name=".DoctorProfileActivity" />
         <activity android:name=".DoctorReviews" />
-        <activity android:name=".HospitalReviews"></activity>
+        <activity android:name=".HospitalReviews" />
+        <activity android:name=".AddHospitalReviewActivity" />
+        <activity android:name=".FavoriteListActivity" />
+        <activity android:name=".FavListDocActivity"></activity>
     </application>
 
 </manifest>

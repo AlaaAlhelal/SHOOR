@@ -1,15 +1,33 @@
 package com.shoor.shoor;
 
 
+import android.graphics.Bitmap;
+
 public class Review {
     private String userName;
     private String Comment;
     private float RateScore;
+    private byte[] Pic;
 public Review(String name, String comment, float score){
     userName=name;
      Comment=comment;
     RateScore=score;
 }
+
+    public Review(String name, String comment, float score, byte[] pic){
+        userName=name;
+        Comment=comment;
+        RateScore=score;
+        Pic =pic;
+    }
+
+    public  byte[] getPic() {
+        return Pic;
+    }
+
+    public void setPic( byte[] pic) {
+        Pic = pic;
+    }
 
     public String getComment() {
         return Comment;
