@@ -32,6 +32,7 @@ import java.util.ArrayList;
 public class FavoriteListAdapter extends BaseAdapter {
     public Context context;
     public static String List_Id;
+    public static  String List_Name;
     ArrayList<String> ListNames;
     ArrayList<String> ListIDs;
     boolean done = false;
@@ -154,11 +155,17 @@ public class FavoriteListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 List_Id = ListIDs.get(index);
+                List_Name = ListNames.get(index);
 
                 SharedPreferences sharedpreferences = context.getSharedPreferences(List_Id, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putString("List_ID",List_Id);
                 editor.apply();
+
+                SharedPreferences sharedpreferences2 = context.getSharedPreferences(List_Name, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor2 = sharedpreferences2.edit();
+                editor2.putString("List_Name",List_Name);
+                editor2.apply();
 
                 Intent intent =new Intent(v.getContext(), FavListDocActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -5,13 +5,57 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.shoor.shoor.FavListDocActivity">
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/back_arrow"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/segoeuil"
+            android:gravity="center_vertical"
+            android:text="اسم القائمة"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:targetApi="jelly_bean" />
+
+        <ImageView
+            android:id="@+id/back_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:onClick="back"
+            app:srcCompat="@drawable/ic_arrow_back" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/Message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|center_vertical"
+        app:layout_constraintTop_toBottomOf="@+id/header"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/listofdoctors"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@android:color/transparent"
         android:dividerHeight="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/search_header"
+        app:layout_constraintTop_toBottomOf="@+id/Message"
         tools:listitem="@layout/doctor_card_info" />
 
 </android.support.constraint.ConstraintLayout>

@@ -1,12 +1,16 @@
 package com.shoor.shoor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.sql.Connection;
@@ -25,8 +29,11 @@ public class FavListDocActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fav_list_doc);
-        SharedPreferences sharedpreferences2 = getSharedPreferences(Specialty.Specialty_ID, Context.MODE_PRIVATE);
-        SpecialtyID = sharedpreferences2.getString("Specialty_ID", "");
+
+        SharedPreferences sharedpreferences2 = getSharedPreferences(FavoriteListAdapter.List_Name, Context.MODE_PRIVATE);
+        String ListName = sharedpreferences2.getString("List_Name", "");
+        TextView title = ((TextView) findViewById(R.id.title));
+        title.setText(ListName);
 
         SharedPreferences sharedpreferences  = getSharedPreferences(FavoriteListAdapter.List_Id, Context.MODE_PRIVATE);
         List_ID = sharedpreferences.getString("List_ID", "");
@@ -37,6 +44,13 @@ public class FavListDocActivity extends AppCompatActivity {
         DoctorsList = (ListView) findViewById(R.id.listofdoctors);
         DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
         DoctorsList.setAdapter(AdapterList);
+        }
+        else
+        {
+            TextView message = new TextView(this);
+            message.setText("لا يوجد لديك أطباء في هذه القائمة");
+            message.setPadding(10,10,10,10);
+            ((LinearLayout) findViewById(R.id.Message)).addView(message);
         }
     }
 
@@ -96,4 +110,8 @@ public class FavListDocActivity extends AppCompatActivity {
             error.show();}
     }
 
+    public void back(View view) {
+        this.finish();
+        startActivity(new Intent(FavListDocActivity.this , FavoriteList.class));
+    }
 }

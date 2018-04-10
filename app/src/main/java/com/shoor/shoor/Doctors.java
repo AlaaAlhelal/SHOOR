@@ -1,5 +1,7 @@
 package com.shoor.shoor;
 
+import android.*;
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -17,6 +19,7 @@ import android.os.StrictMode;
 import android.print.PrintAttributes;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MarginLayoutParamsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -70,29 +73,19 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
     // LogCat tag
     private static final String TAG = Doctors.class.getSimpleName();
 
-    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
 
-    private Location mLastLocation;
 
     // Google client to interact with Google API
-    private GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient googleApiClient;
 
-    // boolean flag to toggle periodic location updates
-    private boolean mRequestingLocationUpdates = false;
+    private static final int PERMISSION_ACCESS_COARSE_LOCATION=1;
 
-    private LocationRequest mLocationRequest;
 
-    // Location updates intervals in sec
-    private static int UPDATE_INTERVAL = 10000; // 10 sec
-    private static int FATEST_INTERVAL = 5000; // 5 sec
-    private static int DISPLACEMENT = 10; // 10 meters
 
     // UI elements
-    double latitude;
-    double longitude;
+    double latitude=0;
+    double longitude=0;
 
-
-    FusedLocationProviderClient mFusedLocationClient;
 
 
     @Override
@@ -123,6 +116,13 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
         threeDollar = new Button(this);
 
 
+        ///////////////check permission
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] { android.Manifest.permission.ACCESS_COARSE_LOCATION }, PERMISSION_ACCESS_COARSE_LOCATION);
+        }
+
+        googleApiClient = new GoogleApiClient.Builder(this ,this, this).addApi(LocationServices.API).build();
 
 
         // Get the search value
@@ -154,48 +154,34 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
 
 
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        // First we need to check availability of play services
-        if (checkPlayServices()) {
-            // Building the GoogleApi client
-            buildGoogleApiClient();
-        }
 
         //get Doctors Based on price
         Button Location = (Button) findViewById(R.id.location);
         Location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Enter              onclick");
 
-                if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    mFusedLocationClient.getLastLocation()
-                            .addOnSuccessListener((Activity) getApplicationContext(), new OnSuccessListener<Location>() {
-                                @Override
-                                public void onSuccess(Location location) {
+                if (latitude!=0 && longitude!=0){
 
-                                    System.out.println("Enter              onsssss");
-                                    // Got last known location. In some rare situations this can be null.
-                                    if (location != null) {
-                                        latitude= location.getLatitude();
-                                        longitude=location.getLongitude();
-                                        System.out.println("Enter              if");
                                         sql = "SELECT * FROM doctor WHERE Specialties_ID='" + SpecialtyID + "' AND doctor.Hospital_ID IN ( SELECT Hospital_ID From hospital WHERE Location_V1 >=('" + latitude + "' * .9) AND Location_V2 <=('" + longitude + "'* 1.1) ORDER BY abs(Location_V1 - '" + latitude + "')+abs(Location_V2 - '" + longitude + "') )";
                                         //sql = " SELECT * FROM doctor WHERE Specialties_ID='" + SpecialtyID + "' LEFT JOIN hospital ON doctor.Hospital_ID = hospital.Hospital_ID WHERE  Location_V1 >=('" + latitude + "' * .9) " + " Location_V2 <=('" + longitude + "' * 1.1) ORDER BY abs(latitude - '" + latitude + "') + abs(longitude - '" + longitude + "') limit 20 ";
                                         getAllDoctors();
                                         if (Doctors.size() != 0) {
                                             DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
                                             DoctorsList.setAdapter(AdapterList);
-                                        }                                    }
-                                }
-                            });
+                                        }
+                                        else{
+                                            Toast error = Toast.makeText(Doctors.this, "لا يوجد أطباء قريبين من موقعك", Toast.LENGTH_SHORT);
+                                            error.show();
+                                        }
+
+
                 }
                 else{
                     Toast error = Toast.makeText(Doctors.this, "لم يتم التمكن من تحديد موقعك ، الرجاء تمكين تحديد الموقع ", Toast.LENGTH_SHORT);
                     error.show();
                 }
-
 
             }
         });
@@ -216,53 +202,6 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
 
 
     }
-
-    private boolean displayLocation() {
-
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-            if (mLastLocation != null) {
-                latitude = mLastLocation.getLatitude();
-                longitude = mLastLocation.getLongitude();
-                return true;
-
-            } else {
-                Toast error = Toast.makeText(Doctors.this, "لم يتم التمكن من تحديد موقعك ، الرجاء تمكين تحديد الموقع ", Toast.LENGTH_SHORT);
-            error.show();
-            }
-
-        }else {
-            Toast error = Toast.makeText(Doctors.this, "لم يتم التمكن من تحديد موقعك ، الرجاء تمكين تحديد الموقع للتطبيق", Toast.LENGTH_SHORT);
-        error.show();
-        }
-return false;
-    }
-
-    protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API).build();
-    }
-
-    private boolean checkPlayServices() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
-                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        "This device is not supported.", Toast.LENGTH_LONG)
-                        .show();
-                finish();
-            }
-            return false;
-        }
-        return true;
-    }
-
     public void getAllDoctors(){
         Doctors.clear();
         try{
@@ -402,19 +341,39 @@ return false;
         }
     }
 
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_ACCESS_COARSE_LOCATION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // All good!
+                } else {
+
+                    Toast.makeText(this, " نحتاج للوصل إلى موقعك", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.connect();
+        if (googleApiClient != null) {
+            googleApiClient.connect();
         }
+    }
+    @Override
+    protected void onStop() {
+        googleApiClient.disconnect();
+        super.onStop();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        checkPlayServices();
     }
 
     @Override
@@ -423,14 +382,23 @@ return false;
     }
 
     @Override
-    public void onConnected(Bundle arg0) {
-        // Once connected with google api, get the location
-        displayLocation();
+    public void onConnected(Bundle bundle) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+            if (lastLocation != null) {
+
+                latitude = lastLocation.getLatitude();
+                longitude = lastLocation.getLongitude();
+               // Toast.makeText(this, " lat "+latitude+" long "+longitude, Toast.LENGTH_SHORT).show();
+            }
+
+        }
     }
 
     @Override
     public void onConnectionSuspended(int arg0) {
-        mGoogleApiClient.connect();
+        googleApiClient.connect();
     }
 
 

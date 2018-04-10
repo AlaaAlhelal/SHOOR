@@ -2,15 +2,21 @@ package com.shoor.shoor;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.StrictMode;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,6 +26,7 @@ import com.sun.mail.imap.protocol.ID;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -29,11 +36,9 @@ public class FavoriteList extends AppCompatActivity {
 
     public ArrayList<String> Names = new ArrayList<String>();
     public ArrayList<String> IDs = new ArrayList<String>();
-    Button  edit;
     ListView lists ;
     FavoriteListAdapter AdapterList ;
-    String sqlEdit ; // for the sql ;
-    String editList ; // the new entered name
+    String sql ; // for the sql ;
     int ListID ;
 
     @Override
@@ -41,8 +46,8 @@ public class FavoriteList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_list);
 
-        // edit list
-        edit =(Button)findViewById(R.id.edit);
+
+
 
         // get list
         getAllLists();
@@ -54,9 +59,12 @@ public class FavoriteList extends AppCompatActivity {
         {
             TextView message = new TextView(this);
             message.setText("لا يوجد لديك قوائم");
+            message.setGravity(Gravity.CENTER);
+            message.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT));
             LinearLayout view = (LinearLayout) findViewById(R.id.messagefav);
             view.addView(message);
         }
+
 
     }
 
@@ -91,51 +99,9 @@ public class FavoriteList extends AppCompatActivity {
         }
     }
 
-    public void editList () {
-        lists.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position , long id) {
-                showInputBox(Names.get(position), IDs.get(position), position);
-            }
-        });
-    }
 
-    public void showInputBox(String oldList ,String Id ,final int position){
-        ListID = Integer.parseInt(Id);
-    final Dialog dialog = new Dialog (FavoriteList.this);
-    dialog.setTitle("تعديل اسم القائمة ");
-    dialog.setContentView(R.layout.input_box);
-    TextView txtmessage = (TextView) dialog.findViewById(R.id.txtmessage);
-    txtmessage.setText("تعديل الاسم ");
-    txtmessage.setTextColor(Color.parseColor("@ff2222"));
-    final EditText editText= (EditText)dialog.findViewById(R.id.txtinput);
-    editText.setText(oldList);
-    Button doedit = (Button) dialog.findViewById(R.id.DoEdit);
-    doedit.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            editList = editText.getText().toString() ;
-            Names.set(position,editList);
-            sqlEdit = "UPDATE list SET ListName = ('" + editList + "')WHERE List_ID=('" + ListID + "')";
-            Do() ;
-            AdapterList.notifyDataSetChanged();
-            dialog.dismiss();
 
-        }
-    });
-        Button delete = (Button) dialog.findViewById(R.id.Delete);
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sqlEdit = "DELETE FROM list WHERE List_ID=('" + ListID + "')";
-                Do() ;
-                AdapterList.notifyDataSetChanged();
-                dialog.dismiss();
 
-            }
-        });
-     dialog.show();
-    }
 
     public void Do() {
 
@@ -154,11 +120,12 @@ public class FavoriteList extends AppCompatActivity {
 
                 //STEP 4: Execute a query
                 stmt = conn.createStatement();
-                int rs = stmt.executeUpdate(sqlEdit);
+                int rs = stmt.executeUpdate(sql);
 
                 if(rs==1){
-                    Toast done = Toast.makeText(FavoriteList.this, "تم التعديل", Toast.LENGTH_SHORT);
+                    Toast done = Toast.makeText(FavoriteList.this, "تم الإضافة", Toast.LENGTH_SHORT);
                     done.show();
+                    this.recreate();
 
                 }
                 else
@@ -204,4 +171,28 @@ public class FavoriteList extends AppCompatActivity {
         startActivity(new Intent(FavoriteList.this, SuggestDoctorActivity.class));
     }
 
+    public void AddList(View view) {
+
+        ImageButton add = (ImageButton) findViewById(R.id.add);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("أدخل اسم القائمة");
+                final EditText editText = new EditText(this);
+                builder.setView(editText);
+                builder.setPositiveButton("حفظ", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(editText.getText().length()!=0){
+                           sql= "Insert into List (ListName , User_ID) Values('"+editText.getText()+"' , '"+SaveLogin.getUserID(getApplicationContext())+"')";
+                           Do();
+                           dialog.cancel();
+                        }
+                        else {
+                            editText.setError("يجب ملء الخانة");
+                        }
+                    }
+                });
+                builder.show();
+
+
+    }
 }

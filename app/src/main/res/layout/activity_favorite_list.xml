@@ -17,7 +17,6 @@
             android:id="@+id/pagename"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/back_arrow"
             android:layout_centerHorizontal="true"
             android:fontFamily="@font/segoeuil"
             android:gravity="center_vertical"
@@ -29,25 +28,18 @@
             tools:ignore="HardcodedText"
             tools:targetApi="jelly_bean" />
 
-        <Button
+        <ImageButton
             android:id="@+id/add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:onClick="AddList"
-            android:text="+" />
-
-        <Button
-            android:id="@+id/edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:onClick="editList"
-            android:text="Edit" />
+            android:layout_marginEnd="7dp"
+            android:background="@color/colorTrancperncy"
+            app:srcCompat="@drawable/ic_add"
+            android:layout_marginRight="7dp" />
 
 
     </RelativeLayout>
