@@ -163,10 +163,10 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
             public void onClick(View v) {
 
                 if (latitude!=0 && longitude!=0){
-
-                                        sql = "SELECT * FROM doctor WHERE Specialties_ID='" + SpecialtyID + "' AND doctor.Hospital_ID IN ( SELECT Hospital_ID From hospital WHERE Location_V1 >=('" + latitude + "' * .9) AND Location_V2 <=('" + longitude + "'* 1.1) ORDER BY abs(Location_V1 - '" + latitude + "')+abs(Location_V2 - '" + longitude + "') )";
+                    isNearest();
+                                      //  sql = "SELECT * FROM doctor WHERE Specialties_ID='" + SpecialtyID + "' AND doctor.Hospital_ID IN ( SELECT Hospital_ID From hospital WHERE Location_V1 >=('" + latitude + "' * .9) AND Location_V2 <=('" + longitude + "'* 1.1) ORDER BY abs(Location_V1 - '" + latitude + "')+abs(Location_V2 - '" + longitude + "') )";
                                         //sql = " SELECT * FROM doctor WHERE Specialties_ID='" + SpecialtyID + "' LEFT JOIN hospital ON doctor.Hospital_ID = hospital.Hospital_ID WHERE  Location_V1 >=('" + latitude + "' * .9) " + " Location_V2 <=('" + longitude + "' * 1.1) ORDER BY abs(latitude - '" + latitude + "') + abs(longitude - '" + longitude + "') limit 20 ";
-                                        getAllDoctors();
+                                     //   getAllDoctors();
                                         if (Doctors.size() != 0) {
                                             DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
                                             DoctorsList.setAdapter(AdapterList);
@@ -410,4 +410,93 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
         this.finish();
         startActivity(new Intent(com.shoor.shoor.Doctors.this, Specialty.class));
     }
+
+
+
+    public void isNearest() {
+        Doctors.clear();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            Connection conn = DriverManager.getConnection(DB_Info.DB_URL, DB_Info.USER, DB_Info.PASS);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM doctor where Specialties_ID='" + SpecialtyID + "' ORDER BY Doctor_ID DESC");
+            while (rs.next()) {
+
+
+                Statement stmt2 = conn.createStatement();
+                String sql2 = "SELECT * FROM hospital where Hospital_ID=" + rs.getInt("Hospital_ID");
+                ResultSet rs2 = stmt.executeQuery(sql2);
+                double lat, lng;
+
+                while (rs2.next()) {
+                    lat = rs2.getFloat("Location_V1");
+                    lng = rs2.getFloat("Location_V2");
+
+                    double powerx = Math.pow(lat - latitude, 2);
+                    double powery = Math.pow(lng - longitude, 2);
+                    double distance = Math.sqrt(powerx + powery);
+                    if (distance <= 0.0765)
+                        isNearest(rs2.getInt("Hospital_ID"));
+                }
+
+
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+        public void isNearest(int HospitalID){
+
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+
+                Connection conn = DriverManager.getConnection(DB_Info.DB_URL, DB_Info.USER, DB_Info.PASS);
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM doctor where Specialties_ID='" + SpecialtyID + "' AND Hospital_ID='"+HospitalID+"' ");
+                while(rs.next())
+                {
+                    System.out.println(" --------------------------------------"+rs.getString("DoctorName")+"---------------------------------------------");
+                    String hosname="", PhoneNo="---";
+                    float lat=24 , lng=46;
+                    Statement stmt2 = conn.createStatement();
+                    String sql2  = "SELECT * FROM hospital where Hospital_ID="+HospitalID;
+                    ResultSet rs2 = stmt2.executeQuery(sql2);
+                    String hos_ID = rs.getString("Hospital_ID");
+                    String Doc_id = rs.getString("Doctor_ID");
+                    String doc_name=rs.getString("DoctorName");
+                    float ratingscore = rs.getFloat("AvgRate");
+                    String officeHours = rs.getString("OfficeHours");
+                    double price = rs.getDouble("Price");
+                    while (rs2.next()) {
+                        hosname =rs2.getString("HospitalName");
+                        lat = rs2.getFloat("Location_V1");
+                        lng = rs2.getFloat("Location_V2");
+                        PhoneNo=rs2.getString("PhoneNumber");
+                    }
+                    Doctor doc  = new Doctor(Doc_id, doc_name, hos_ID ,hosname, lat , lng, PhoneNo ,ratingscore,officeHours, price);
+                    Doctors.add(doc);
+                    rs2.close();
+                    stmt2.close();
+                }
+                rs.close();
+                stmt.close();
+                conn.close();
+
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
 }
