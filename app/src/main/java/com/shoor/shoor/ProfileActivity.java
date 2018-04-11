@@ -59,15 +59,15 @@ public class ProfileActivity extends AppCompatActivity {
     SharedPreferences sharedpreferences = getSharedPreferences(SignIn.user_id, Context.MODE_PRIVATE);
     SharedPreferences.Editor editor= sharedpreferences.edit();
     editor.remove("user_id");
-    editor.commit();
+    editor.apply();
+    //clear user id
+    SaveLogin.setUserID(getApplicationContext(),"");
+    this.finish();
     startActivity(new Intent(ProfileActivity.this,SignIn.class));
 
     }
 
     public void DisplayInfo(){
-//        //get session
-//        SharedPreferences sharedpreferences = getSharedPreferences(SignIn.user_id, Context.MODE_PRIVATE);
-//        String userID = sharedpreferences.getString("user_id", "");
 
         String userID =  SaveLogin.getUserID(getApplicationContext());
         try{
