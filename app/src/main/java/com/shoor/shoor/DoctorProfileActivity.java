@@ -1,5 +1,6 @@
 package com.shoor.shoor;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -55,9 +56,15 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        DoctorListAdapter.progress=new ProgressDialog(this);
+        DoctorListAdapter.progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        DoctorListAdapter.progress.setIndeterminate(true);
+        DoctorListAdapter.progress.setProgress(50);
+        DoctorListAdapter.progress.setMessage("يرجى الانتظار...");
+        DoctorListAdapter.progress.show();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_profile);
-
+        DoctorListAdapter.progress.cancel();
 
         SharedPreferences sharedpreferences2 = getSharedPreferences(DoctorListAdapter.Doc_Id, Context.MODE_PRIVATE);
         Doctor_ID = sharedpreferences2.getString("Doctor_ID", "");
@@ -262,12 +269,9 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
                     user_name = rs2.getString("UserName");
                 }
                 float ratingscore = rs.getFloat("HospitalRate");
-                Blob b = rs.getBlob("HospitalPicture");
-                byte[] pic =null;
+                String pic = rs.getString("HospitalPicture");
 
-                if(b.length()!=0){
-                    pic = b.getBytes(1, (int) b.length());
-                }
+
                 Review HospitalReview = new Review(user_name, comments, ratingscore, pic);
                 Hospitalreviews.add(HospitalReview);
                 size++;

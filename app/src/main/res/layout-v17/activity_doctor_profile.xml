@@ -274,7 +274,7 @@
                     android:focusable="true"
                     android:fontFamily="@font/segoeuil"
                     android:onClick="GoToMoreHospitalReviews"
-                    android:text="المزيد..."
+                    android:text="المزيد ..."
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="16sp"
                     android:textStyle="bold" />

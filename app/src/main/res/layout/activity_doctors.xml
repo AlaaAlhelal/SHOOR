@@ -187,6 +187,7 @@
     </LinearLayout>
 
 
+
     <ListView
         android:id="@+id/listofdoctors"
         android:layout_width="match_parent"
@@ -197,6 +198,22 @@
         tools:listitem="@layout/doctor_card_info" />
 
 
+    <LinearLayout
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/search_header"
+        android:layout_marginTop="150dp"
+        android:gravity="center">
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.ProgressBar.Small.Inverse"
+            android:visibility="invisible"/>
+
+    </LinearLayout>
 
 
 </android.support.constraint.ConstraintLayout>

@@ -80,6 +80,8 @@ public class MyAppointmentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MyAppointmentActivity.this,AddAppointmentActivity.class));
+                MyAppointmentActivity.this.finish();
+
             }
         });
         //Edit
@@ -91,6 +93,7 @@ public class MyAppointmentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MyAppointmentActivity.this,EditAppointment.class));
+                MyAppointmentActivity.this.finish();
 
             }
         });
@@ -102,7 +105,9 @@ public class MyAppointmentActivity extends AppCompatActivity {
         delAppoint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MyAppointmentActivity.this,DeleteAppointmentActivity.class));            }
+                startActivity(new Intent(MyAppointmentActivity.this,DeleteAppointmentActivity.class));
+                MyAppointmentActivity.this.finish();
+            }
         });
 
 
@@ -185,22 +190,18 @@ public void setMonth(int monthNum){
 
     public void NextMonth(View view) {
         System.out.println("CurrentMonth "+CurrentMonth);
-        System.out.println("Before date========================"+UserCalendarView.getFirstDayOfCurrentMonth());
         setNextMonth(CurrentMonth);
         Date date =UserCalendarView.getFirstDayOfCurrentMonth();
         date.setMonth(CurrentMonth-1);
-        System.out.println("After date========================"+date);
         UserCalendarView.setCurrentDate(date);
 
     }
 
     public void PreMonth(View view) {
         System.out.println("CurrentMonth "+CurrentMonth);
-        System.out.println("Before date========================"+UserCalendarView.getFirstDayOfCurrentMonth());
         setPreMonth(CurrentMonth);
         Date date =UserCalendarView.getFirstDayOfCurrentMonth();
         date.setMonth(CurrentMonth-1);
-        System.out.println("After date========================"+date);
         UserCalendarView.setCurrentDate(date);
     }
 

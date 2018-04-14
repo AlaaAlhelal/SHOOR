@@ -41,8 +41,7 @@ public class EditAppointment extends AppCompatActivity {
         Note = findViewById(R.id.notes);
         DatePickerByUser = findViewById(R.id.datePicker);
         //get session
-        SharedPreferences sharedpreferences = getSharedPreferences(SignIn.user_id, Context.MODE_PRIVATE);
-        userID = sharedpreferences.getString("user_id", "");
+        userID = SaveLogin.getUserID(getApplicationContext());
         Applist = (Spinner) findViewById(R.id.AppList);
         ListAppointment();
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, List_of_Appoint);
@@ -162,11 +161,13 @@ if(isvalid) {
         int rs = stmt.executeUpdate(sql);
 
         if (rs == 1) {
-            Toast done = Toast.makeText(EditAppointment.this, "تم  الحذف ", Toast.LENGTH_LONG);
+            Toast done = Toast.makeText(EditAppointment.this, "تم  التعديل ", Toast.LENGTH_LONG);
             done.show();
             adapter.remove(appointment);
             Applist.setAdapter(adapter);
-            //  this.recreate();
+            EditAppointment.this.finish();
+            startActivity(new Intent(EditAppointment.this,MyAppointmentActivity.class));
+
         } else {
             Toast done = Toast.makeText(EditAppointment.this, "حدثت مشكلة أثناء الحذف", Toast.LENGTH_LONG);
             done.show();

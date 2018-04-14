@@ -23,7 +23,9 @@ public class HospitalReviews extends AppCompatActivity {
         AllHospitalReviews();
         ListView List = (ListView) findViewById(R.id.AllHospitalReviews);
         AllHospitalReviews AdapterList = new AllHospitalReviews(getApplicationContext(), HospitalReviews);
+        if(HospitalReviews.size()!=0)
         List.setAdapter(AdapterList);
+
     }
 
     public void AllHospitalReviews(){
@@ -46,12 +48,9 @@ public class HospitalReviews extends AppCompatActivity {
                     user_name = rs2.getString("UserName");
                 }
                 float ratingscore = rs.getFloat("HospitalRate");
-                Blob b = rs.getBlob("HospitalPicture");
-                byte[] pic =null;
-            if(b.length()!=0){
-                    pic = b.getBytes(1, (int) b.length());
-            }
-                Review HospitalReview = new Review(user_name, comments, ratingscore, pic);
+                String b = rs.getString("HospitalPicture");
+
+                Review HospitalReview = new Review(user_name, comments, ratingscore, b);
                 HospitalReviews.add(HospitalReview);
                 rs2.close();
                 stmt2.close();

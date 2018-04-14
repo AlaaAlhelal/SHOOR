@@ -92,8 +92,10 @@ public class AllHospitalReviews  extends BaseAdapter {
         names.setText(AllReviews.get(i).getUserName());
         comments.setText(AllReviews.get(i).getComment());
         rates.setRating(AllReviews.get(i).getRateScore());
-        if(AllReviews.get(i).getPic()!=null)
-            imageView.setImageBitmap(getImage(AllReviews.get(i).getPic()));
+        if(AllReviews.get(i).getPic()!=null) {
+            Bitmap bitmap = BitmapFactory.decodeFile(AllReviews.get(i).getPic());
+            imageView.setImageBitmap(bitmap);
+        }
 
         return view;
     }

@@ -82,6 +82,9 @@ public class AddAppointmentActivity extends AppCompatActivity {
             Note.setText("");
                 Toast errorToast = Toast.makeText(AddAppointmentActivity.this, "تمت الإضافة", Toast.LENGTH_LONG);
                 errorToast.show();
+                this.finish();
+                startActivity(new Intent(AddAppointmentActivity.this,MyAppointmentActivity.class));
+
             }
             //STEP 6: Clean-up environment
             stmt.close();

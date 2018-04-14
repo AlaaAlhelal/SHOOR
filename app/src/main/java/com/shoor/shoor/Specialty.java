@@ -2,6 +2,7 @@ package com.shoor.shoor;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +11,9 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -19,7 +23,7 @@ public class Specialty extends AppCompatActivity {
 
     public static String SpecialtyName="";
     public static String Specialty_ID;
-
+    public static ProgressDialog  progress;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,13 @@ public class Specialty extends AppCompatActivity {
     }
 
     public void setSpecialtyClicked(String sp ,String id) {
+        progress=new ProgressDialog(this);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setIndeterminate(true);
+        progress.setProgress(50);
+        progress.setMessage("يرجى الانتظار...");
+        progress.show();
+
         SpecialtyName =sp;
         Specialty_ID=  id;
         //set session SpecialtyClicked
@@ -76,25 +87,28 @@ public class Specialty extends AppCompatActivity {
         editor2.apply();
         //redirect to doctors
         startActivity(new Intent(Specialty.this, Doctors.class));
-
     }
 
     public void linkToFavorite(View view) {
+        this.finish();
         startActivity(new Intent(Specialty.this,FavoriteList.class));
 
     }
 
     public void linkToMyprofile(View view) {
+        this.finish();
         startActivity(new Intent(Specialty.this,ProfileActivity.class));
     }
 
     public void linkToSpecialty(View view) {
         //redirect to suggest activity
+        this.finish();
         startActivity(new Intent(Specialty.this, Specialty.class));
     }
 
     public void linkToSuggest(View view) {
         //redirect to suggest activity
+        this.finish();
         startActivity(new Intent(Specialty.this, SuggestDoctorActivity.class));
     }
 }

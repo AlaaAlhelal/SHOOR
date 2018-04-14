@@ -7,25 +7,25 @@ public class Review {
     private String userName;
     private String Comment;
     private float RateScore;
-    private byte[] Pic;
+    private String Pic;
 public Review(String name, String comment, float score){
     userName=name;
      Comment=comment;
     RateScore=score;
 }
 
-    public Review(String name, String comment, float score, byte[] pic){
+    public Review(String name, String comment, float score, String pic){
         userName=name;
         Comment=comment;
         RateScore=score;
         Pic =pic;
     }
 
-    public  byte[] getPic() {
+    public  String getPic() {
         return Pic;
     }
 
-    public void setPic( byte[] pic) {
+    public void setPic( String pic) {
         Pic = pic;
     }
 

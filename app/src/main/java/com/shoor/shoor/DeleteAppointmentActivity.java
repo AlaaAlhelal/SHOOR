@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DeleteAppointmentActivity extends AppCompatActivity implements DialogInterface.OnKeyListener {
+public class DeleteAppointmentActivity extends AppCompatActivity  {
 public String userID;
 public Spinner Applist;
 public  List<String> List_of_Appoint;
@@ -43,8 +43,7 @@ public  ArrayAdapter<String> adapter;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_appointment);
         //get session
-        SharedPreferences sharedpreferences = getSharedPreferences(SignIn.user_id, Context.MODE_PRIVATE);
-        userID = sharedpreferences.getString("user_id", "");
+        userID =SaveLogin.getUserID(getApplicationContext());
         Applist = (Spinner) findViewById(R.id.AppList);
         ListAppointment();
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, List_of_Appoint);
@@ -152,7 +151,8 @@ public  ArrayAdapter<String> adapter;
                                 done.show();
                                 adapter.remove(appointment);
                                 Applist.setAdapter(adapter);
-                                //  this.recreate();
+                                DeleteAppointmentActivity.this.finish();
+                                startActivity(new Intent(DeleteAppointmentActivity.this,MyAppointmentActivity.class));
                             }
                             else
                             {
@@ -177,10 +177,9 @@ public  ArrayAdapter<String> adapter;
                     }).setNegativeButton("إلغاء",new DialogInterface.OnClickListener(){
                     public void onClick(final DialogInterface dialog,  final int which) {
                         // User cancelled the action
-                                        return;}
+                    }
                     }).create();
 
-        aDialog.setOnKeyListener(this);
         aDialog.show();
 
 
@@ -188,8 +187,5 @@ public  ArrayAdapter<String> adapter;
 
     }//end method delete
 
-    @Override
-    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-        return false;
-    }
+
 }

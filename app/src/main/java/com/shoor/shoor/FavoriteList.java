@@ -150,14 +150,11 @@ public class FavoriteList extends AppCompatActivity {
     }
 
     public void linkToFavorite(View view) {
-        this.finish();
-        startActivity(new Intent(FavoriteList.this,FavoriteList.class));
-
+      //User in this page
     }
 
     public void linkToMyprofile(View view) {
         this.finish();
-
         startActivity(new Intent(FavoriteList.this,ProfileActivity.class));
     }
 

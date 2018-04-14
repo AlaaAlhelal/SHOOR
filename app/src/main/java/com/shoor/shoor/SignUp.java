@@ -33,9 +33,6 @@ public class SignUp extends AppCompatActivity {
 
     }
 
-    public void backToSignIn(View view) {
-        startActivity(new Intent(SignUp.this, SignIn.class));
-    }
 
     public void SignUp(View view) {
         //Validate inputs
@@ -51,8 +48,6 @@ public class SignUp extends AppCompatActivity {
             Statement stmt = null;
 
             try {
-
-
                 //STEP 2: Register JDBC driver
                 Class.forName("com.mysql.jdbc.Driver");
 
@@ -71,7 +66,6 @@ public class SignUp extends AppCompatActivity {
                     //error message
                     Toast errorToast = Toast.makeText(SignUp.this, "فشل التسجيل أرجوا التسجيل ببريد إلكتروني آخر", Toast.LENGTH_SHORT);
                     errorToast.show();
-
 
                 } else {
 
@@ -192,4 +186,11 @@ public class SignUp extends AppCompatActivity {
         }
 
     }
+
+
+
+    public void backToSignIn(View view) {
+        startActivity(new Intent(SignUp.this, SignIn.class));
+    }
+
 }

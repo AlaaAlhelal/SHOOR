@@ -26,30 +26,34 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void linkToSuggest(View view) {
+        this.finish();
         startActivity(new Intent(ProfileActivity.this, SuggestDoctorActivity.class));
 
     }
 
     public void linkToSpecialty(View view) {
+        this.finish();
         startActivity(new Intent(ProfileActivity.this, Specialty.class));
 
     }
 
     public void linkToFavorite(View view) {
+        this.finish();
         startActivity(new Intent(ProfileActivity.this,FavoriteList.class));
 
     }
 
     public void linkToMyprofile(View view) {
-        startActivity(new Intent(ProfileActivity.this,ProfileActivity.class));
-
+//user in this page
     }
 
     public void EditProfile(View view) {
+        this.finish();
         startActivity(new Intent(ProfileActivity.this,EditUserProfileActivity.class));
     }
 
     public void LinkToAppoint(View view) {
+        this.finish();
         startActivity(new Intent(ProfileActivity.this,MyAppointmentActivity.class));
 
     }

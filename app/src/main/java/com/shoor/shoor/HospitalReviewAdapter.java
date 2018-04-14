@@ -40,8 +40,8 @@ public class HospitalReviewAdapter  extends RecyclerView.Adapter<HospitalReviewA
         viewHolder.Comment.setText(reviews.get(i).getComment());
         viewHolder.RateScore.setRating(reviews.get(i).getRateScore());
         if(reviews.get(i).getPic()!=null) {
-            System.out.println("------------------------------- The Image bytes are "+getImage(reviews.get(i).getPic()));
-            viewHolder.image.setImageBitmap(getImage(reviews.get(i).getPic()));
+            Bitmap bitmap = BitmapFactory.decodeFile(reviews.get(i).getPic());
+            viewHolder.image.setImageBitmap(bitmap);
         }
 
     }

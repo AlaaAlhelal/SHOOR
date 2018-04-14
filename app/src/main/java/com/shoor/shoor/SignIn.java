@@ -1,7 +1,6 @@
 package com.shoor.shoor;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +23,8 @@ public class SignIn extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
         email_input =(EditText)findViewById(R.id.email_field);
         pass_input = (EditText) findViewById(R.id.pass_field);
+
+        //check login state
         String userid= SaveLogin.getUserID(getApplicationContext());
          if(userid.length()!=0)
          {
@@ -33,13 +34,14 @@ public class SignIn extends AppCompatActivity {
 
     }
 
-///////////////////////////////////////////////////////////////////////////////
+        //Sign in  into the app even for user or admin
     public void signIn(View view) {
         String email = email_input.getText().toString();
         String  pass = pass_input.getText().toString();
 
-        //validate input
+        //validate inputs
         boolean isValid =ValidateInputs(email,pass);
+
         if (isValid){
             //VERY IMPORTANT LINES
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -169,7 +171,7 @@ public boolean ValidateInputs(String useremail , String password){
     return true;
 }
 
-    ///////////////////////////////////////////////////////////////////////////////
+
     public void ToSignUp(View view) {
         startActivity(new Intent(SignIn.this, SignUp.class));
         this.finish();

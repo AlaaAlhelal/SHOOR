@@ -31,6 +31,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,6 +61,7 @@ import java.util.ArrayList;
 public class Doctors extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     ListView DoctorsList;
+    public DoctorListAdapter AdapterList;
     public static ArrayList<Doctor> Doctors = new ArrayList<>();
     public String SpecialtyName;
     public String SpecialtyID;
@@ -90,8 +92,10 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Specialty.progress.cancel();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctors);
+
         SharedPreferences sharedpreferences = getSharedPreferences(Specialty.SpecialtyName, Context.MODE_PRIVATE);
         SpecialtyName = sharedpreferences.getString("SpecialtyName", "");
 
@@ -104,19 +108,17 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
         //get All Doctor "Normal state"
         sql = "SELECT * FROM doctor where Specialties_ID='" + SpecialtyID + "' ORDER BY Doctor_ID DESC";
         getAllDoctors();
-        System.out.println("----------------------" + Doctors.size());
         DoctorsList = (ListView) findViewById(R.id.listofdoctors);
-        DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
+         AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
         DoctorsList.setAdapter(AdapterList);
 
         //filter buttons
-
         oneDollar = new Button(this);
         twoDollar = new Button(this);
         threeDollar = new Button(this);
 
 
-        ///////////////check permission
+        //check permission
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] { android.Manifest.permission.ACCESS_COARSE_LOCATION }, PERMISSION_ACCESS_COARSE_LOCATION);
@@ -139,8 +141,7 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
                     sql = "SELECT * FROM doctor where Specialties_ID='" + SpecialtyID + "' AND DoctorName LIKE '" + s + "%' ORDER BY Doctor_ID ASC";
                     getAllDoctors();
                     if (Doctors.size() != 0) {
-                        DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
-                        DoctorsList.setAdapter(AdapterList);
+                        AdapterList.notifyDataSetChanged();
                     }
                 }
 
@@ -164,17 +165,18 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
 
                 if (latitude!=0 && longitude!=0){
                     isNearest();
-                                      //  sql = "SELECT * FROM doctor WHERE Specialties_ID='" + SpecialtyID + "' AND doctor.Hospital_ID IN ( SELECT Hospital_ID From hospital WHERE Location_V1 >=('" + latitude + "' * .9) AND Location_V2 <=('" + longitude + "'* 1.1) ORDER BY abs(Location_V1 - '" + latitude + "')+abs(Location_V2 - '" + longitude + "') )";
-                                        //sql = " SELECT * FROM doctor WHERE Specialties_ID='" + SpecialtyID + "' LEFT JOIN hospital ON doctor.Hospital_ID = hospital.Hospital_ID WHERE  Location_V1 >=('" + latitude + "' * .9) " + " Location_V2 <=('" + longitude + "' * 1.1) ORDER BY abs(latitude - '" + latitude + "') + abs(longitude - '" + longitude + "') limit 20 ";
-                                     //   getAllDoctors();
-                                        if (Doctors.size() != 0) {
-                                            DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
-                                            DoctorsList.setAdapter(AdapterList);
+
+                    if (Doctors.size() != 0) {
+                        AdapterList.notifyDataSetChanged();
+
                                         }
-                                        else{
-                                            Toast error = Toast.makeText(Doctors.this, "لا يوجد أطباء قريبين من موقعك", Toast.LENGTH_SHORT);
-                                            error.show();
-                                        }
+
+                    else{
+                        AdapterList.notifyDataSetChanged();
+                        Toast error = Toast.makeText(Doctors.this, "لا يوجد أطباء قريبين من موقعك", Toast.LENGTH_SHORT);
+                        error.show();
+
+                    }
 
 
                 }
@@ -194,18 +196,26 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
                 sql = "SELECT * FROM doctor where Specialties_ID='" + SpecialtyID + "' ORDER BY AvgRate DESC";
                 getAllDoctors();
                 if(Doctors.size()!=0){
-                    DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
-                    DoctorsList.setAdapter(AdapterList);}
+                    AdapterList.notifyDataSetChanged();
+                }  else{
+                    AdapterList.notifyDataSetChanged();
+                    Toast error = Toast.makeText(Doctors.this, "لا يوجد أطباء قريبين من موقعك", Toast.LENGTH_SHORT);
+                    error.show();
+
+                }
 
             }
         });
 
 
     }
+
+
+    //this method to connect with database to retrieve doctor info with certain query
     public void getAllDoctors(){
         Doctors.clear();
         try{
-            //VERY IMPORTANT LINES
+            //VERY IMPORTANT LINES' to build thread ploicy to allow jdbc to connect with the server'
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             Class.forName("com.mysql.jdbc.Driver");
@@ -214,7 +224,6 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next())
             {
-                System.out.println(" --------------------------------------"+rs.getString("DoctorName")+"---------------------------------------------");
                 String hosname="", PhoneNo="---";
                 float lat=24 , lng=46;
                 Statement stmt2 = conn.createStatement();
@@ -243,16 +252,13 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
 
         }//end try
         catch (SQLException sqle){
-            Log.e("",sqle.getMessage());
-            Toast error = Toast.makeText(this,sqle.getMessage(),Toast.LENGTH_LONG);
+            Toast error = Toast.makeText(this,"لا يمكن الاتصال بالخادم الآن، يرجى المحاولة في وقت لاحق",Toast.LENGTH_LONG);
             error.show();
         }
         catch (Exception e){
-            Log.e("",e.getMessage());
-            Toast error = Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG);
+            Toast error = Toast.makeText(this,"لا يمكن الاتصال بالخادم الآن، يرجى المحاولة في وقت لاحق",Toast.LENGTH_LONG);
             error.show();}
     }
-
 
     @TargetApi(Build.VERSION_CODES.M)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -297,8 +303,11 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
                     sql  = "SELECT * FROM doctor where Specialties_ID='"+SpecialtyID+"' AND Price < 200 ORDER BY Price ASC ";
                     getAllDoctors();
                     if(Doctors.size()!=0){
-                        DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
-                        DoctorsList.setAdapter(AdapterList);}
+                        AdapterList.notifyDataSetChanged();}
+                        else {
+                        AdapterList.notifyDataSetChanged();
+                        Toast.makeText(getApplicationContext(),"لا يوجد أطباء بسعر رخيص",Toast.LENGTH_LONG).show();
+                    }
                 }
             });
 
@@ -308,8 +317,11 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
                     sql  = "SELECT * FROM doctor where Specialties_ID='"+SpecialtyID+"' AND Price >= 200 AND Price < 400  ORDER BY Price ASC ";
                     getAllDoctors();
                     if(Doctors.size()!=0){
-                        DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
-                        DoctorsList.setAdapter(AdapterList);}
+                        AdapterList.notifyDataSetChanged();}
+                    else {
+                        AdapterList.notifyDataSetChanged();
+                        Toast.makeText(getApplicationContext(),"لا يوجد أطباء بسعر متوسط",Toast.LENGTH_LONG).show();
+                    }
                 }
             });
             threeDollar.setOnClickListener(new View.OnClickListener() {
@@ -318,8 +330,12 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
                     sql  = "SELECT * FROM doctor where Specialties_ID='"+SpecialtyID+"' AND Price >= 400 ORDER BY Price ASC ";
                     getAllDoctors();
                     if(Doctors.size()!=0){
-                        DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
-                        DoctorsList.setAdapter(AdapterList);}
+                       AdapterList.notifyDataSetChanged();}
+
+                    else {
+                        AdapterList.notifyDataSetChanged();
+                        Toast.makeText(getApplicationContext(),"لا يوجد أطباء بسعر غالي",Toast.LENGTH_LONG).show();
+                    }
                 }
             });
 
@@ -342,6 +358,7 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
     }
 
 
+    //check user permission to get the location
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -357,6 +374,11 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
         }
     }
 
+    //connect to Google API Client
+    @Override
+    public void onConnectionSuspended(int arg0) {
+        googleApiClient.connect();
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -378,9 +400,10 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
+        Toast.makeText(this,"فشل الاتصال بخدمة المواقع",Toast.LENGTH_SHORT).show();;
     }
 
+    //GoogleApiClient connection callback to get user location
     @Override
     public void onConnected(Bundle bundle) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -390,16 +413,11 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
 
                 latitude = lastLocation.getLatitude();
                 longitude = lastLocation.getLongitude();
-               // Toast.makeText(this, " lat "+latitude+" long "+longitude, Toast.LENGTH_SHORT).show();
             }
 
         }
     }
 
-    @Override
-    public void onConnectionSuspended(int arg0) {
-        googleApiClient.connect();
-    }
 
 
 
@@ -454,7 +472,9 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
         }
 
     }
-        public void isNearest(int HospitalID){
+
+
+    public void isNearest(int HospitalID){
 
 
             try {
@@ -465,7 +485,6 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
                 ResultSet rs = stmt.executeQuery("SELECT * FROM doctor where Specialties_ID='" + SpecialtyID + "' AND Hospital_ID='"+HospitalID+"' ");
                 while(rs.next())
                 {
-                    System.out.println(" --------------------------------------"+rs.getString("DoctorName")+"---------------------------------------------");
                     String hosname="", PhoneNo="---";
                     float lat=24 , lng=46;
                     Statement stmt2 = conn.createStatement();

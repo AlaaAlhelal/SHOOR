@@ -1,6 +1,7 @@
 package com.shoor.shoor;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,6 +23,7 @@ public class DoctorListAdapter extends BaseAdapter {
         public static String Hos_ID;
         ArrayList<Doctor> Doctors;
         LayoutInflater inflter;
+        public static ProgressDialog progress;
 
         public DoctorListAdapter(Context applicationContext, ArrayList<Doctor> doctorArrayList) {
             this.context = applicationContext;
@@ -104,6 +106,7 @@ public class DoctorListAdapter extends BaseAdapter {
             view.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
+
         Doc_Id = Doctors.get(index).getDoctor_ID();
         Hos_ID =Doctors.get(index).getHospital_ID();
 

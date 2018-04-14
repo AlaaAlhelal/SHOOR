@@ -22,28 +22,30 @@ public class SuggestDoctorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suggest_doctor);
-        Doctor_name =((EditText)findViewById(R.id.Suggest_Doctor_Name));
-        Hosital_name=((EditText)findViewById(R.id.Suggest_Doctor_Hospital));
+        Doctor_name = findViewById(R.id.Suggest_Doctor_Name);
+        Hosital_name= findViewById(R.id.Suggest_Doctor_Hospital);
     }
 
     public void linkToMyprofile(View view) {
+        this.finish();
         startActivity(new Intent(SuggestDoctorActivity.this,ProfileActivity.class));
 
     }
 
     public void linkToFavorite(View view) {
+        this.finish();
         startActivity(new Intent(SuggestDoctorActivity.this,FavoriteList.class));
 
     }
 
     public void linkToSpecialty(View view) {
+        this.finish();
         startActivity(new Intent(SuggestDoctorActivity.this,Specialty.class));
 
     }
 
     public void linkToSuggest(View view) {
-        startActivity(new Intent(SuggestDoctorActivity.this,SuggestDoctorActivity.class));
-
+        //user in this page
     }
 
     public void Send_Suggest(View view) {
@@ -89,7 +91,7 @@ public class SuggestDoctorActivity extends AppCompatActivity {
                        Transport transport = session.getTransport("smtp");
 
                        // Send message
-                       transport.send(message);
+                       Transport.send(message);
                        //clear
                        Toast errorToast = Toast.makeText(SuggestDoctorActivity.this, "تم إرسال اقتراحك", Toast.LENGTH_SHORT);
                        errorToast.show();
