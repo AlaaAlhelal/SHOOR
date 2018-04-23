@@ -232,9 +232,8 @@ public class FavoriteListAdapter extends BaseAdapter {
 
     public void showAlertDialog(final int listID , View v){
         AlertDialog.Builder builder = new AlertDialog.Builder(v.getRootView().getContext());
-        builder.setTitle("حذف");
         builder.setMessage("هل أنت متاكد من الحذف؟");
-        builder.setPositiveButton("حفظ" , new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("حذف" , new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 query("DELETE FROM List WHERE List_ID="+ListIDs.get(listID) , "تم الحذف");

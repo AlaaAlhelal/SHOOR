@@ -4,6 +4,7 @@ import android.*;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,6 +24,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MarginLayoutParamsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.util.DiffUtil;
+import android.support.v7.util.ListUpdateCallback;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.TextWatcher;
@@ -32,6 +37,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,12 +64,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Doctors extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    ListView DoctorsList;
+    RecyclerView DoctorsList;
     public DoctorListAdapter AdapterList;
-    public static ArrayList<Doctor> Doctors = new ArrayList<>();
+    public static List<Doctor> Doctors = new ArrayList<>();
     public String SpecialtyName;
     public String SpecialtyID;
     public boolean isExpanded = false;
@@ -71,10 +79,11 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
     public Button threeDollar;
     public String SearchDoc;
     public String sql;
+    public static ProgressDialog progressdialog;
+
 
     // LogCat tag
     private static final String TAG = Doctors.class.getSimpleName();
-
 
 
     // Google client to interact with Google API
@@ -90,11 +99,18 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
 
 
 
+    public static String Doc_Id;
+    public static String Hos_ID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Specialty.progress.cancel();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctors);
+
+        //VERY IMPORTANT LINES
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         SharedPreferences sharedpreferences = getSharedPreferences(Specialty.SpecialtyName, Context.MODE_PRIVATE);
         SpecialtyName = sharedpreferences.getString("SpecialtyName", "");
@@ -108,9 +124,13 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
         //get All Doctor "Normal state"
         sql = "SELECT * FROM doctor where Specialties_ID='" + SpecialtyID + "' ORDER BY Doctor_ID DESC";
         getAllDoctors();
-        DoctorsList = (ListView) findViewById(R.id.listofdoctors);
-         AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
+
+        DoctorsList = (RecyclerView) findViewById(R.id.listofdoctors);
+        AdapterList = new DoctorListAdapter( Doctors , getApplicationContext());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        DoctorsList.setLayoutManager(mLayoutManager);
         DoctorsList.setAdapter(AdapterList);
+
 
         //filter buttons
         oneDollar = new Button(this);
@@ -143,6 +163,10 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
                     if (Doctors.size() != 0) {
                         AdapterList.notifyDataSetChanged();
                     }
+                    else {
+                        onNewDataArrived(Doctors);
+                        Toast.makeText(com.shoor.shoor.Doctors.this,"لا يوجد طبيب بهذا الاسم",Toast.LENGTH_LONG).show();
+                    }
                 }
 
             }
@@ -157,7 +181,7 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
 
 
 
-        //get Doctors Based on price
+        //get Doctors Based on location
         Button Location = (Button) findViewById(R.id.location);
         Location.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,15 +191,16 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
                     isNearest();
 
                     if (Doctors.size() != 0) {
-                        AdapterList.notifyDataSetChanged();
-
-                                        }
+                        onNewDataArrived(Doctors);
+                    }
 
                     else{
                         AdapterList.notifyDataSetChanged();
+
+                        // DoctorsList.getRecycledViewPool().clear();
+                        //onNewDataArrived(Doctors);
                         Toast error = Toast.makeText(Doctors.this, "لا يوجد أطباء قريبين من موقعك", Toast.LENGTH_SHORT);
                         error.show();
-
                     }
 
 
@@ -188,24 +213,6 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
             }
         });
 
-        // get Doctors Based on rate
-        Button rate = (Button) findViewById(R.id.rate);
-        rate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sql = "SELECT * FROM doctor where Specialties_ID='" + SpecialtyID + "' ORDER BY AvgRate DESC";
-                getAllDoctors();
-                if(Doctors.size()!=0){
-                    AdapterList.notifyDataSetChanged();
-                }  else{
-                    AdapterList.notifyDataSetChanged();
-                    Toast error = Toast.makeText(Doctors.this, "لا يوجد أطباء قريبين من موقعك", Toast.LENGTH_SHORT);
-                    error.show();
-
-                }
-
-            }
-        });
 
 
     }
@@ -225,7 +232,7 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
             while(rs.next())
             {
                 String hosname="", PhoneNo="---";
-                float lat=24 , lng=46;
+                float lat=24 , lng=46 , HosAvgRate=0;
                 Statement stmt2 = conn.createStatement();
                 String sql2  = "SELECT * FROM hospital where Hospital_ID="+rs.getInt("Hospital_ID");
                 ResultSet rs2 = stmt2.executeQuery(sql2);
@@ -240,8 +247,10 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
                     lat = rs2.getFloat("Location_V1");
                     lng = rs2.getFloat("Location_V2");
                     PhoneNo=rs2.getString("PhoneNumber");
+                    HosAvgRate=rs2.getFloat("AvgRate");
                 }
-                Doctor doc  = new Doctor(Doc_id, doc_name, hos_ID ,hosname, lat , lng, PhoneNo ,ratingscore,officeHours, price);
+                Hospital hos = new Hospital(hos_ID,hosname,lat,lng,PhoneNo,HosAvgRate);
+                Doctor doc  = new Doctor(Doc_id, doc_name, hos ,ratingscore,officeHours, price);
                 Doctors.add(doc);
                 rs2.close();
                 stmt2.close();
@@ -301,11 +310,13 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
                 @Override
                 public void onClick(View v) {
                     sql  = "SELECT * FROM doctor where Specialties_ID='"+SpecialtyID+"' AND Price < 200 ORDER BY Price ASC ";
+
                     getAllDoctors();
                     if(Doctors.size()!=0){
-                        AdapterList.notifyDataSetChanged();}
-                        else {
                         AdapterList.notifyDataSetChanged();
+                    }
+                        else {
+                        onNewDataArrived(Doctors);
                         Toast.makeText(getApplicationContext(),"لا يوجد أطباء بسعر رخيص",Toast.LENGTH_LONG).show();
                     }
                 }
@@ -317,9 +328,10 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
                     sql  = "SELECT * FROM doctor where Specialties_ID='"+SpecialtyID+"' AND Price >= 200 AND Price < 400  ORDER BY Price ASC ";
                     getAllDoctors();
                     if(Doctors.size()!=0){
-                        AdapterList.notifyDataSetChanged();}
-                    else {
                         AdapterList.notifyDataSetChanged();
+                    }
+                    else {
+                        onNewDataArrived(Doctors);
                         Toast.makeText(getApplicationContext(),"لا يوجد أطباء بسعر متوسط",Toast.LENGTH_LONG).show();
                     }
                 }
@@ -330,10 +342,12 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
                     sql  = "SELECT * FROM doctor where Specialties_ID='"+SpecialtyID+"' AND Price >= 400 ORDER BY Price ASC ";
                     getAllDoctors();
                     if(Doctors.size()!=0){
-                       AdapterList.notifyDataSetChanged();}
+                        AdapterList.notifyDataSetChanged();
+
+                    }
 
                     else {
-                        AdapterList.notifyDataSetChanged();
+                        onNewDataArrived(Doctors);
                         Toast.makeText(getApplicationContext(),"لا يوجد أطباء بسعر غالي",Toast.LENGTH_LONG).show();
                     }
                 }
@@ -432,8 +446,7 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
 
 
     public void isNearest() {
-        Doctors.clear();
-
+      Doctors.clear();
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
@@ -455,8 +468,9 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
                     double powerx = Math.pow(lat - latitude, 2);
                     double powery = Math.pow(lng - longitude, 2);
                     double distance = Math.sqrt(powerx + powery);
-                    if (distance <= 0.0765)
+                    if (distance <= 0.0765) {
                         isNearest(rs2.getInt("Hospital_ID"));
+                    }
                 }
 
 
@@ -475,8 +489,6 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
 
 
     public void isNearest(int HospitalID){
-
-
             try {
                 Class.forName("com.mysql.jdbc.Driver");
 
@@ -486,7 +498,7 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
                 while(rs.next())
                 {
                     String hosname="", PhoneNo="---";
-                    float lat=24 , lng=46;
+                    float lat=24 , lng=46 , HosAngRate=0;
                     Statement stmt2 = conn.createStatement();
                     String sql2  = "SELECT * FROM hospital where Hospital_ID="+HospitalID;
                     ResultSet rs2 = stmt2.executeQuery(sql2);
@@ -501,12 +513,15 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
                         lat = rs2.getFloat("Location_V1");
                         lng = rs2.getFloat("Location_V2");
                         PhoneNo=rs2.getString("PhoneNumber");
+                        HosAngRate=rs2.getFloat("AvgRate");
                     }
-                    Doctor doc  = new Doctor(Doc_id, doc_name, hos_ID ,hosname, lat , lng, PhoneNo ,ratingscore,officeHours, price);
+                    Hospital hospital = new Hospital(hos_ID,hosname,lat,lng,PhoneNo,HosAngRate);
+                    Doctor doc  = new Doctor(Doc_id, doc_name, hospital ,ratingscore ,officeHours, price);
                     Doctors.add(doc);
                     rs2.close();
                     stmt2.close();
                 }
+
                 rs.close();
                 stmt.close();
                 conn.close();
@@ -517,5 +532,27 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
                 e.printStackTrace();
             }
         }
+
+    public void Rating(View view) {
+        sql = "SELECT * FROM doctor where Specialties_ID='" + SpecialtyID + "' ORDER BY AvgRate DESC";
+        getAllDoctors();
+        if(Doctors.size()!=0){
+            onNewDataArrived(Doctors);
+        }  else{
+            onNewDataArrived(Doctors);
+            Toast error = Toast.makeText(Doctors.this, "حدثت مشكلة حاول لاحقاً", Toast.LENGTH_SHORT);
+            error.show();
+
+        }
+    }
+
+    public void onNewDataArrived(List<Doctor> newdata) {
+        List<Doctor> oldData = AdapterList.getItemes();
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtilCallback(oldData, newdata));
+        AdapterList.setItemes(newdata);
+        result.dispatchUpdatesTo( AdapterList);
+
+    }
+
 
 }

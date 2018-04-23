@@ -1,11 +1,16 @@
 package com.shoor.shoor;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.StrictMode;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -27,6 +32,10 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        //check wifi connection
+        isConnected();
+
         UserName = ((EditText)findViewById(R.id.username));
         UserPass = ((EditText)findViewById(R.id.password));
         UserEmail= ((EditText)findViewById(R.id.useremail));
@@ -109,25 +118,7 @@ public class SignUp extends AppCompatActivity {
                     //SHOW SERVER FAILED MESSAGE
                     Toast errorToast = Toast.makeText(SignUp.this, "لا يمكنك التسجيل الآن، أرجو المحاولة لاحقا", Toast.LENGTH_SHORT);
                     errorToast.show();
-                }finally{
-                    //finally block used to close resources
-                    try {
-                        if (stmt != null)
-                            stmt.close();
-                    } catch (SQLException se2) {
-                        //SHOW SERVER FAILED MESSAGE
-                        Toast errorToast = Toast.makeText(SignUp.this, "لا يمكنك التسجيل الآن، أرجو المحاولة لاحقاً", Toast.LENGTH_SHORT);
-                        errorToast.show();
-                    }// nothing we can do
-                    try {
-                        if (conn != null)
-                            conn.close();
-                    } catch (SQLException se) {
-                        //SHOW SERVER FAILED MESSAGE
-                        Toast errorToast = Toast.makeText(SignUp.this, "لا يمكنك التسجيل الآن، أرجو المحاولة لاحقاً", Toast.LENGTH_SHORT);
-                        errorToast.show();
-                    }//end finally try
-                }//end try
+                                }//end try
 
         }
     }
@@ -190,7 +181,52 @@ public class SignUp extends AppCompatActivity {
 
 
     public void backToSignIn(View view) {
+
+        this.finish();
         startActivity(new Intent(SignUp.this, SignIn.class));
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            //preventing the user from back to previous activity
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+    public boolean isConnected() {
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo mobileInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+        if ((wifiInfo != null && wifiInfo.isConnected()) || (mobileInfo != null && mobileInfo.isConnected())) {
+            return true;
+        } else {
+            showDialog();
+            return false;
+        }
+    }
+
+    private void showDialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("أنت غير متصل بالانترنت هل تريد الاتصال بالانترنت أو إغلاق التطبيق؟")
+                .setCancelable(false)
+                .setPositiveButton("الاتصال", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                    }
+                })
+                .setNegativeButton("إغلاق", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 }

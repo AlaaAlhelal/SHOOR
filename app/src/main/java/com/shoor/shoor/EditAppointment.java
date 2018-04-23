@@ -136,7 +136,7 @@ public class EditAppointment extends AppCompatActivity {
         //validate inputs
         boolean isvalid=validation(dateselected,note_str);
 
-if(isvalid) {
+if(isvalid && List_of_Appoint.size()!=0) {
     String appointment = Applist.getSelectedItem().toString();
     int pos = appointment.indexOf(" ");
     String date_srt = appointment.substring(0, pos);
@@ -186,6 +186,11 @@ if(isvalid) {
     }
 
 }//end if
+        else{
+
+    Toast errorToast = Toast.makeText(EditAppointment.this, "لا يمكنك التعديل", Toast.LENGTH_LONG);
+    errorToast.show();
+}
     }
 
     public boolean validation(Date date, String note){
@@ -210,51 +215,58 @@ if(isvalid) {
     }
 
     public void Retrive(){
-        String selectedApp = Applist.getSelectedItem().toString();
-        int pos = selectedApp.indexOf(" ");
-        String date_srt = selectedApp.substring(0, pos);
-        String Time_str = selectedApp.substring(pos + 1);
-        //VERY IMPORTANT LINES
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        //SETUP CONNECTION
-        Connection conn = null;
-        Statement stmt = null;
-        try {
-            //STEP 2: Register JDBC driver
-            Class.forName("com.mysql.jdbc.Driver");
+        if(List_of_Appoint.size()!=0) {
+            String selectedApp = Applist.getSelectedItem().toString();
+            int pos = selectedApp.indexOf(" ");
+            String date_srt = selectedApp.substring(0, pos);
+            String Time_str = selectedApp.substring(pos + 1);
+            //VERY IMPORTANT LINES
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            //SETUP CONNECTION
+            Connection conn = null;
+            Statement stmt = null;
+            try {
+                //STEP 2: Register JDBC driver
+                Class.forName("com.mysql.jdbc.Driver");
 
-            //STEP 3: Open a connection
-            conn = DriverManager.getConnection(DB_Info.DB_URL, DB_Info.USER, DB_Info.PASS);
+                //STEP 3: Open a connection
+                conn = DriverManager.getConnection(DB_Info.DB_URL, DB_Info.USER, DB_Info.PASS);
 
-            //STEP 4: Execute a query
-            stmt = conn.createStatement();
-            String sql;
-            sql = "SELECT * FROM appointment WHERE User_ID="+userID+" And Date='"+date_srt+"' And Time='"+Time_str+"'";
-            ResultSet rs = stmt.executeQuery(sql);
+                //STEP 4: Execute a query
+                stmt = conn.createStatement();
+                String sql;
+                sql = "SELECT * FROM appointment WHERE User_ID=" + userID + " And Date='" + date_srt + "' And Time='" + Time_str + "'";
+                ResultSet rs = stmt.executeQuery(sql);
 
-            while (rs.next()){
-                Note.setText(rs.getString("Note"));
+                while (rs.next()) {
+                    Note.setText(rs.getString("Note"));
+                }
+
+                if (rs.wasNull()) {
+                    Toast done = Toast.makeText(EditAppointment.this, "حدثت مشكلة أثناء استرجاع بياناتك حاول مجدداً", Toast.LENGTH_SHORT);
+                    done.show();
+                }
+
+                //STEP 6: Clean-up environment
+                stmt.close();
+                conn.close();
+            } catch (SQLException se) {
+                //SHOW SERVER FAILED MESSAGE
+                Toast errorToast = Toast.makeText(EditAppointment.this, "يجب أن تكون متصلاً بالإنترنت", Toast.LENGTH_SHORT);
+                errorToast.show();
+            } catch (Exception e) {
+                //SHOW SERVER FAILED MESSAGE
+                Toast errorToast = Toast.makeText(EditAppointment.this, "" + e.getMessage(), Toast.LENGTH_SHORT);
+                errorToast.show();
             }
+            ///////////////////end
 
-            if(rs.wasNull())
-            {
-                Toast done = Toast.makeText(EditAppointment.this, "حدثت مشكلة أثناء استرجاع بياناتك حاول مجدداً", Toast.LENGTH_SHORT);
-                done.show();
-            }
-
-            //STEP 6: Clean-up environment
-            stmt.close();
-            conn.close();
-        } catch (SQLException se) {
-            //SHOW SERVER FAILED MESSAGE
-            Toast errorToast = Toast.makeText(EditAppointment.this, "يجب أن تكون متصلاً بالإنترنت", Toast.LENGTH_SHORT);
-            errorToast.show();
-        } catch (Exception e) {
-            //SHOW SERVER FAILED MESSAGE
-            Toast errorToast = Toast.makeText(EditAppointment.this, "" + e.getMessage(), Toast.LENGTH_SHORT);
+        }//end if
+        else
+        {
+            Toast errorToast = Toast.makeText(EditAppointment.this, "لا يوجد لديك مواعيد", Toast.LENGTH_SHORT);
             errorToast.show();
         }
-        ///////////////////end
     }
 }

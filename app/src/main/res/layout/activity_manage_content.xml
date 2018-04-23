@@ -13,17 +13,6 @@
         android:layout_height="40dp"
         android:background="@color/colorPrimary">
 
-        <ImageView
-            android:id="@+id/back_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/textView5"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="13dp"
-            android:layout_marginStart="13dp"
-            app:srcCompat="@drawable/ic_arrow_back" />
-
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
@@ -310,5 +299,22 @@
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorFooter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/segoeuil"
+            android:text="تسجيل الخروج"
+            android:textColor="#e20b0b"
+            android:textSize="14sp"
+            android:onClick="Logout"
+            />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

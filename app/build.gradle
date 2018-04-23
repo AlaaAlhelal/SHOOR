@@ -41,6 +41,8 @@ dependencies {
     compile 'com.getbase:floatingactionbutton:1.10.1'
     compile 'com.github.clans:fab:1.6.4'
     compile 'pub.devrel:easypermissions:0.2.1'
+    compile "com.daimajia.swipelayout:library:1.2.0@aar"
+
     //noinspection GradleCompatible
     implementation 'com.google.android.gms:play-services-maps:11.8.0'
     compile 'com.google.android.gms:play-services-location:11.8.0'

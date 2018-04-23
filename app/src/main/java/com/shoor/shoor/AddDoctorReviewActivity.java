@@ -72,10 +72,10 @@ public class AddDoctorReviewActivity extends AppCompatActivity {
 
 
     public void SendReview(View view) {
-        double price =0, Rate=0 , userRate = doc_rate.getRating(), userPrice=Double.parseDouble(String.valueOf(Price.getText()));
         int count=0;
-        String comment =Comment.getText().toString();
         if(isValid()){
+            double price =0, Rate=0 , userRate = doc_rate.getRating(), userPrice=Double.parseDouble(String.valueOf(Price.getText()));
+            String comment =Comment.getText().toString();
 
             try{
                 Class.forName("com.mysql.jdbc.Driver");

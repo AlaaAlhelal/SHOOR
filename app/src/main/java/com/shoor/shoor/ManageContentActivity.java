@@ -1,6 +1,8 @@
 package com.shoor.shoor;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -44,4 +46,15 @@ public class ManageContentActivity extends AppCompatActivity {
     }
 
 
+    public void Logout(View view) {
+        //get session
+        SharedPreferences sharedpreferences = getSharedPreferences(SignIn.admin_id, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor= sharedpreferences.edit();
+        editor.remove("admin_id");
+        editor.apply();
+        //clear admin id
+        SaveLogin.setAdminId(getApplicationContext(),"");
+        this.finish();
+        startActivity(new Intent(ManageContentActivity.this,SignIn.class));
+    }
 }

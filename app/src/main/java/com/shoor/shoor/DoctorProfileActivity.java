@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -37,6 +38,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class DoctorProfileActivity extends FragmentActivity implements OnMapReadyCallback , ListFragment.OnFragmentInteractionListener {
@@ -53,18 +55,15 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
     public float Lat , Lng;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        DoctorListAdapter.progress=new ProgressDialog(this);
-        DoctorListAdapter.progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        DoctorListAdapter.progress.setIndeterminate(true);
-        DoctorListAdapter.progress.setProgress(50);
-        DoctorListAdapter.progress.setMessage("يرجى الانتظار...");
-        DoctorListAdapter.progress.show();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_profile);
-        DoctorListAdapter.progress.cancel();
+        //Doctors.progressdialog.cancel();
+        //VERY IMPORTANT LINES
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         SharedPreferences sharedpreferences2 = getSharedPreferences(DoctorListAdapter.Doc_Id, Context.MODE_PRIVATE);
         Doctor_ID = sharedpreferences2.getString("Doctor_ID", "");
@@ -293,34 +292,39 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
 
 
     public void DoctorInfo(){
+        List<Doctor> DocList;
 
-        int size = Doctors.Doctors.size();
+        if(Doctors.Doctors.size()==0)
+            DocList=FavListDocActivity.Doctors;
+            else
+            DocList = Doctors.Doctors;
+
+        int size = DocList.size();
         for (int i = 0 ; i<size ;i++){
-            String id =Doctors.Doctors.get(i).getDoctor_ID();
+            String id =DocList.get(i).getDoctor_ID();
             if(id.equals(Doctor_ID)){
-                System.out.println("id="+id+" Doctor_ID="+Doctor_ID);
-                DoctorName =Doctors.Doctors.get(i).getDoctorName();
-                Hospital_ID=Doctors.Doctors.get(i).getHospital_ID();
+                DoctorName =DocList.get(i).getDoctorName();
+                Hospital_ID=DocList.get(i).getHospital_ID();
                 ((TextView)findViewById(R.id.DoctorName)).setText(DoctorName);
                 ((TextView)findViewById(R.id.DoctorDescription)).setText("طبيب "+SpecialtyName);
-                HospitalName = Doctors.Doctors.get(i).getHospitalName();
+                HospitalName = DocList.get(i).getHospitalName();
                 ((TextView)findViewById(R.id.Hospital)).setText(HospitalName);
-                if(Doctors.Doctors.get(i).getOfficeHours()!=null || Doctors.Doctors.get(i).getOfficeHours()!= null)
-                ((TextView)findViewById(R.id.WorkingHours)).setText(Doctors.Doctors.get(i).getOfficeHours());
-                ((TextView)findViewById(R.id.PhoneNo)).setText("رقم المستشفى: "+Doctors.Doctors.get(i).getPhoneNo());
+                if(DocList.get(i).getOfficeHours()!=null ||DocList.get(i).getOfficeHours()!= null)
+                ((TextView)findViewById(R.id.WorkingHours)).setText(DocList.get(i).getOfficeHours());
+                ((TextView)findViewById(R.id.PhoneNo)).setText("رقم المستشفى: "+DocList.get(i).getPhoneNo());
+                ((RatingBar)findViewById(R.id.AvgRate)).setRating(DocList.get(i).getAvgRate());
+                ((RatingBar)findViewById(R.id.HosAvgRate)).setRating(DocList.get(i).getHoAngRate());
 
-                ((RatingBar)findViewById(R.id.AvgRate)).setRating(Doctors.Doctors.get(i).getAvgRate());
 
-
-                double price = Doctors.Doctors.get(i).getPrice();
+                double price = DocList.get(i).getPrice();
                 if(price>=200 && price <400)
                     ((ImageView)findViewById(R.id.Price)).setImageResource(R.drawable.pricerange2);
                 else
                  if(price>=400 )
                      ((ImageView)findViewById(R.id.Price)).setImageResource(R.drawable.pricerange3);
 
-                Lat = Doctors.Doctors.get(i).getLocationLat();
-                Lng =Doctors.Doctors.get(i).getLocationLng();
+                Lat = DocList.get(i).getLocationLat();
+                Lng = DocList.get(i).getLocationLng();
                 break;
             }
         }
@@ -359,12 +363,9 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
             String sql  = "Select * From listofdoctors where User_ID='"+userID+"' AND Doctor_ID='"+Doctor_ID+"' ";
             ResultSet rs = stmt.executeQuery(sql);
             int count=0;
-            System.out.println(" ----------------------------------- "+count);
 
             while (rs.next()){
                 count++;
-                System.out.println(" ----------------------------------- "+count);
-
             }
 
             if(count!=0)

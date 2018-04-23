@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -19,10 +22,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FavListDocActivity extends AppCompatActivity {
-    ListView DoctorsList;
-    public static ArrayList<Doctor> Doctors = new ArrayList<>();
+    RecyclerView DoctorsList;
+    FavListSwipe AdapterList;
+    public static List<Doctor> Doctors = new ArrayList<>();
     public String SpecialtyID , sql ,List_ID;
 
     @Override
@@ -39,16 +44,20 @@ public class FavListDocActivity extends AppCompatActivity {
         List_ID = sharedpreferences.getString("List_ID", "");
         sql = "SELECT * FROM  listofdoctors WHERE List_ID='" + List_ID + "' AND User_ID="+SaveLogin.getUserID(getApplicationContext());
         getAllDoctors();
-        System.out.println("----------------------" + Doctors.size());
         if(Doctors.size()!=0){
-        DoctorsList = (ListView) findViewById(R.id.listofdoctors);
-        DoctorListAdapter AdapterList = new DoctorListAdapter(getApplicationContext(), Doctors);
-        DoctorsList.setAdapter(AdapterList);
+        DoctorsList = (RecyclerView) findViewById(R.id.listofdoctors);
+         AdapterList = new FavListSwipe( Doctors , getApplicationContext());
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+            DoctorsList.setLayoutManager(mLayoutManager);
+            DoctorsList.setAdapter(AdapterList);
+
+
+
         }
         else
         {
             TextView message = new TextView(this);
-            message.setText("لا يوجد لديك أطباء في هذه القائمة");
+            message.setText(" لا يوجد لديك أطباء في هذه القائمة");
             message.setPadding(10,10,10,10);
             ((LinearLayout) findViewById(R.id.Message)).addView(message);
         }
@@ -66,7 +75,7 @@ public class FavListDocActivity extends AppCompatActivity {
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()) {
                 String hosname = "", PhoneNo = "---";
-                float lat = 24, lng = 46;
+                float lat=24 , lng=46 , HosAngRate=0;
 
                 Statement stmt3 = conn.createStatement();
                 ResultSet rs3 = stmt3.executeQuery("SELECT * FROM doctor where Doctor_ID=" + rs.getString("Doctor_ID"));
@@ -85,8 +94,11 @@ public class FavListDocActivity extends AppCompatActivity {
                         lat = rs2.getFloat("Location_V1");
                         lng = rs2.getFloat("Location_V2");
                         PhoneNo = rs2.getString("PhoneNumber");
+                        HosAngRate=rs2.getFloat("AvgRate");
                     }
-                    Doctor doc = new Doctor(Doc_id, doc_name, hos_ID, hosname, lat, lng, PhoneNo, ratingscore, officeHours, price);
+
+                    Hospital hospital = new Hospital(hos_ID,hosname,lat,lng,PhoneNo,HosAngRate);
+                    Doctor doc  = new Doctor(Doc_id, doc_name, hospital ,ratingscore ,officeHours, price);
                     Doctors.add(doc);
                     rs2.close();
                     stmt2.close();

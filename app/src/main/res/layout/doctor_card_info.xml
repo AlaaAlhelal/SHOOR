@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/d1"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="7dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
     android:background="@drawable/card_style"
-    android:layoutDirection="rtl"
-    android:orientation="horizontal"
     android:padding="10dp">
 
     <ImageView
         android:id="@+id/Doc_pic"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginLeft="10dp"
-        />
+        app:layout_constraintEnd_toStartOf="parent"
+        android:src="@drawable/doctor_pic"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layoutDirection="rtl"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintRight_toLeftOf="@id/Doc_pic"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp">
 
         <TextView
             android:id="@+id/doctorName"
@@ -31,6 +29,7 @@
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/segoeuil"
             android:text="اسم الطبيب"
+            android:layout_gravity="end"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -41,6 +40,7 @@
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/segoeuil"
             android:text="اسم المستشفى"
+            android:layout_gravity="end"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -53,8 +53,10 @@
             android:numStars="5"
             android:rating="0.0"
             android:stepSize="0.1"
-            android:theme="@style/CustomRatingBar" />
+            android:theme="@style/CustomRatingBar"
+            android:layout_gravity="end"
+            />
 
     </LinearLayout>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

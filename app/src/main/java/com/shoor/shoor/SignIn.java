@@ -1,8 +1,17 @@
 package com.shoor.shoor;
 
 
+import android.*;
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.StrictMode;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,6 +32,10 @@ public class SignIn extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
         email_input =(EditText)findViewById(R.id.email_field);
         pass_input = (EditText) findViewById(R.id.pass_field);
+
+
+        //check wifi
+        isConnected();
 
         //check login state
         String userid= SaveLogin.getUserID(getApplicationContext());
@@ -77,6 +90,7 @@ public class SignIn extends AppCompatActivity {
                     SaveLogin.setUserID(getApplicationContext(),user_id);
                     //redirect to home activity (spicalty)
                     startActivity(new Intent(SignIn.this, Specialty.class));
+                    this.finish();
                 }
                 else
                 {//check if admin
@@ -178,6 +192,40 @@ public boolean ValidateInputs(String useremail , String password){
 
     }
 
+    public boolean isConnected() {
 
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo mobileInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+        if ((wifiInfo != null && wifiInfo.isConnected()) || (mobileInfo != null && mobileInfo.isConnected())) {
+            return true;
+        } else {
+            showDialog();
+            return false;
+        }
+    }
+
+    private void showDialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("أنت غير متصل بالانترنت هل تريد الاتصال بالانترنت أو إغلاق التطبيق؟")
+                .setCancelable(false)
+                .setPositiveButton("الاتصال", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                    }
+                })
+                .setNegativeButton("إغلاق", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 
 }
