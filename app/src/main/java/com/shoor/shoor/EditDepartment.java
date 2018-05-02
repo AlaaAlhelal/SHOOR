@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class EditDepartment extends AppCompatActivity {
     Spinner list;
@@ -129,9 +130,21 @@ public class EditDepartment extends AppCompatActivity {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
     public boolean isValid(String DepartmentName) {
+        String pattrenAr = "[\\u0600-\\u06FF]+";
+        Pattern pHosName = Pattern.compile(pattrenAr);
+
         //validate all inputs
+        if (!pHosName.matcher(DepartmentName).matches() ) {
+            department_name.setError("يجب إدخال أحرف عربية فقط");
+            return false;
+        }
         if (DepartmentName.equals("")) {
             department_name.setError("يجب ملء الخانة");
+            return false;
+        }
+        if(DepartmentName.length() >20)
+        {
+            department_name.setError("يجب أن لا يتجاوز الاسم 20 حرفاً");
             return false;
         }
         return true;

@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,10 +20,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class EditDoctor extends AppCompatActivity {
-    public EditText DoctorName, DoctorHours,DoctorPrice;
+    public EditText DoctorName, DoctorHours;
     public Spinner  doctorlist,hospitallist,departmentlist;
+    ArrayList<Doctor> Doctors = new ArrayList<Doctor>();
+    ArrayList<Hospital> Hospitals = new ArrayList<Hospital>();
+    ArrayList<Specialties> Specialty = new ArrayList<Specialties>();
 
     ArrayList<String> doctors = new ArrayList<String>() ;
     ArrayList<String> department = new ArrayList<String>() ;
@@ -33,9 +40,9 @@ public class EditDoctor extends AppCompatActivity {
         doctorlist=(Spinner) findViewById(R.id.doctors_list);
         DoctorName=(EditText)findViewById(R.id.Doctor_Name);
         DoctorHours=(EditText)findViewById(R.id.Doctor_Hours);
-        DoctorPrice=(EditText)findViewById(R.id.Doctor_Price);
         hospitallist=(Spinner) findViewById(R.id.hospital_list);
         departmentlist=(Spinner) findViewById(R.id.department_list);
+
 
         //for doctor
         RetriveData_doctor_name();
@@ -54,8 +61,25 @@ public class EditDoctor extends AppCompatActivity {
         ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, hospital);
         adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         hospitallist.setAdapter(adapter3);
+
+
+        SetRetrivedInfo();
+
+
+        doctorlist.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SetRetrivedInfo();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
-    //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
     public void RetriveData_doctor_name() {
 
         //VERY IMPORTANT LINES
@@ -79,8 +103,12 @@ public class EditDoctor extends AppCompatActivity {
 
             //STEP 5: Extract data from result set
             while (rs.next()) {
-                String dp= rs.getString("DoctorName");
-                doctors.add(dp);
+                String docName= rs.getString("DoctorName");
+                Hospital hospital = new Hospital(rs.getString("Hospital_ID"));
+                Specialties specialties = new Specialties(rs.getString("specialties_ID"));
+                Doctor doc = new Doctor( rs.getString("Doctor_ID"),  docName,  hospital,  rs.getString("OfficeHours"),  specialties);
+                Doctors.add(doc);
+                doctors.add(docName);
             }
             //STEP 6: Clean-up environment
             rs.close();
@@ -96,7 +124,8 @@ public class EditDoctor extends AppCompatActivity {
             errorToast.show();
         }
     }
-    //////////////////////////////////////////////////////////////////////////////////
+
+
     public void RetriveData_department() {
 
         //VERY IMPORTANT LINES
@@ -121,6 +150,10 @@ public class EditDoctor extends AppCompatActivity {
             //STEP 5: Extract data from result set
             while (rs.next()) {
                 String dp= rs.getString("SpecialtiesName");
+                Specialties specialties  = new Specialties();
+                specialties.setID(rs.getString("Specialties_ID"));
+                specialties.setName(dp);
+                Specialty.add(specialties);
                 department.add(dp);
             }
             //STEP 6: Clean-up environment
@@ -137,7 +170,8 @@ public class EditDoctor extends AppCompatActivity {
             errorToast.show();
         }
     }
-    ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
     public void RetriveData_hospital() {
 
         //VERY IMPORTANT LINES
@@ -162,6 +196,10 @@ public class EditDoctor extends AppCompatActivity {
             //STEP 5: Extract data from result set
             while (rs.next()) {
                 String dp= rs.getString("HospitalName");
+                Hospital hos = new Hospital();
+                hos.setHospitalID(rs.getString("Hospital_ID"));
+                hos.setHospitalName(dp);
+                Hospitals.add(hos);
                 hospital.add(dp);
             }
             //STEP 6: Clean-up environment
@@ -178,25 +216,26 @@ public class EditDoctor extends AppCompatActivity {
             errorToast.show();
         }
     }
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
     public void Do(View view) {
         //Validate inputs
 
-        String DocName  = doctorlist.getSelectedItem().toString();
-        String DocHours = DoctorHours.getText().toString();
-        String DocPrice = DoctorPrice.getText().toString();
-        String NewDecName = DoctorName.getText().toString();
-        String DepName  = departmentlist.getSelectedItem().toString();
-        String HosName  = hospitallist.getSelectedItem().toString();
+        int Docindex = doctorlist.getSelectedItemPosition();
+        int Speindex = departmentlist.getSelectedItemPosition();
+        int Hosindex = hospitallist.getSelectedItemPosition();
 
-        if (isValid(DocName,DocHours,DocPrice )) {//============================================
+        String DocHours = DoctorHours.getText().toString();
+        String NewDecName = DoctorName.getText().toString();
+
+        if (isValid(NewDecName,DocHours )) {//============================================
 
             //VERY IMPORTANT LINES
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             //SETUP CONNECTION
             Connection conn = null;
-            Statement stmt1,stmt2,stmt3 = null;
+            Statement stmt3 = null;
             ResultSet Result_getID_dep,Result_getID_hos;
             try{
                 //STEP 2: Register JDBC driver
@@ -204,21 +243,9 @@ public class EditDoctor extends AppCompatActivity {
 
                 //STEP 3: Open a connection
                 conn = DriverManager.getConnection(DB_Info.DB_URL,DB_Info.USER,DB_Info.PASS);
-
-                //STEP 4: Execute a query
-                stmt1 = conn.createStatement();
-                String sql1;
-                sql1= "SELECT Specialties_ID FROM specialties WHERE SpecialtiesName= ('" + DepName + "')";
-                Result_getID_dep = stmt1.executeQuery(sql1);
-
-                stmt2 = conn.createStatement();
-                String sql2;
-                sql2= "SELECT Hospital_ID FROM hospital WHERE HospitalName= ('" + HosName+ "')";
-                Result_getID_hos = stmt2.executeQuery(sql2);
-
                 stmt3= conn.createStatement();
                 String sql3;
-                sql3= "UPDATE doctor SET DoctorName =('"+NewDecName +"'), Specialties_ID= ('"+Result_getID_dep+"'),Hospital_ID=('Result_getID_hos'),AvgRate='',OfficeHours=('"+DocHours+"'),Price=('"+DocPrice+"')WHERE DoctorName=('" + DocName  + "')";
+                sql3= "UPDATE doctor SET DoctorName =('"+NewDecName +"') , Specialties_ID= ('"+Specialty.get(Speindex).getID()+"'), Hospital_ID=('"+Hospitals.get(Hosindex).getHospitalID()+"') , OfficeHours=('"+DocHours+"') WHERE Doctor_ID=('" + Doctors.get(Docindex).getDoctor_ID()  + "')";
                 int rs = stmt3.executeUpdate(sql3);
                 if(rs==1){
                     Toast done = Toast.makeText(EditDoctor.this, "تم التعديل", Toast.LENGTH_SHORT);
@@ -230,13 +257,11 @@ public class EditDoctor extends AppCompatActivity {
                     done.show();
                 }
                 //STEP 6: Clean-up environment
-                Result_getID_dep.close();
-                Result_getID_hos.close();
                 stmt3.close();
                 conn.close();
             }catch(SQLException se){
                 //SHOW SERVER FAILED MESSAGE
-                Toast errorToast = Toast.makeText(EditDoctor.this, "يجب أن تكون متصلاً بالانترنت(send)"+se.getMessage(), Toast.LENGTH_SHORT);
+                Toast errorToast = Toast.makeText(EditDoctor.this, "يجب أن تكون متصلاً بالانترنت "+se.getMessage(), Toast.LENGTH_SHORT);
                 errorToast.show();
             }catch(Exception e){
                 //SHOW SERVER FAILED MESSAGE
@@ -246,9 +271,20 @@ public class EditDoctor extends AppCompatActivity {
         }// END IF =============================================================
 
     }
-    //////////////////////////////////////////////////////////////////////////////////////////////////
-    public boolean isValid(String Namedoctor,String DocHours ,String DocPrice ){
+
+
+
+    public boolean isValid(String Namedoctor,String DocHours  ){
+
         //validate all inputs
+        String pattrenAr = "[\\u0600-\\u06FF]+";
+        Pattern pHosName = Pattern.compile(pattrenAr);
+
+        //validate all inputs
+        if (!pHosName.matcher(Namedoctor).matches() ) {
+            DoctorName.setError("يجب إدخال أحرف عربية فقط");
+            return false;
+        }
         if (Namedoctor.equals("") ) {
             DoctorName.setError("يجب ملء الخانة");
             return false;
@@ -263,19 +299,32 @@ public class EditDoctor extends AppCompatActivity {
             DoctorName.setError("يجب أن لا يتجاوز الاسم 20 حرفاً");
             return false;
         }
-        if(DocPrice.length() >12)//// edit
-        {
-            DoctorName.setError("يجب أن لا يتجاوز السعر 12 رقم");
-            return false;
-        }
 
         return true;
+    }
 
+    public void SetRetrivedInfo(){
+        int index = doctorlist.getSelectedItemPosition();
+        DoctorName.setText(Doctors.get(index).getDoctorName());
+        DoctorHours.setText(Doctors.get(index).getOfficeHours());
+        for (int i=0 ; i<Hospitals.size();i++) {
+            if (Hospitals.get(i).getHospitalID().equals(Doctors.get(index).getHospital_ID())){
+                hospitallist.setSelection(i);
+            break;}
 
+        }
+
+        for (int i=0 ; i<Specialty.size();i++) {
+            if (Specialty.get(i).getID().equals(Doctors.get(index).getSpecialties().getID())){
+                departmentlist.setSelection(i);
+                break;}
+
+        }
     }
 
 //////////////////////////////////////////////////////////////////////////////////////
 public void back(View view) {
+        this.finish();
     startActivity(new Intent(EditDoctor.this,ManageContentActivity.class));
 }
 

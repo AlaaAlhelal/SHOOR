@@ -144,7 +144,7 @@
                 android:background="@color/colorFooter"
                 android:onClick="linkToSuggest"
                 android:scaleType="fitXY"
-                android:src="@drawable/suggest" />
+                android:src="@drawable/suggest_shadow" />
 
 
             <ImageButton

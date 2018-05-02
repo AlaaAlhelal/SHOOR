@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.regex.Pattern;
 
 public class AddDepartment extends AppCompatActivity {
     EditText department_name ;
@@ -80,7 +81,15 @@ public class AddDepartment extends AppCompatActivity {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public boolean isValid(String DepartmentName){
+
+        String pattrenAr = "[\\u0600-\\u06FF]+";
+        Pattern pHosName = Pattern.compile(pattrenAr);
+
         //validate all inputs
+        if (!pHosName.matcher(DepartmentName).matches() ) {
+            department_name.setError("يجب إدخال أحرف عربية فقط");
+            return false;
+        }
         if (DepartmentName.equals("")  ) {
             department_name.setError("يجب ملء الخانة");
             return false;

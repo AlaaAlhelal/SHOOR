@@ -67,7 +67,7 @@ public class SuggestDoctorActivity extends AppCompatActivity {
                    String body= "تم إرسال إقتراح جديد ..." + "\n"+"اسم الطبيب : "+docName+"\n"+"اسم المستشفى : "+HosName;
 
                    //host or IP
-                   String SMTP_SERVER = "smtp.gmail.com";
+                   String SMTP_SERVER = "smtp.outlook.com";
                    //Get the session object
                    Properties properties = System.getProperties();
                    properties.put("mail.smtp.host", SMTP_SERVER);
@@ -99,7 +99,7 @@ public class SuggestDoctorActivity extends AppCompatActivity {
                        Hosital_name.setText("");
 
                    }catch (MessagingException mex) {
-                       Toast errorToast = Toast.makeText(SuggestDoctorActivity.this, ""+mex.getMessage(), Toast.LENGTH_SHORT);
+                       Toast errorToast = Toast.makeText(SuggestDoctorActivity.this, "حاول لاحقاً", Toast.LENGTH_SHORT);
                        errorToast.show();
                    }
 

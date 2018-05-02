@@ -262,7 +262,7 @@
                 android:background="@color/colorFooter"
                 android:onClick="linkToSpecialty"
                 android:scaleType="fitXY"
-                android:src="@drawable/specialty" />
+                android:src="@drawable/specialty_shadow" />
 
 
             <ImageButton

@@ -17,11 +17,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
+import java.util.regex.Pattern;
 
 
 public class AddDoctor  extends AppCompatActivity {
-    public EditText DoctorName, DoctorHours,DoctorPrice;
+    public EditText DoctorName, DoctorHours;
     public Spinner hospitallist,departmentlist;
 
     ArrayList<String> department = new ArrayList<String>() ;
@@ -33,7 +33,6 @@ public class AddDoctor  extends AppCompatActivity {
 
         DoctorName=(EditText)findViewById(R.id.Doctor_Name);
         DoctorHours=(EditText)findViewById(R.id.Doctor_Hours);
-        DoctorPrice=(EditText)findViewById(R.id.Doctor_Price);
         hospitallist=(Spinner) findViewById(R.id.hospital_list);
         departmentlist=(Spinner) findViewById(R.id.department_list);
 
@@ -58,11 +57,10 @@ public class AddDoctor  extends AppCompatActivity {
         //Validate inputs
         String DocName  = DoctorName.getText().toString();
         String DocHours = DoctorHours.getText().toString();
-        String DocPrice = DoctorPrice.getText().toString();
         String DepName  = departmentlist.getSelectedItem().toString();
         String HosName  = hospitallist.getSelectedItem().toString();
 
-        if (isValid(DocName,DocHours,DocPrice )) {//============================================
+        if (isValid(DocName,DocHours )) {//============================================
 
             //VERY IMPORTANT LINES
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -81,22 +79,32 @@ public class AddDoctor  extends AppCompatActivity {
                 //STEP 4: Execute a query
                 stmt1 = conn.createStatement();
                 String sql1;
-                sql1= "SELECT Specialties_ID FROM specialties WHERE SpecialtiesName= ('" + DepName + "')";
+                sql1= "SELECT * FROM specialties WHERE SpecialtiesName= ('" + DepName + "')";
                 Result_getID_dep = stmt1.executeQuery(sql1);
-
+                    int speId=0, hosId=0;
+                while (Result_getID_dep.next()){
+                    speId = Result_getID_dep.getInt("Specialties_ID");
+                }
+                stmt1.close();
                 stmt2 = conn.createStatement();
                 String sql2;
-                sql2= "SELECT Hospital_ID FROM hospital WHERE HospitalName= ('" + HosName+ "')";
+                sql2= "SELECT * FROM hospital WHERE HospitalName= ('" + HosName+ "')";
                 Result_getID_hos = stmt2.executeQuery(sql2);
-
+                while (Result_getID_hos.next()){
+                    hosId = Result_getID_hos.getInt("Hospital_ID");
+                }
+                stmt2.close();
                 stmt3= conn.createStatement();
                 String sql3;
-                sql3= "INSERT INTO doctor(Doctor_ID, DoctorName,Specialties_ID,Hospital_ID,AvgRate,OfficeHours,Price) VALUES ('','"+DocName+"', '"+Result_getID_dep+"','Result_getID_hos','','"+DocHours+"','"+DocPrice+"')";
+                sql3= "INSERT INTO doctor(Doctor_ID, DoctorName, Specialties_ID, Hospital_ID, OfficeHours) VALUES ('','"+DocName+"', '"+speId+"','"+hosId+"','"+DocHours+"')";
                 int rs = stmt3.executeUpdate(sql3);
 
                 if(rs==1){
                     Toast done = Toast.makeText(AddDoctor.this, "تمت الإضافة", Toast.LENGTH_SHORT);
                     done.show();
+                    DoctorName.setText("");
+                    DoctorHours.setText("");
+
                 }
                 else
                 {
@@ -110,7 +118,7 @@ public class AddDoctor  extends AppCompatActivity {
                 conn.close();
             }catch(SQLException se){
                 //SHOW SERVER FAILED MESSAGE
-                Toast errorToast = Toast.makeText(AddDoctor.this, "يجب أن تكون متصلاً بالانترنت(send)"+se.getMessage(), Toast.LENGTH_SHORT);
+                Toast errorToast = Toast.makeText(AddDoctor.this, "يجب أن تكون متصلاً بالانترنت"+se.getMessage(), Toast.LENGTH_SHORT);
                 errorToast.show();
             }catch(Exception e){
                 //SHOW SERVER FAILED MESSAGE
@@ -121,25 +129,29 @@ public class AddDoctor  extends AppCompatActivity {
 
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////
-    public boolean isValid(String Namedoctor,String DocHours ,String DocPrice ){
+    public boolean isValid(String Namedoctor,String DocHours   ){
+
+String pattrenAr = "[\\u0600-\\u06FF]+";
+Pattern p = Pattern.compile(pattrenAr);
+
         //validate all inputs
+        if (!p.matcher(Namedoctor).matches() ) {
+            DoctorName.setError("يجب إدخال أحرف عربية فقط");
+            return false;
+        }
         if (Namedoctor.equals("") ) {
             DoctorName.setError("يجب ملء الخانة");
             return false;
         }
-        if(Namedoctor.length() >20)
+        if(Namedoctor.length() >30)
         {
-            DoctorName.setError("يجب أن لا يتجاوز الاسم 20 حرفاً");
+            DoctorName.setError("يجب أن لا يتجاوز الاسم 30 حرفاً");
             return false;
         }
-        if(DocHours.length() >15)
+
+        if(DocHours.length()>400)
         {
-            DoctorName.setError("يجب أن لا يتجاوز الاسم 20 حرفاً");
-            return false;
-        }
-        if(DocPrice.length() >12)//// edit
-        {
-            DoctorName.setError("يجب أن لا يتجاوز السعر 12 رقم");
+            DoctorHours.setError("يجب أن لا يتجاوز الاسم 400 حرفاً");
             return false;
         }
 
@@ -230,6 +242,7 @@ public class AddDoctor  extends AppCompatActivity {
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void back(View view) {
+        this.finish();
         startActivity(new Intent(AddDoctor.this, ManageContentActivity.class));
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

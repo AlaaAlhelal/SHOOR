@@ -107,11 +107,11 @@
                             android:drawableLeft="@drawable/ic_star"
                             android:fontFamily="@font/segoeuil"
                             android:gravity="center_vertical"
+                            android:onClick="Rating"
                             android:paddingEnd="5dp"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
                             android:text="التقييم"
-                            android:onClick="Rating"
                             android:textColor="@android:color/white"
                             android:textSize="14sp"
                             android:textStyle="bold"
@@ -164,6 +164,30 @@
                                 tools:ignore="RtlSymmetry" />
                         </LinearLayout>
 
+                        <Button
+                            android:id="@+id/without"
+                            android:layout_width="105dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/filter_style"
+                            android:drawableLeft="@drawable/ic_without"
+                            android:fontFamily="@font/segoeuil"
+                            android:gravity="center_vertical"
+                            android:onClick="NoFilter"
+                            android:paddingEnd="5dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:text="بدون تصفية"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            tools:ignore="RtlSymmetry"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp" />
+
 
                     </LinearLayout>
                 </HorizontalScrollView>
@@ -179,7 +203,8 @@
                     android:fontFamily="@font/segoeuil"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:onClick="NoFilter"/>
 
             </LinearLayout>
 
@@ -201,16 +226,16 @@
     <LinearLayout
         android:id="@+id/progress"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/search_header"
-        android:layout_marginTop="150dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:background="#934e4e4e"
+        android:visibility="invisible">
         <ProgressBar
             android:id="@+id/progressbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@android:style/Widget.ProgressBar.Small.Inverse"
+            style="@android:style/Widget.ProgressBar.Large.Inverse"
             android:visibility="invisible"/>
 
     </LinearLayout>

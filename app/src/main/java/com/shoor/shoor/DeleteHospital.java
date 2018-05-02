@@ -1,9 +1,11 @@
 package com.shoor.shoor;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -20,13 +22,14 @@ import java.util.ArrayList;
 public class DeleteHospital extends AppCompatActivity {
     Spinner list ;
     ArrayList<String> hospital = new ArrayList<String>() ;
+    ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_hospital);
         list =(Spinner)findViewById(R.id.hospital_list);
         RetriveData();
-        ArrayAdapter<String> adapter =new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item , hospital);
+        adapter =new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item , hospital);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         list.setAdapter(adapter);
 
@@ -73,13 +76,20 @@ public class DeleteHospital extends AppCompatActivity {
             errorToast.show();
         }
     }//End RetriveData
+
+
+
     public void Do(View view) {
         String HospitalName = list.getSelectedItem().toString();
 
-        //VERY IMPORTANT LINES
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        //SETUP CONNECTION
+        AlertDialog aDialog = new AlertDialog.Builder(this).setMessage("هل أنت متأكد من حذف المستشفى؟").setTitle("")
+                .setNeutralButton("نعم", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog,
+                                        final int which) {
+
+        String HospitalName = list.getSelectedItem().toString();
+
+         //SETUP CONNECTION
         Connection conn = null;
         Statement stmt = null;
         try{
@@ -98,8 +108,8 @@ public class DeleteHospital extends AppCompatActivity {
             if(rs==1){
                 Toast done = Toast.makeText(DeleteHospital.this, "تم  الحذف ", Toast.LENGTH_SHORT);
                 done.show();
-                this.recreate();
-            }
+                adapter.remove(HospitalName);
+                list.setAdapter(adapter);            }
             else
             {
                 Toast done = Toast.makeText(DeleteHospital.this, "حدثت مشكلة أثناء الحذف", Toast.LENGTH_SHORT);
@@ -117,9 +127,22 @@ public class DeleteHospital extends AppCompatActivity {
             Toast errorToast = Toast.makeText(DeleteHospital.this, ""+e.getMessage(), Toast.LENGTH_SHORT);
             errorToast.show();
         }
+
+
+                    }
+
+                }).setNegativeButton("إلغاء",new DialogInterface.OnClickListener(){
+                    public void onClick(final DialogInterface dialog,  final int which) {
+                        // User cancelled the action
+                    }
+                }).create();
+
+        aDialog.show();
+
     }
 
     public void back(View view) {
+        this.finish();
         startActivity(new Intent(DeleteHospital.this,ManageContentActivity.class));
     }
 }//End class

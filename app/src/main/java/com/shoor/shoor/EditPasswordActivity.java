@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -64,28 +66,20 @@ public class EditPasswordActivity extends AppCompatActivity {
                 }
 
                 assert v != null;
-               /* if(v.equals(oldpass))
-                {
-                    Old_pass.setError("");
-                    Toast done = Toast.makeText(EditPasswordActivity.this, "right" , Toast.LENGTH_SHORT);
-                    done.show();
-                }
-                else
-                {
-                    Toast done = Toast.makeText(EditPasswordActivity.this, "wrong", Toast.LENGTH_SHORT);
-                    done.show();
-                }*/
-
-                if(v.equals(oldpass))
+                String hashOld = md5(oldpass);
+                if(v.equals(hashOld))
                 {//IF equal -------------------------------------------------------------------------
                     stmt = conn.createStatement();
                     String sql1;
-                    sql1 = "UPDATE user SET Password= ('" + newpass + "') WHERE User_ID= ('" + userid+ "')";
+                    String hashNew = md5(newpass);
+                    sql1 = "UPDATE user SET Password= ('" + hashNew + "') WHERE User_ID= ('" + userid+ "')";
                     int rs1 = stmt.executeUpdate(sql1);
 
                     if(rs1==1){
                         Toast done = Toast.makeText(EditPasswordActivity.this, "تم التعديل", Toast.LENGTH_SHORT);
                         done.show();
+                        Old_pass.setText("");
+                        New_pass.setText("");
                     }
                     else
                     {
@@ -113,26 +107,7 @@ public class EditPasswordActivity extends AppCompatActivity {
                 //SHOW SERVER FAILED MESSAGE
                 Toast errorToast = Toast.makeText(EditPasswordActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT);
                 errorToast.show();
-            }finally{
-                //finally block used to close resources
-                try{
-                    if(stmt!=null)
-                        stmt.close();
-                }catch(SQLException se2){
-                    //SHOW SERVER FAILED MESSAGE
-                    Toast errorToast = Toast.makeText(EditPasswordActivity.this, "أرجو المحاولة لاحقاً", Toast.LENGTH_SHORT);
-                    errorToast.show();
-                }// nothing we can do
-                try{
-                    if(conn!=null)
-                        conn.close();
-                }catch(SQLException se){
-                    //SHOW SERVER FAILED MESSAGE
-                    Toast errorToast = Toast.makeText(EditPasswordActivity.this, "أرجو المحاولة لاحقاً", Toast.LENGTH_SHORT);
-                    errorToast.show();
-                }//end finally try
-            }//end try
-
+            }
 
         }//end if
     }
@@ -177,8 +152,29 @@ public class EditPasswordActivity extends AppCompatActivity {
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void back(View view) {
-        startActivity(new Intent(EditPasswordActivity.this,ManageContentActivity.class));
+        this.finish();
+        startActivity(new Intent(EditPasswordActivity.this, EditUserProfileActivity.class));
 
+    }
+
+
+    public String md5(String s) {
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+            for (int i=0; i<messageDigest.length; i++)
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }//END CLASS
 

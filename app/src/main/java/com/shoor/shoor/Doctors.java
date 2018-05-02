@@ -26,6 +26,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.util.ListUpdateCallback;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -47,6 +48,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,7 +81,9 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
     public Button threeDollar;
     public String SearchDoc;
     public String sql;
-    public static ProgressDialog progressdialog;
+    public static ProgressBar progressBar;
+    public static LinearLayout progressLayout;
+
 
 
     // LogCat tag
@@ -112,6 +116,9 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+        progressBar = (ProgressBar)findViewById(R.id.progressbar);
+        progressLayout = (LinearLayout) findViewById(R.id.progress);
+
         SharedPreferences sharedpreferences = getSharedPreferences(Specialty.SpecialtyName, Context.MODE_PRIVATE);
         SpecialtyName = sharedpreferences.getString("SpecialtyName", "");
 
@@ -130,7 +137,6 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         DoctorsList.setLayoutManager(mLayoutManager);
         DoctorsList.setAdapter(AdapterList);
-
 
         //filter buttons
         oneDollar = new Button(this);
@@ -191,14 +197,11 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
                     isNearest();
 
                     if (Doctors.size() != 0) {
-                        onNewDataArrived(Doctors);
+                        AdapterList.notifyDataSetChanged();
                     }
 
                     else{
                         AdapterList.notifyDataSetChanged();
-
-                        // DoctorsList.getRecycledViewPool().clear();
-                        //onNewDataArrived(Doctors);
                         Toast error = Toast.makeText(Doctors.this, "لا يوجد أطباء قريبين من موقعك", Toast.LENGTH_SHORT);
                         error.show();
                     }
@@ -555,4 +558,10 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
     }
 
 
+    public void NoFilter(View view) {
+        //get All Doctor "Normal state"
+        sql = "SELECT * FROM doctor where Specialties_ID='" + SpecialtyID + "' ORDER BY Doctor_ID DESC";
+        getAllDoctors();
+        AdapterList.notifyDataSetChanged();
+    }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -11,12 +12,14 @@ import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class EditUserProfileActivity extends AppCompatActivity {
     EditText username,useremail;
     public String gender="M";
+    RadioButton male, female;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -25,7 +28,9 @@ public class EditUserProfileActivity extends AppCompatActivity {
 
         username = ((EditText)findViewById(R.id.user_name));
         useremail= ((EditText)findViewById(R.id.user_email));
-
+        male =(RadioButton) findViewById(R.id.male);
+        female=(RadioButton)findViewById(R.id.female);
+        DisplayInfo();
     }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,6 +63,8 @@ public class EditUserProfileActivity extends AppCompatActivity {
                     if(rs==1){
                         Toast done = Toast.makeText(EditUserProfileActivity.this, "تم التعديل", Toast.LENGTH_SHORT);
                         done.show();
+                        finish();
+                        startActivity(new Intent(EditUserProfileActivity.this,ProfileActivity.class));
 
                     }
                     else
@@ -129,12 +136,86 @@ public class EditUserProfileActivity extends AppCompatActivity {
             return false;
         }
 
+        try {
+            if(useremail1.contains("@")) {
+                String Emailvalidation = useremail1.substring(useremail1.indexOf('@'));
+                String pattren = Emailvalidation.toLowerCase();
+                switch (Emailvalidation) {
+                    case "@hotmail.com":
+                        return true;
+                    case "@gmail.com":
+                        return true;
+                    case "@outlook.com":
+                        return true;
+                    case "@icloud.com":
+                        return true;
+                    case "@yahoo.com":
+                        return true;
+                    default:  useremail.setError("البريد الإلكتروني غير صحيح");
+                        return false;
+                }
+            }
+            else  {
+                useremail.setError("البريد الإلكتروني غير صحيح");
+                return false;
+            }
+
+        }catch (Exception e ){
+            Toast.makeText(this,""+e.getMessage(),Toast.LENGTH_LONG).show();
+        }
+
         return true;
     }
 
     ////////////////////////////////////////////////////////////////////////////
 
 
+    public void DisplayInfo(){
+        //VERY IMPORTANT LINES
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        //SETUP CONNECTION
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            //STEP 2: Register JDBC driver
+            Class.forName("com.mysql.jdbc.Driver");
+
+            //STEP 3: Open a connection
+            conn = DriverManager.getConnection(DB_Info.DB_URL, DB_Info.USER, DB_Info.PASS);
+            String userid =SaveLogin.getUserID(getApplicationContext());
+            //STEP 4: Execute a query
+            stmt = conn.createStatement();
+            String sql;
+            sql = "Select * From user Where User_ID="+SaveLogin.getUserID(getApplicationContext());
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()){
+                username.setText(rs.getString("UserName"));
+                useremail.setText(rs.getString("UserEmail"));
+                if(rs.getString("Gender").equals("F")) {
+                    female.setChecked(true);
+                    male.setChecked(false);
+                }
+                else if(rs.getString("Gender").equals("M")) {
+                    female.setChecked(false);
+                    male.setChecked(true);
+                }
+            }
+
+            //STEP 6: Clean-up environment
+            stmt.close();
+            conn.close();
+        } catch (SQLException se) {
+            //SHOW SERVER FAILED MESSAGE
+            Toast errorToast = Toast.makeText(EditUserProfileActivity.this, "يجب أن تكون متصلاً بالإنترنت"+se.getMessage(), Toast.LENGTH_SHORT);
+            errorToast.show();
+        } catch (Exception e) {
+            //SHOW SERVER FAILED MESSAGE
+            Toast errorToast = Toast.makeText(EditUserProfileActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT);
+            errorToast.show();
+        }
+    }
     public void back(View view) {
         startActivity(new Intent(EditUserProfileActivity.this,ProfileActivity.class));
     }
@@ -144,4 +225,6 @@ public class EditUserProfileActivity extends AppCompatActivity {
         this.finish();
 
     }
+
+
 }

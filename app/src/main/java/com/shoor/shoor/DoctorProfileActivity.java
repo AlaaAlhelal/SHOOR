@@ -4,12 +4,18 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.StrictMode;
+import android.os.health.TimerStat;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -39,6 +45,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class DoctorProfileActivity extends FragmentActivity implements OnMapReadyCallback , ListFragment.OnFragmentInteractionListener {
@@ -55,12 +63,27 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
     public float Lat , Lng;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        if (Doctors.progressLayout != null && Doctors.progressBar != null ){
+            Doctors.progressLayout.setVisibility(View.GONE);
+        Doctors.progressBar.setVisibility(View.GONE);
+        final ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setMessage("الرجاء الانتظار...");
+        dialog.show();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                dialog.cancel();
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(timerTask, (long) (0.05 * 60 * 1000));
+    }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_profile);
-        //Doctors.progressdialog.cancel();
+
         //VERY IMPORTANT LINES
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -115,6 +138,13 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
 
             //set adapter
             dAdapter = new HLVAdapter(DoctorProfileActivity.this, Doctorreviews);
+
+
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(dRecyclerView.getContext(), DividerItemDecoration.HORIZONTAL);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                dividerItemDecoration.setDrawable(getDrawable(R.drawable.divider));
+            }
+            dRecyclerView.addItemDecoration(dividerItemDecoration);
             dRecyclerView.setAdapter(dAdapter);
         }
 
@@ -125,6 +155,8 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
             TextView unavailable = new TextView(this);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0,0,50,50);
+            params.setMarginStart(40);
             unavailable.setLayoutParams(params);
             unavailable.setText("لا توجد تقييمات لهذا المستشفى");
             ((TextView)findViewById(R.id.HospitalReviewsMore)).setVisibility(View.INVISIBLE);
@@ -142,6 +174,10 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
 
             //set adapter
             hAdapter = new HospitalReviewAdapter(DoctorProfileActivity.this, Hospitalreviews);
+
+            DividerItemDecoration itemDecoration = new DividerItemDecoration(hRecyclerView.getContext(), DividerItemDecoration.HORIZONTAL);
+            itemDecoration.setDrawable(getDrawable(R.drawable.divider));
+            hRecyclerView.addItemDecoration(itemDecoration);
             hRecyclerView.setAdapter(hAdapter);
 
         }

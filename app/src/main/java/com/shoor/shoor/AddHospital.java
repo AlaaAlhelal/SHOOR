@@ -15,6 +15,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.regex.Pattern;
+
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
@@ -106,7 +108,7 @@ public class AddHospital  extends FragmentActivity implements OnMapReadyCallback
                 //STEP 4: Execute a query
                 stmt = conn.createStatement();
                 String sql;
-                sql = "INSERT INTO hospital (HospitalName, Location_V1, Location_V2, PhoneNumber, AvgRate) Values('" + HospitalName + "', "+ getLocation_V1() +" , "+ getLocation_V2()+" , '" + HospitalNumber +"' , 5.00) ";
+                sql = "INSERT INTO hospital (HospitalName, Location_V1, Location_V2, PhoneNumber) Values('" + HospitalName + "', "+ getLocation_V1() +" , "+ getLocation_V2()+" , '" + HospitalNumber +"') ";
                 int rs = stmt.executeUpdate(sql);
                 if(rs==1){
                     Toast done = Toast.makeText(AddHospital.this, "تمت الإضافة", Toast.LENGTH_SHORT);
@@ -123,7 +125,7 @@ public class AddHospital  extends FragmentActivity implements OnMapReadyCallback
                 conn.close();
             }catch(SQLException se){
                 //SHOW SERVER FAILED MESSAGE
-                Toast errorToast = Toast.makeText(AddHospital.this, "يجب أن تكزن متصلاً بالانترنت"+se.getMessage(), Toast.LENGTH_SHORT);
+                Toast errorToast = Toast.makeText(AddHospital.this, "يجب أن تكون متصلاً بالانترنت"+se.getMessage(), Toast.LENGTH_SHORT);
                 errorToast.show();
             }catch(Exception e){
                 //SHOW SERVER FAILED MESSAGE
@@ -133,7 +135,17 @@ public class AddHospital  extends FragmentActivity implements OnMapReadyCallback
         }//if
     }//Send
     public boolean ValidateInputs(String HospitalName , String HospitalNumber){
+        String MobilePattern = "[0-9]{10}";
+        Pattern p = Pattern.compile(MobilePattern);
 
+        String pattrenAr = "[\\u0600-\\u06FF]+";
+        Pattern pHosName = Pattern.compile(pattrenAr);
+
+        //validate all inputs
+        if (!pHosName.matcher(HospitalName).matches() ) {
+            HospitalName_input.setError("يجب إدخال أحرف عربية فقط");
+            return false;
+        }
         if (HospitalName.equals("")) {
             HospitalName_input.setError("يجب ملء الخانة");
             return false;
@@ -142,8 +154,8 @@ public class AddHospital  extends FragmentActivity implements OnMapReadyCallback
             HospitalNumber_input.setError("يجب ملء الخانة");
             return false;
         }
-        if(HospitalName.length()>20){
-            HospitalName_input.setError("يجب ألا يتجاوز اسم المستشفى 20 حرفاً");
+        if(HospitalName.length()>30){
+            HospitalName_input.setError("يجب ألا يتجاوز اسم المستشفى 30 حرفاً");
             return false;
         }
         if(HospitalNumber.length()>10){
@@ -151,7 +163,14 @@ public class AddHospital  extends FragmentActivity implements OnMapReadyCallback
             return false;
         }
         // cheeck if number or not
-
+        if(!p.matcher(HospitalNumber).matches()){
+            HospitalNumber_input.setError("يجب إدخال أرقام فقط");
+            return false;
+        }if(getLocation_V1()==24.717 || getLocation_V2()==46.620)
+        {
+            Toast.makeText(this,"يجب اختيار الموقع",Toast.LENGTH_SHORT).show();
+            return false;
+        }
 
         return true;
     }
@@ -204,7 +223,6 @@ public class AddHospital  extends FragmentActivity implements OnMapReadyCallback
                 Log.i("", "Place: " + place.getName());
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
-                // TODO: Handle the error.
                 Log.i("", status.getStatusMessage());
 
             } else if (resultCode == RESULT_CANCELED) {

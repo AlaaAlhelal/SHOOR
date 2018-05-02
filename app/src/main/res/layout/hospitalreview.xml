@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/DoctorReview_id1"
-    android:layout_width="340dp"
-    android:layout_gravity="center_horizontal"
+    android:layout_width="335dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginBottom="20dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginStart="5dp"
     android:background="@drawable/card_doctor_style"
-    android:padding="10dp"
     android:layoutDirection="rtl"
-    android:layout_marginBottom="20dp">
+    android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="340dp"
-        android:layout_height="200dp"
+        android:layout_width="335dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"
         android:padding="10dp">
 
@@ -39,13 +41,13 @@
             android:textColor="#FF666666"
             android:textSize="16sp"
             android:textStyle="bold" />
+
         <ImageView
             android:id="@+id/hos_Pic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/UserCommentReview"
-            android:layout_marginTop="15dp"
-            />
+            android:layout_marginTop="15dp" />
 
         <RatingBar
             android:id="@+id/UserRatingReview"

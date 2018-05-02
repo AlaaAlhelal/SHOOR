@@ -142,7 +142,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:fontFamily="@font/segoeuil"
-                            android:text="التقييم:"
+                            android:text="تقييم الطبيب:"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -176,7 +176,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:fontFamily="@font/segoeuil"
-                            android:text="التقييم المستشفى:"
+                            android:text="تقييم المستشفى:"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -278,11 +278,10 @@
                     android:id="@+id/DoctorReviewsHorizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="15dp"
-                    app:spanCount="1"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
                     tools:ignore="RtlHardcoded" />
             </LinearLayout>
 
@@ -312,9 +311,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="false"
-                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:fontFamily="@font/segoeuil"
@@ -328,18 +327,18 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/HospitalReviewsHorizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="50dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
                     tools:ignore="RtlHardcoded" />
 
             </LinearLayout>
@@ -361,8 +360,6 @@
         fab:menu_icon="@drawable/ic_edit"
         fab:menu_colorNormal="@color/colorPrimaryDark"
         fab:menu_labels_position="right"
-        fab:menu_labels_ellipsize="start"
-        fab:menu_labels_singleLine="true"
         app:layout_constraintBottom_toTopOf="parent"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="284dp"

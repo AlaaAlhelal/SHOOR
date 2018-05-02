@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 
 
@@ -56,6 +58,8 @@ public class SignIn extends AppCompatActivity {
         boolean isValid =ValidateInputs(email,pass);
 
         if (isValid){
+            String HashPass = md5(pass);
+            System.out.println(HashPass);
             //VERY IMPORTANT LINES
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -73,7 +77,7 @@ public class SignIn extends AppCompatActivity {
                 //STEP 4: Execute a query
                 stmt = conn.createStatement();
                 String sql;
-                sql = "SELECT * FROM user where UserEmail='"+email+"' AND Password='"+pass+"'";
+                sql = "SELECT * FROM user where UserEmail='"+email+"' AND Password='"+HashPass+"'";
                 ResultSet rs = stmt.executeQuery(sql);
 
                 //STEP 5: Extract data from result set
@@ -95,7 +99,7 @@ public class SignIn extends AppCompatActivity {
                 else
                 {//check if admin
                     Statement stmt2 = conn.createStatement();
-                    String sql2  = "SELECT * FROM admin where Email='"+email+"' AND Password='"+pass+"'";
+                    String sql2  = "SELECT * FROM admin where Email='"+email+"' AND Password='"+HashPass+"'";
                     ResultSet result = stmt2.executeQuery(sql2);
                     int count2=0;
                     while(result.next())
@@ -156,7 +160,6 @@ public class SignIn extends AppCompatActivity {
 
     }
 
-    ///////////////////////////////////////////////////////////////////////////////
     //this method to validate user sign in inputs
 public boolean ValidateInputs(String useremail , String password){
     if (useremail.equals("")) {
@@ -226,6 +229,24 @@ public boolean ValidateInputs(String useremail , String password){
                 });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+    public String md5(String s) {
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+            for (int i=0; i<messageDigest.length; i++)
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
 }

@@ -2,10 +2,12 @@ package com.shoor.shoor;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -34,7 +36,8 @@ public class DeleteDepartment extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         list.setAdapter(adapter);
     }
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
     public void RetriveData() {
 
             //VERY IMPORTANT LINES
@@ -77,13 +80,17 @@ public class DeleteDepartment extends AppCompatActivity {
                 errorToast.show();
             }
         }
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
     public void Do(View view) {
+
+        AlertDialog aDialog = new AlertDialog.Builder(this).setMessage("هل أنت متأكد من حذف التخصص؟").setTitle("")
+                .setNeutralButton("نعم", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog,
+                                        final int which) {
         String DepName = list.getSelectedItem().toString();
 
-            //VERY IMPORTANT LINES
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
+
             //SETUP CONNECTION
             Connection conn = null;
             Statement stmt = null;
@@ -123,6 +130,16 @@ public class DeleteDepartment extends AppCompatActivity {
                 Toast errorToast = Toast.makeText(DeleteDepartment.this, ""+e.getMessage(), Toast.LENGTH_SHORT);
                 errorToast.show();
             }
+                    }
+
+                }).setNegativeButton("إلغاء",new DialogInterface.OnClickListener(){
+                    public void onClick(final DialogInterface dialog,  final int which) {
+                        // User cancelled the action
+                    }
+                }).create();
+
+        aDialog.show();
+
         }
 
     public void back(View view) {

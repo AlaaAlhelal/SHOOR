@@ -10,12 +10,16 @@ import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -81,19 +85,18 @@ public class SignUp extends AppCompatActivity {
                     //STEP 4: Execute a query
                     stmt = conn.createStatement();
                     String sql;
-                    sql = "INSERT INTO User (UserEmail, UserName, Password, Gender) Values('" + usere + "','" + usern + "','" + userp + "','" + gender + "')";
-                    int rs = stmt.executeUpdate(sql);
+
+                    String hashpass = md5(userp);
+                    sql = "INSERT INTO User (UserEmail, UserName, Password, Gender) Values('" + usere + "','" + usern + "','" + hashpass + "','" + gender + "')";
+                    int rs = stmt.executeUpdate(sql,Statement.RETURN_GENERATED_KEYS);
+                    ResultSet keys = stmt.getGeneratedKeys();
                     stmt.close();
                     if (rs == 1) {//num of row affected
-                        String sql2 = "SELECT * FROM user where UserEmail='" + usere + "' AND Password='" + userp + "'";
-                        Statement stmt2 = conn.createStatement();
-                        ResultSet result = stmt2.executeQuery(sql2);
-                        while (result.next()) {
-                            user_id = result.getString("User_id");
-                        }
-                        result.close();
-                        stmt2.close();
+
                         //set session user_id
+                        while (keys.next()) {
+                            user_id = keys.getString(1);
+                        }
                         SaveLogin.setUserID(getApplicationContext(),user_id);
 
                         //redirect to home activity (spicalty)
@@ -104,11 +107,12 @@ public class SignUp extends AppCompatActivity {
                         errorToast.show();
                     }
 
+                    keys.close();
+                    stmt.close();
 
                 }
                 resultset.close();
                 statm.close();
-                stmt.close();
                 conn.close();
                 }catch(SQLException se){
                     //SHOW SERVER FAILED MESSAGE
@@ -123,7 +127,8 @@ public class SignUp extends AppCompatActivity {
         }
     }
 
-    public boolean isValid(String useremail, String username, String userpass){
+    public boolean isValid(String username , String  useremail, String userpass){
+
         //validate all inputs
         if (useremail.equals("")) {
             UserEmail.setError("يجب ملء الخانة");
@@ -141,10 +146,6 @@ public class SignUp extends AppCompatActivity {
             UserEmail.setError("يجب ألا يتجاوز البريد الإلكتروني 40 حرفاً");
             return false;
         }
-        if(username.length()==20){
-            UserEmail.setError("يجب ألا يتجاوز اسم المستخدم 20 حرفاً");
-            return false;
-        }
         if(userpass.length()==20){
             UserPass.setError("يجب ألا تتجاوز كلمة المرور 20 حرفاً");
             return false;
@@ -154,7 +155,38 @@ public class SignUp extends AppCompatActivity {
             UserPass.setError("يجب ألا تقل كلمة المرور عن 8 أحرف");
             return false;
         }
+        if(username.length()==20){
+            UserName.setError("يجب ألا يتجاوز اسم المستخدم 20 حرفاً");
+            return false;
+        }
 
+        try {
+            if(useremail.contains("@")) {
+                String Emailvalidation = useremail.substring(useremail.indexOf('@'));
+                String pattren = Emailvalidation.toLowerCase();
+                switch (Emailvalidation) {
+                    case "@hotmail.com":
+                        return true;
+                    case "@gmail.com":
+                        return true;
+                    case "@outlook.com":
+                        return true;
+                    case "@icloud.com":
+                        return true;
+                    case "@yahoo.com":
+                        return true;
+                    default:  UserEmail.setError("البريد الإلكتروني غير صحيح");
+                        return false;
+                }
+            }
+            else  {
+                UserEmail.setError("البريد الإلكتروني غير صحيح");
+                return false;
+            }
+
+        }catch (Exception e ){
+            Toast.makeText(this,""+e.getMessage(),Toast.LENGTH_LONG).show();
+        }
 
         return true;
     }
@@ -194,17 +226,15 @@ public class SignUp extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-    public boolean isConnected() {
+    public void isConnected() {
 
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo wifiInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         NetworkInfo mobileInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
         if ((wifiInfo != null && wifiInfo.isConnected()) || (mobileInfo != null && mobileInfo.isConnected())) {
-            return true;
         } else {
             showDialog();
-            return false;
         }
     }
 
@@ -229,4 +259,25 @@ public class SignUp extends AppCompatActivity {
         AlertDialog alert = builder.create();
         alert.show();
     }
+
+
+    public String md5(String s) {
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+            for (int i=0; i<messageDigest.length; i++)
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
 }

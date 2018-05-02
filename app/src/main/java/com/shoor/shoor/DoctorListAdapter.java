@@ -1,5 +1,6 @@
 package com.shoor.shoor;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,10 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.ViewHolder> {
@@ -61,9 +65,19 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
                 SharedPreferences.Editor editor2 = sharedpreferences2.edit();
                 editor2.putString("Hospital_ID",Hos_ID);
                 editor2.apply();
-                Intent intent =new Intent(v.getContext(),DoctorProfileActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity( intent);
+                Doctors.progressLayout.setVisibility(View.VISIBLE);
+                Doctors.progressBar.setVisibility(View.VISIBLE);
+                TimerTask timerTask =new TimerTask() {
+                    @Override
+                    public void run() {
+                        Intent intent =new Intent(context,DoctorProfileActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity( intent);                    }
+                };
+                Timer timer =new Timer();
+                timer.schedule( timerTask, (long) (0.02*60*1000));
+
+
             }});
 
         return new ViewHolder(itemView);

@@ -117,7 +117,7 @@
                 android:background="@color/colorFooter"
                 android:onClick="linkToFavorite"
                 android:scaleType="fitXY"
-                android:src="@drawable/list" />
+                android:src="@drawable/list_shadow" />
 
             <ImageButton
                 android:id="@+id/linktomyprofile"

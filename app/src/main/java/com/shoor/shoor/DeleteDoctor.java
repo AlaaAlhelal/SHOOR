@@ -1,9 +1,11 @@
 package com.shoor.shoor;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,14 +21,17 @@ import java.util.ArrayList;
 
 public class DeleteDoctor extends AppCompatActivity {
     Spinner list ;
-    ArrayList<String> doctor = new ArrayList<String>() ;
+    ArrayList<String> doctor = new ArrayList<String>();
+    ArrayList<Doctor> doctorObject = new ArrayList<Doctor>();
+
+    ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_doctor);
         list =(Spinner)findViewById(R.id.Doctor_list);
         RetriveData();
-        ArrayAdapter<String> adapter =new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item , doctor);
+        adapter =new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item , doctor);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         list.setAdapter(adapter);
     }
@@ -55,8 +60,13 @@ public class DeleteDoctor extends AppCompatActivity {
             //STEP 5: Extract data from result set
 
             while(rs.next())
-            {   String dp = rs.getString("DoctorName");
-                doctor.add(dp);
+            {
+                String doctorName = rs.getString("DoctorName");
+            Doctor doctor1 = new Doctor();
+            doctor1.setDoctor_ID(rs.getString("Doctor_ID"));
+            doctor1.setDoctorName(doctorName);
+            doctorObject.add(doctor1);
+                doctor.add(doctorName);
             }
 
             //STEP 6: Clean-up environment
@@ -75,11 +85,17 @@ public class DeleteDoctor extends AppCompatActivity {
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void Do(View view) {
-        String DecName = list.getSelectedItem().toString();
 
-        //VERY IMPORTANT LINES
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
+
+
+        AlertDialog aDialog = new AlertDialog.Builder(this).setMessage("هل أنت متأكد من حذف الطبيب؟").setTitle("")
+                .setNeutralButton("نعم", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog,
+                                        final int which) {
+
+
+        int index = list.getSelectedItemPosition();
+
         //SETUP CONNECTION
         Connection conn = null;
         Statement stmt = null;
@@ -93,13 +109,14 @@ public class DeleteDoctor extends AppCompatActivity {
             //STEP 4: Execute a query
             stmt = conn.createStatement();
             String sql;
-            sql = "DELETE FROM doctor WHERE DoctorName= ('" + DecName + "')";
+            sql = "DELETE FROM doctor WHERE Doctor_ID= ('" + doctorObject.get(index).getDoctor_ID() + "')";
             int rs = stmt.executeUpdate(sql);
 
             if(rs==1){
                 Toast done = Toast.makeText(DeleteDoctor.this, "تم  الحذف ", Toast.LENGTH_SHORT);
                 done.show();
-                this.recreate();
+                adapter.remove(doctorObject.get(index).getDoctorName());
+                list.setAdapter(adapter);
             }
             else
             {
@@ -118,6 +135,16 @@ public class DeleteDoctor extends AppCompatActivity {
             Toast errorToast = Toast.makeText(DeleteDoctor.this, ""+e.getMessage(), Toast.LENGTH_SHORT);
             errorToast.show();
         }
+
+                    }
+
+                }).setNegativeButton("إلغاء",new DialogInterface.OnClickListener(){
+                    public void onClick(final DialogInterface dialog,  final int which) {
+                        // User cancelled the action
+                    }
+                }).create();
+
+        aDialog.show();
     }
 
     public void back(View view) {

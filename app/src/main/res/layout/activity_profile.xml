@@ -332,7 +332,7 @@
                 android:background="@color/colorFooter"
                 android:onClick="linkToMyprofile"
                 android:scaleType="fitXY"
-                android:src="@drawable/myprofile" />
+                android:src="@drawable/user_shadow" />
         </LinearLayout>
 
         <LinearLayout

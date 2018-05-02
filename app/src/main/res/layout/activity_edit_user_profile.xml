@@ -70,9 +70,9 @@
         <EditText
             android:id="@+id/user_email"
             android:layout_width="310dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_height="wrap_content"
             android:layout_below="@+id/user_name"
             android:layout_marginTop="19dp"
             android:ems="10"

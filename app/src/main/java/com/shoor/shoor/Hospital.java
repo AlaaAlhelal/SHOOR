@@ -9,6 +9,7 @@ public class Hospital {
     private String PhoneNo;
     private float AvgRate;
 
+    public  Hospital(){}
     public Hospital(String hospitalID, String hospitalName, float locationLat, float locationLng, String phoneNo, float avgRate) {
         HospitalID = hospitalID;
         HospitalName = hospitalName;
@@ -16,6 +17,10 @@ public class Hospital {
         LocationLng = locationLng;
         PhoneNo = phoneNo;
         AvgRate = avgRate;
+    }
+
+    public Hospital(String hospitalID) {
+        HospitalID = hospitalID;
     }
 
     public String getHospitalName() {
@@ -40,5 +45,13 @@ public class Hospital {
 
     public String getHospitalID() {
         return HospitalID;
+    }
+
+    public void setHospitalID(String hospitalID) {
+        HospitalID = hospitalID;
+    }
+
+    public void setHospitalName(String hospitalName) {
+        HospitalName = hospitalName;
     }
 }

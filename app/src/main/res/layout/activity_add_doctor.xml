@@ -104,26 +104,6 @@
             tools:layout_editor_absoluteY="153dp"
             tools:targetApi="jelly_bean_mr1" />
 
-        <EditText
-            android:id="@+id/Doctor_Price"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="10dp"
-            android:ems="10"
-            android:fontFamily="@font/segoeuil"
-            android:gravity="end"
-            android:hint=" سعر الفحص "
-            android:inputType="textPersonName"
-            android:textAlignment="viewEnd"
-            android:textDirection="rtl"
-            tools:ignore="HardcodedText,MissingConstraints"
-            tools:layout_editor_absoluteX="27dp"
-            tools:layout_editor_absoluteY="201dp"
-            tools:targetApi="jelly_bean_mr1" />
-
         <TextView
             android:id="@+id/hospital_info"
             android:layout_width="match_parent"

@@ -43,7 +43,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             .setAutoCancel(true)
             .setDefaults(Notification.DEFAULT_SOUND)
             .setContentIntent(resultPendingIntent)
-            .setSmallIcon(R.drawable.ic_date);
+            .setSmallIcon(R.drawable.ic_calendar);
 
 
     NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

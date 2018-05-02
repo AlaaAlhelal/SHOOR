@@ -7,7 +7,9 @@ public class Doctor {
     private String OfficeHours;
     private double Price;
     private Hospital hospital;
+    private Specialties specialties;
 
+    public Doctor(){}
     public Doctor(String doctor_ID, String doctorName, Hospital hospital, float avgRate, String officeHours, double price) {
         Doctor_ID = doctor_ID;
         DoctorName = doctorName;
@@ -15,6 +17,18 @@ public class Doctor {
         AvgRate = avgRate;
         OfficeHours = officeHours;
         Price = price;
+    }
+
+    public Doctor(String doctor_ID, String doctorName, Hospital hospital, String officeHours, Specialties specialties) {
+        Doctor_ID = doctor_ID;
+        DoctorName = doctorName;
+        this.hospital=hospital;
+        OfficeHours = officeHours;
+        this.specialties=specialties;
+    }
+
+    public Specialties getSpecialties() {
+        return specialties;
     }
 
     public String getHospital_ID() {
@@ -26,6 +40,9 @@ public class Doctor {
         return Doctor_ID;
     }
 
+    public void setDoctor_ID(String doctor_ID) {
+        Doctor_ID = doctor_ID;
+    }
 
     public String getDoctorName() {
         return DoctorName;
