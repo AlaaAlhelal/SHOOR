@@ -54,4 +54,6 @@ public class Hospital {
     public void setHospitalName(String hospitalName) {
         HospitalName = hospitalName;
     }
+
+
 }

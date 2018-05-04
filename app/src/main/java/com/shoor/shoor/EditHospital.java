@@ -217,9 +217,10 @@ public class EditHospital extends AppCompatActivity implements OnMapReadyCallbac
 
         String pattrenAr = "[\\u0600-\\u06FF]+";
         Pattern pHosName = Pattern.compile(pattrenAr);
+        String hospitalname =HospitalName.replaceAll("\\s+","");
 
         //validate all inputs
-        if (!pHosName.matcher(HospitalName).matches() ) {
+        if (!pHosName.matcher(hospitalname).matches() ) {
             HospitalName_input.setError("يجب إدخال أحرف عربية فقط");
             return false;
         }

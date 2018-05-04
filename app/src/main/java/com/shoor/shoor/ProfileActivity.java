@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -33,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void linkToSpecialty(View view) {
         this.finish();
-        startActivity(new Intent(ProfileActivity.this, Specialty.class));
+        startActivity(new Intent(ProfileActivity.this, Specialties.class));
 
     }
 
@@ -73,32 +74,43 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void DisplayInfo(){
 
-        String userID =  SaveLogin.getUserID(getApplicationContext());
-        try{
-            //VERY IMPORTANT LINES
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(DB_Info.DB_URL,DB_Info.USER,DB_Info.PASS);
-            Statement stmt = conn.createStatement();
-            String sql  = "SELECT * FROM user where User_ID="+userID;
-            ResultSet rs = stmt.executeQuery(sql);
+        //VERY IMPORTANT LINES
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
-            while(rs.next())
-            {
-                ((TextView)findViewById(R.id.username)).setText(rs.getString("UserName"));
-                ((TextView)findViewById(R.id.EmailLabel)).setText(rs.getString("UserEmail"));
-                String genderType =rs.getString("Gender");
-                if(genderType.equals("M"))
-                ((TextView)findViewById(R.id.genderLabel)).setText("ذكر");
+        String userID =  SaveLogin.getUserID(getApplicationContext());
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(DB_Info.DB_URL, DB_Info.USER, DB_Info.PASS);
+
+            Statement stmt2 = conn.createStatement();
+            String sql = "SELECT * FROM user where User_ID=" + userID ;
+            ResultSet result = stmt2.executeQuery(sql);
+            int count = 0;
+            String user_id = null;
+            while (result.next()) {
+                ((TextView)findViewById(R.id.username)).setText( result.getString("UserName"));
+                ((TextView)findViewById(R.id.EmailLabel)).setText( result.getString("UserEmail"));
+                String Gender = result.getString("Gender");
+                if(Gender.equals("M"))
+                    ((TextView)findViewById(R.id.genderLabel)).setText("ذكر");
+
                 else
-                if(genderType.equals("F"))
                     ((TextView)findViewById(R.id.genderLabel)).setText("أنثى");
 
+                ++count;
             }
+            if(count<1){
 
-        }//end try
-            catch (SQLException sqle){  Log.e("",sqle.getMessage());}
-            catch (Exception e){ Log.e("",e.getMessage());}
+                Toast.makeText(this,"تأكد من اتصالك بالانترنت",Toast.LENGTH_SHORT).show();
+            }
+        }catch (ClassNotFoundException e) {
+            Toast.makeText(this,"تأكد من اتصالك بالانترنت",Toast.LENGTH_SHORT).show();
+        } catch (SQLException e) {
+            Toast.makeText(this,"تأكد من اتصالك بالانترنت",Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 }

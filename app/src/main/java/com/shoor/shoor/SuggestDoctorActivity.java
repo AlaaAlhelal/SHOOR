@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -40,7 +42,7 @@ public class SuggestDoctorActivity extends AppCompatActivity {
 
     public void linkToSpecialty(View view) {
         this.finish();
-        startActivity(new Intent(SuggestDoctorActivity.this,Specialty.class));
+        startActivity(new Intent(SuggestDoctorActivity.this,Specialties.class));
 
     }
 
@@ -52,11 +54,28 @@ public class SuggestDoctorActivity extends AppCompatActivity {
        String docName = Doctor_name.getText().toString();
        String HosName = Hosital_name.getText().toString();
 
-       if(docName.equals(""))
+
+        String pattrenAr = "[\\u0600-\\u06FF]+";
+        Pattern p = Pattern.compile(pattrenAr);
+        String doctorname =docName.replaceAll("\\s+","");
+        String hospitalname = HosName.replaceAll("\\s+","");
+        //validate all inputs
+        if (!p.matcher(doctorname).matches() ) {
+            Doctor_name.setError("يجب إدخال أحرف عربية فقط");
+            return ;
+        }
+        if (!p.matcher(hospitalname).matches() ) {
+            Hosital_name.setError("يجب إدخال أحرف عربية فقط");
+            return ;
+        }
+       if(docName.equals("")) {
            Doctor_name.setError("يجب ملء الخانة");
-       if(HosName.equals(""))
-           Hosital_name.setError("يجب ملء الخانة");
-        if(!docName.equals("") && !HosName.equals("")){
+           return;
+       }
+       if(HosName.equals("")) {
+               Hosital_name.setError("يجب ملء الخانة");
+               return;
+           }
 
                    // Recipient's email ID needs to be mentioned.
                    String to = "shoorapp@gmail.com";
@@ -66,8 +85,9 @@ public class SuggestDoctorActivity extends AppCompatActivity {
                    //body
                    String body= "تم إرسال إقتراح جديد ..." + "\n"+"اسم الطبيب : "+docName+"\n"+"اسم المستشفى : "+HosName;
 
+
                    //host or IP
-                   String SMTP_SERVER = "smtp.outlook.com";
+                   String SMTP_SERVER = "smtp.gmail.com";
                    //Get the session object
                    Properties properties = System.getProperties();
                    properties.put("mail.smtp.host", SMTP_SERVER);
@@ -102,11 +122,5 @@ public class SuggestDoctorActivity extends AppCompatActivity {
                        Toast errorToast = Toast.makeText(SuggestDoctorActivity.this, "حاول لاحقاً", Toast.LENGTH_SHORT);
                        errorToast.show();
                    }
-
-
-
-
-               }//end if
-
     }
 }

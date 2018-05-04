@@ -79,7 +79,7 @@ public class AddDoctor  extends AppCompatActivity {
                 //STEP 4: Execute a query
                 stmt1 = conn.createStatement();
                 String sql1;
-                sql1= "SELECT * FROM specialties WHERE SpecialtiesName= ('" + DepName + "')";
+                sql1= "SELECT * FROM specialty WHERE SpecialtiesName= ('" + DepName + "')";
                 Result_getID_dep = stmt1.executeQuery(sql1);
                     int speId=0, hosId=0;
                 while (Result_getID_dep.next()){
@@ -133,9 +133,10 @@ public class AddDoctor  extends AppCompatActivity {
 
 String pattrenAr = "[\\u0600-\\u06FF]+";
 Pattern p = Pattern.compile(pattrenAr);
+        String docname =Namedoctor.replaceAll("\\s+","");
 
         //validate all inputs
-        if (!p.matcher(Namedoctor).matches() ) {
+        if (!p.matcher(docname).matches() ) {
             DoctorName.setError("يجب إدخال أحرف عربية فقط");
             return false;
         }
@@ -177,7 +178,7 @@ Pattern p = Pattern.compile(pattrenAr);
             //STEP 4: Execute a query
             stmt = conn.createStatement();
             String sql;
-            sql = "SELECT * FROM specialties";
+            sql = "SELECT * FROM specialty";
             ResultSet rs = stmt.executeQuery(sql);
 
             //STEP 5: Extract data from result set

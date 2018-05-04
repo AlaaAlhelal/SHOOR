@@ -10,8 +10,6 @@ import android.os.StrictMode;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -30,6 +28,7 @@ public class SignUp extends AppCompatActivity {
     public EditText UserName = null;
     public EditText UserPass = null;
     public EditText UserEmail= null;
+    public static User user = null;
     public String gender="M";
     public String user_id="";
     @Override
@@ -56,73 +55,20 @@ public class SignUp extends AppCompatActivity {
             //VERY IMPORTANT LINES
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-            //SETUP CONNECTION
-            Connection conn = null;
-            Statement stmt = null;
+            String hashpass = md5(userp);
+            user = new User();
+            String userID = user.Register(usere,hashpass,gender,usern);
+                    if (userID!=null) {
 
-            try {
-                //STEP 2: Register JDBC driver
-                Class.forName("com.mysql.jdbc.Driver");
 
-                //STEP 3: Open a connection
-                conn = DriverManager.getConnection(DB_Info.DB_URL, DB_Info.USER, DB_Info.PASS);
-
-                //check if the email not for admin
-                Statement statm = conn.createStatement();
-                String query = "SELECT * FROM admin where Email='" + usere + "'";
-                ResultSet resultset = statm.executeQuery(query);
-                int isthere = 0;
-                while (resultset.next()) {
-                    isthere++;
-                }
-                if (isthere == 1) {
-                    //error message
-                    Toast errorToast = Toast.makeText(SignUp.this, "فشل التسجيل أرجوا التسجيل ببريد إلكتروني آخر", Toast.LENGTH_SHORT);
-                    errorToast.show();
-
-                } else {
-
-                    //STEP 4: Execute a query
-                    stmt = conn.createStatement();
-                    String sql;
-
-                    String hashpass = md5(userp);
-                    sql = "INSERT INTO User (UserEmail, UserName, Password, Gender) Values('" + usere + "','" + usern + "','" + hashpass + "','" + gender + "')";
-                    int rs = stmt.executeUpdate(sql,Statement.RETURN_GENERATED_KEYS);
-                    ResultSet keys = stmt.getGeneratedKeys();
-                    stmt.close();
-                    if (rs == 1) {//num of row affected
-
-                        //set session user_id
-                        while (keys.next()) {
-                            user_id = keys.getString(1);
-                        }
                         SaveLogin.setUserID(getApplicationContext(),user_id);
-
                         //redirect to home activity (spicalty)
-                        startActivity(new Intent(SignUp.this, Specialty.class));
+                        startActivity(new Intent(SignUp.this, Specialties.class));
                     } else {
                         //error message
                         Toast errorToast = Toast.makeText(SignUp.this, "لقد تم التسجيل بهذا البريد مسبقاً", Toast.LENGTH_SHORT);
                         errorToast.show();
                     }
-
-                    keys.close();
-                    stmt.close();
-
-                }
-                resultset.close();
-                statm.close();
-                conn.close();
-                }catch(SQLException se){
-                    //SHOW SERVER FAILED MESSAGE
-                    Toast errorToast = Toast.makeText(SignUp.this, "لا يمكنك التسجيل الآن، أرجو المحاولة لاحقا", Toast.LENGTH_SHORT);
-                    errorToast.show();
-                }catch(Exception e){
-                    //SHOW SERVER FAILED MESSAGE
-                    Toast errorToast = Toast.makeText(SignUp.this, "لا يمكنك التسجيل الآن، أرجو المحاولة لاحقا", Toast.LENGTH_SHORT);
-                    errorToast.show();
-                                }//end try
 
         }
     }

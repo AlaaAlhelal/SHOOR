@@ -12,8 +12,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -27,7 +25,7 @@ public class EditDoctor extends AppCompatActivity {
     public Spinner  doctorlist,hospitallist,departmentlist;
     ArrayList<Doctor> Doctors = new ArrayList<Doctor>();
     ArrayList<Hospital> Hospitals = new ArrayList<Hospital>();
-    ArrayList<Specialties> Specialty = new ArrayList<Specialties>();
+    ArrayList<com.shoor.shoor.Specialty> Specialty = new ArrayList<com.shoor.shoor.Specialty>();
 
     ArrayList<String> doctors = new ArrayList<String>() ;
     ArrayList<String> department = new ArrayList<String>() ;
@@ -105,8 +103,8 @@ public class EditDoctor extends AppCompatActivity {
             while (rs.next()) {
                 String docName= rs.getString("DoctorName");
                 Hospital hospital = new Hospital(rs.getString("Hospital_ID"));
-                Specialties specialties = new Specialties(rs.getString("specialties_ID"));
-                Doctor doc = new Doctor( rs.getString("Doctor_ID"),  docName,  hospital,  rs.getString("OfficeHours"),  specialties);
+                com.shoor.shoor.Specialty specialty = new Specialty(rs.getString("specialties_ID"));
+                Doctor doc = new Doctor( rs.getString("Doctor_ID"),  docName,  hospital,  rs.getString("OfficeHours"), specialty);
                 Doctors.add(doc);
                 doctors.add(docName);
             }
@@ -144,16 +142,16 @@ public class EditDoctor extends AppCompatActivity {
             //STEP 4: Execute a query
             stmt = conn.createStatement();
             String sql;
-            sql = "SELECT * FROM specialties";
+            sql = "SELECT * FROM specialty";
             ResultSet rs = stmt.executeQuery(sql);
 
             //STEP 5: Extract data from result set
             while (rs.next()) {
                 String dp= rs.getString("SpecialtiesName");
-                Specialties specialties  = new Specialties();
-                specialties.setID(rs.getString("Specialties_ID"));
-                specialties.setName(dp);
-                Specialty.add(specialties);
+                com.shoor.shoor.Specialty specialty = new Specialty();
+                specialty.setID(rs.getString("Specialties_ID"));
+                specialty.setName(dp);
+                Specialty.add(specialty);
                 department.add(dp);
             }
             //STEP 6: Clean-up environment
@@ -279,9 +277,10 @@ public class EditDoctor extends AppCompatActivity {
         //validate all inputs
         String pattrenAr = "[\\u0600-\\u06FF]+";
         Pattern pHosName = Pattern.compile(pattrenAr);
+        String docname =Namedoctor.replaceAll("\\s+","");
 
         //validate all inputs
-        if (!pHosName.matcher(Namedoctor).matches() ) {
+        if (!pHosName.matcher(docname).matches() ) {
             DoctorName.setError("يجب إدخال أحرف عربية فقط");
             return false;
         }
@@ -315,7 +314,7 @@ public class EditDoctor extends AppCompatActivity {
         }
 
         for (int i=0 ; i<Specialty.size();i++) {
-            if (Specialty.get(i).getID().equals(Doctors.get(index).getSpecialties().getID())){
+            if (Specialty.get(i).getID().equals(Doctors.get(index).getSpecialty().getID())){
                 departmentlist.setSelection(i);
                 break;}
 

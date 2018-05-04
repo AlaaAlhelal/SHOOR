@@ -20,11 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class EditDepartment extends AppCompatActivity {
+public class EditSpecialty extends AppCompatActivity {
     Spinner list;
     EditText department_name;
     List<String> department = new ArrayList<String>();
-
+    List<Specialty> specialties = new ArrayList<Specialty>();
+    ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +33,7 @@ public class EditDepartment extends AppCompatActivity {
         list = (Spinner) findViewById(R.id.department_list);
         department_name = (EditText) findViewById(R.id.add_department);
         RetriveData();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, department);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, department);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         list.setAdapter(adapter);
 
@@ -61,8 +62,11 @@ public class EditDepartment extends AppCompatActivity {
 
             //STEP 5: Extract data from result set
             while (rs.next()) {
-                String dp= rs.getString("SpecialtiesName");
-                department.add(dp);
+                String specialtiesName= rs.getString("SpecialtiesName");
+                String specialties_id= rs.getString("Specialties_ID");
+                Specialty specialty = new Specialty(specialties_id,specialtiesName);
+                specialties.add(specialty);
+                department.add(specialtiesName);
             }
             //STEP 6: Clean-up environment
             rs.close();
@@ -70,71 +74,54 @@ public class EditDepartment extends AppCompatActivity {
             conn.close();
         } catch (SQLException se) {
             //SHOW SERVER FAILED MESSAGE
-            Toast errorToast = Toast.makeText(EditDepartment.this, "يجب أن تكون متصلاً بالإنترنت", Toast.LENGTH_SHORT);
+            Toast errorToast = Toast.makeText(EditSpecialty.this, "يجب أن تكون متصلاً بالإنترنت", Toast.LENGTH_SHORT);
             errorToast.show();
         } catch (Exception e) {
             //SHOW SERVER FAILED MESSAGE
-            Toast errorToast = Toast.makeText(EditDepartment.this, "" + e.getMessage(), Toast.LENGTH_SHORT);
+            Toast errorToast = Toast.makeText(EditSpecialty.this, "" + e.getMessage(), Toast.LENGTH_SHORT);
             errorToast.show();
         }
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
     public void Do(View view) {
-        String DepName = list.getSelectedItem().toString();
+        int index = list.getSelectedItemPosition();
+        Specialty specialty = specialties.get(index);
+        String DepName = specialty.getName();
         //Validate inputs
         String NewDep = department_name.getText().toString();
-        if (isValid(DepName)) {
+        if (isValid(NewDep)) {
             //VERY IMPORTANT LINES
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-            //SETUP CONNECTION
-            Connection conn = null;
-            Statement stmt = null;
-            try {
-                //STEP 2: Register JDBC driver
-                Class.forName("com.mysql.jdbc.Driver");
+            boolean edited = specialty.EditSpecialty(NewDep);
 
-                //STEP 3: Open a connection
-                conn = DriverManager.getConnection(DB_Info.DB_URL, DB_Info.USER, DB_Info.PASS);
-
-                //STEP 4: Execute a query
-                stmt = conn.createStatement();
-                String sql;
-                sql = "UPDATE specialties SET SpecialtiesName = ('" + NewDep + "')WHERE SpecialtiesName=('" + DepName + "')";
-                int rs = stmt.executeUpdate(sql);
-
-                if(rs==1){
-                    Toast done = Toast.makeText(EditDepartment.this, "تم التعديل", Toast.LENGTH_SHORT);
+                if(edited){
+                    Toast done = Toast.makeText(EditSpecialty.this, "تم التعديل", Toast.LENGTH_SHORT);
                     done.show();
+                    department.remove(DepName);
+                    department.add(index,NewDep);
+                    adapter.notifyDataSetChanged();
                     department_name.setText("");
                 }
                 else
                 {
-                    Toast done = Toast.makeText(EditDepartment.this, "حدثت مشكلة أثناء التعديل", Toast.LENGTH_SHORT);
+                    Toast done = Toast.makeText(EditSpecialty.this, "حدثت مشكلة أثناء التعديل، حاول لاحقاً", Toast.LENGTH_SHORT);
                     done.show();
+
                 }
 
-                //STEP 6: Clean-up environment
-                stmt.close();
-                conn.close();
-            } catch (SQLException se) {
-                //SHOW SERVER FAILED MESSAGE
-                Toast errorToast = Toast.makeText(EditDepartment.this, "يجب أن تكون متصلاً بالإنترنت", Toast.LENGTH_SHORT);
-                errorToast.show();
-            } catch (Exception e) {
-                //SHOW SERVER FAILED MESSAGE
-                Toast errorToast = Toast.makeText(EditDepartment.this, "" + e.getMessage(), Toast.LENGTH_SHORT);
-                errorToast.show();
-            }
+
+
         }
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////
     public boolean isValid(String DepartmentName) {
         String pattrenAr = "[\\u0600-\\u06FF]+";
         Pattern pHosName = Pattern.compile(pattrenAr);
+        String soecialtyname =DepartmentName.replaceAll("\\s+","");
 
         //validate all inputs
-        if (!pHosName.matcher(DepartmentName).matches() ) {
+        if (!pHosName.matcher(soecialtyname).matches() ) {
             department_name.setError("يجب إدخال أحرف عربية فقط");
             return false;
         }
@@ -151,7 +138,7 @@ public class EditDepartment extends AppCompatActivity {
     }
 
     public void back(View view) {
-        startActivity(new Intent(EditDepartment.this,ManageContentActivity.class));
+        startActivity(new Intent(EditSpecialty.this,ManageContentActivity.class));
 
     }
 }//End

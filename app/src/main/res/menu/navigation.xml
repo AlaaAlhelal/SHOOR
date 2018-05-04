@@ -8,7 +8,7 @@
         android:title="اقترح طبيباً"
         />
     <item
-        android:id="@+id/specialties"
+        android:id="@+id/specialty"
         android:icon="@drawable/ic_launcher_background"
         android:title="التخصصات"
         />

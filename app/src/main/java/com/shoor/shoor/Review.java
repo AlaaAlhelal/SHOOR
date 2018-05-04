@@ -8,16 +8,16 @@ public class Review {
     private String Comment;
     private float RateScore;
     private String Pic;
-public Review(String name, String comment, float score){
+public Review(String name, String comment, float rate){
     userName=name;
      Comment=comment;
-    RateScore=score;
+    RateScore=rate;
 }
 
-    public Review(String name, String comment, float score, String pic){
+    public Review(String name, String comment, float rate, String pic){
         userName=name;
         Comment=comment;
-        RateScore=score;
+        RateScore=rate;
         Pic =pic;
     }
 

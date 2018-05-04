@@ -1,64 +1,35 @@
 package com.shoor.shoor;
 
-import android.*;
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.DataSetObserver;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.StrictMode;
-import android.print.PrintAttributes;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MarginLayoutParamsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.util.DiffUtil;
-import android.support.v7.util.ListUpdateCallback;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.Layout;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.HorizontalScrollView;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -108,7 +79,7 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Specialty.progress.cancel();
+        Specialties.progress.cancel();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctors);
 
@@ -119,25 +90,27 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
         progressBar = (ProgressBar)findViewById(R.id.progressbar);
         progressLayout = (LinearLayout) findViewById(R.id.progress);
 
-        SharedPreferences sharedpreferences = getSharedPreferences(Specialty.SpecialtyName, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences = getSharedPreferences(Specialties.specialty.getName(), Context.MODE_PRIVATE);
         SpecialtyName = sharedpreferences.getString("SpecialtyName", "");
 
         TextView Specialtyname = (TextView) findViewById(R.id.SpecialtyName);
         Specialtyname.setText(SpecialtyName);
 
-        SharedPreferences sharedpreferences2 = getSharedPreferences(Specialty.Specialty_ID, Context.MODE_PRIVATE);
+        SharedPreferences sharedpreferences2 = getSharedPreferences(Specialties.specialty.getID(), Context.MODE_PRIVATE);
         SpecialtyID = sharedpreferences2.getString("Specialty_ID", "");
 
-        //get All Doctor "Normal state"
-        sql = "SELECT * FROM doctor where Specialties_ID='" + SpecialtyID + "' ORDER BY Doctor_ID DESC";
-        getAllDoctors();
-
-        DoctorsList = (RecyclerView) findViewById(R.id.listofdoctors);
-        AdapterList = new DoctorListAdapter( Doctors , getApplicationContext());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        DoctorsList.setLayoutManager(mLayoutManager);
-        DoctorsList.setAdapter(AdapterList);
-
+        Specialty specialty = new Specialty(SpecialtyID,SpecialtyName);
+        Doctors=specialty.SelectSpecialty(SpecialtyName);
+        if(Doctors==null){
+            Toast error = Toast.makeText(this,"لا يمكن الاتصال بالخادم الآن، يرجى المحاولة في وقت لاحق",Toast.LENGTH_LONG);
+            error.show();
+        }else {
+            DoctorsList = (RecyclerView) findViewById(R.id.listofdoctors);
+            AdapterList = new DoctorListAdapter(Doctors, getApplicationContext());
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+            DoctorsList.setLayoutManager(mLayoutManager);
+            DoctorsList.setAdapter(AdapterList);
+        }
         //filter buttons
         oneDollar = new Button(this);
         twoDollar = new Button(this);
@@ -435,15 +408,9 @@ public class Doctors extends AppCompatActivity implements GoogleApiClient.Connec
         }
     }
 
-
-
-
-
-
-
     public void back(View view) {
         this.finish();
-        startActivity(new Intent(com.shoor.shoor.Doctors.this, Specialty.class));
+        startActivity(new Intent(com.shoor.shoor.Doctors.this, Specialties.class));
     }
 
 

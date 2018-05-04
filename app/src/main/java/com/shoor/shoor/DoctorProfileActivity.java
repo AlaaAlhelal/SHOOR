@@ -4,12 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.StrictMode;
-import android.os.health.TimerStat;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -35,9 +32,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import org.w3c.dom.Text;
-
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -91,7 +85,7 @@ public class DoctorProfileActivity extends FragmentActivity implements OnMapRead
         SharedPreferences sharedpreferences2 = getSharedPreferences(DoctorListAdapter.Doc_Id, Context.MODE_PRIVATE);
         Doctor_ID = sharedpreferences2.getString("Doctor_ID", "");
 
-        SharedPreferences sharedPreferences = getSharedPreferences(Specialty.SpecialtyName,Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(Specialties.specialty.getName(),Context.MODE_PRIVATE);
         SpecialtyName = sharedPreferences.getString("SpecialtyName","");
         userID = SaveLogin.getUserID(getApplicationContext());
 

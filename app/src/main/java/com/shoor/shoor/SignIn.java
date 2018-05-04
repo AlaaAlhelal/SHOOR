@@ -1,8 +1,6 @@
 package com.shoor.shoor;
 
 
-import android.*;
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,7 +9,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.StrictMode;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +23,7 @@ import java.sql.*;
 public class SignIn extends AppCompatActivity {
    EditText email_input ;
    EditText pass_input ;
+   public static User user = new User();
    public static String user_id="";
    public static String admin_id="";
     @Override
@@ -44,7 +42,7 @@ public class SignIn extends AppCompatActivity {
          if(userid.length()!=0)
          {
              this.finish();
-             startActivity(new Intent(SignIn.this,Specialty.class));
+             startActivity(new Intent(SignIn.this,Specialties.class));
          }
 
     }
@@ -63,53 +61,24 @@ public class SignIn extends AppCompatActivity {
             //VERY IMPORTANT LINES
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-            //SETUP CONNECTION
-            Connection conn = null;
-            Statement stmt = null;
 
-            try{
-                //STEP 2: Register JDBC driver
-                Class.forName("com.mysql.jdbc.Driver");
-
-                //STEP 3: Open a connection
-                conn = DriverManager.getConnection(DB_Info.DB_URL,DB_Info.USER,DB_Info.PASS);
-
-                //STEP 4: Execute a query
-                stmt = conn.createStatement();
-                String sql;
-                sql = "SELECT * FROM user where UserEmail='"+email+"' AND Password='"+HashPass+"'";
-                ResultSet rs = stmt.executeQuery(sql);
-
-                //STEP 5: Extract data from result set
-                int count=0;
-                while(rs.next())
-                {
-                    user_id=rs.getString(1);
-                    count++;
-                }
-                if(count==1) {
+            user_id = user.Login(HashPass, email );
 
 
+                if(user_id!=null) {
                     //set Login status
                     SaveLogin.setUserID(getApplicationContext(),user_id);
                     //redirect to home activity (spicalty)
-                    startActivity(new Intent(SignIn.this, Specialty.class));
+                    startActivity(new Intent(SignIn.this, Specialties.class));
                     this.finish();
                 }
                 else
                 {//check if admin
-                    Statement stmt2 = conn.createStatement();
-                    String sql2  = "SELECT * FROM admin where Email='"+email+"' AND Password='"+HashPass+"'";
-                    ResultSet result = stmt2.executeQuery(sql2);
-                    int count2=0;
-                    while(result.next())
-                    {
-                        admin_id=result.getString(1);
-                        ++count2;
-                    }
 
-                    if(count2==1) {
+                    Admin admin = new Admin();
+                    admin_id=admin.Login(HashPass,email);
 
+                    if(admin_id!=null) {
                         //set Login status
                         SaveLogin.setAdminId(getApplicationContext(),admin_id);
                         //redirect to home activity (spicalty)
@@ -122,37 +91,10 @@ public class SignIn extends AppCompatActivity {
                         errormessage.show();
                     }
                 }
-                //STEP 6: Clean-up environment
-                rs.close();
-                stmt.close();
-                conn.close();
-            }catch(SQLException se){
-                //SHOW SERVER FAILED MESSAGE
-                Toast errorToast = Toast.makeText(SignIn.this, "يجب أن تكون متصلاً بالإنترنت", Toast.LENGTH_SHORT);
-                errorToast.show();
-            }catch(Exception e){
-                //SHOW SERVER FAILED MESSAGE
-                Toast errorToast = Toast.makeText(SignIn.this, ""+e.getMessage(), Toast.LENGTH_SHORT);
-                errorToast.show();
-            }finally{
-                //finally block used to close resources
-                try{
-                    if(stmt!=null)
-                        stmt.close();
-                }catch(SQLException se2){
-                    //SHOW SERVER FAILED MESSAGE
-                    Toast errorToast = Toast.makeText(SignIn.this, "أرجو المحاولة لاحقاً", Toast.LENGTH_SHORT);
-                    errorToast.show();
-                }// nothing we can do
-                try{
-                    if(conn!=null)
-                        conn.close();
-                }catch(SQLException se){
-                    //SHOW SERVER FAILED MESSAGE
-                    Toast errorToast = Toast.makeText(SignIn.this, "أرجو المحاولة لاحقاً", Toast.LENGTH_SHORT);
-                    errorToast.show();
-                }//end finally try
-            }//end try
+
+
+
+
 
 
         }//end if

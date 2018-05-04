@@ -65,7 +65,11 @@ public class EditUserProfileActivity extends AppCompatActivity {
                         done.show();
                         finish();
                         startActivity(new Intent(EditUserProfileActivity.this,ProfileActivity.class));
-
+                        if (SignIn.user!=null)
+                            SignIn.user.EditProfileUser(username1,useremail1,gender);
+                        else
+                        if (SignUp.user!=null)
+                            SignUp.user.EditProfileUser(username1,useremail1,gender);
                     }
                     else
                     {
@@ -196,10 +200,13 @@ public class EditUserProfileActivity extends AppCompatActivity {
                 if(rs.getString("Gender").equals("F")) {
                     female.setChecked(true);
                     male.setChecked(false);
+                    gender="F";
                 }
                 else if(rs.getString("Gender").equals("M")) {
                     female.setChecked(false);
                     male.setChecked(true);
+                    gender="M";
+
                 }
             }
 

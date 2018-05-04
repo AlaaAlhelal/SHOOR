@@ -1,11 +1,7 @@
 package com.shoor.shoor;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +9,6 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -22,11 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sun.mail.imap.protocol.ID;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -160,7 +151,7 @@ public class FavoriteList extends AppCompatActivity {
 
     public void linkToSpecialty(View view) {
         this.finish();
-        startActivity(new Intent(FavoriteList.this, Specialty.class));
+        startActivity(new Intent(FavoriteList.this, Specialties.class));
     }
 
     public void linkToSuggest(View view) {

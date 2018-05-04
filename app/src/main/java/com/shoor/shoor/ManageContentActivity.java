@@ -26,13 +26,13 @@ public class ManageContentActivity extends AppCompatActivity {
     }
 
     public void AddSpecialty(View view) {
-        startActivity(new Intent(ManageContentActivity.this, AddDepartment.class));
+        startActivity(new Intent(ManageContentActivity.this, AddSpecialty.class));
     }
     public void EditSpecialty(View view) {
-        startActivity(new Intent(ManageContentActivity.this, EditDepartment.class));
+        startActivity(new Intent(ManageContentActivity.this, EditSpecialty.class));
     }
     public void DeleteSpecialty(View view) {
-        startActivity(new Intent(ManageContentActivity.this, DeleteDepartment.class));
+        startActivity(new Intent(ManageContentActivity.this, DeleteSpecialty.class));
     }
 
     public void AddHospital(View view) {
@@ -47,7 +47,9 @@ public class ManageContentActivity extends AppCompatActivity {
 
 
     public void Logout(View view) {
-        //get session
+        Admin admin = new Admin();
+        admin.Logout();
+        //clear session
         SharedPreferences sharedpreferences = getSharedPreferences(SignIn.admin_id, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor= sharedpreferences.edit();
         editor.remove("admin_id");
