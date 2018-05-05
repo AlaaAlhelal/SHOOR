@@ -142,7 +142,7 @@ public class EditDoctor extends AppCompatActivity {
             //STEP 4: Execute a query
             stmt = conn.createStatement();
             String sql;
-            sql = "SELECT * FROM specialty";
+            sql = "SELECT * FROM specialties";
             ResultSet rs = stmt.executeQuery(sql);
 
             //STEP 5: Extract data from result set
@@ -160,7 +160,7 @@ public class EditDoctor extends AppCompatActivity {
             conn.close();
         } catch (SQLException se) {
             //SHOW SERVER FAILED MESSAGE
-            Toast errorToast = Toast.makeText(EditDoctor.this, "يجب أن تكون متصلاً بالإنترنت", Toast.LENGTH_SHORT);
+            Toast errorToast = Toast.makeText(EditDoctor.this, "يجب أن تكون متصلاً بالإنترنت"+se.getMessage(), Toast.LENGTH_SHORT);
             errorToast.show();
         } catch (Exception e) {
             //SHOW SERVER FAILED MESSAGE
@@ -321,7 +321,7 @@ public class EditDoctor extends AppCompatActivity {
         }
     }
 
-//////////////////////////////////////////////////////////////////////////////////////
+
 public void back(View view) {
         this.finish();
     startActivity(new Intent(EditDoctor.this,ManageContentActivity.class));

@@ -1,9 +1,11 @@
 package com.shoor.shoor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -68,6 +70,11 @@ public class DoctorReviews extends AppCompatActivity {
         }
         catch (Exception e){Toast error = Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG);
             error.show();}
+    }
+
+    public void back(View view) {
+        this.finish();
+        startActivity(new Intent(DoctorReviews.this, DoctorProfileActivity.class));
     }
 
 }

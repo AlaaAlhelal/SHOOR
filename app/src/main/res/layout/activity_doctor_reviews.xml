@@ -39,6 +39,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginStart="12dp"
             android:background="#00ffffff"
+            android:onClick="back"
             app:srcCompat="@drawable/ic_arrow_back" />
 
     </RelativeLayout>

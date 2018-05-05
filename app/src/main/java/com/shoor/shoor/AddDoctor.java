@@ -79,7 +79,7 @@ public class AddDoctor  extends AppCompatActivity {
                 //STEP 4: Execute a query
                 stmt1 = conn.createStatement();
                 String sql1;
-                sql1= "SELECT * FROM specialty WHERE SpecialtiesName= ('" + DepName + "')";
+                sql1= "SELECT * FROM specialties WHERE SpecialtiesName= ('" + DepName + "')";
                 Result_getID_dep = stmt1.executeQuery(sql1);
                     int speId=0, hosId=0;
                 while (Result_getID_dep.next()){
@@ -178,7 +178,7 @@ Pattern p = Pattern.compile(pattrenAr);
             //STEP 4: Execute a query
             stmt = conn.createStatement();
             String sql;
-            sql = "SELECT * FROM specialty";
+            sql = "SELECT * FROM specialties";
             ResultSet rs = stmt.executeQuery(sql);
 
             //STEP 5: Extract data from result set

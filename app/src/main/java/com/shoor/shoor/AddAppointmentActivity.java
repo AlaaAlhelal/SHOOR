@@ -122,6 +122,7 @@ public class AddAppointmentActivity extends AppCompatActivity {
     }
 
     public void back(View view) {
+        this.finish();
         startActivity(new Intent(AddAppointmentActivity.this,MyAppointmentActivity.class));
 
     }
