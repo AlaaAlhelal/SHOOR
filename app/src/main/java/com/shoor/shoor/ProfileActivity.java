@@ -83,7 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection(DB_Info.DB_URL, DB_Info.USER, DB_Info.PASS);
-
+System.out.println("--------------------------------------------"+userID);
             Statement stmt2 = conn.createStatement();
             String sql = "SELECT * FROM user where User_ID=" + userID ;
             ResultSet result = stmt2.executeQuery(sql);

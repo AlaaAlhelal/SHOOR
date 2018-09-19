@@ -61,7 +61,7 @@ public class SignUp extends AppCompatActivity {
                     if (userID!=null) {
 
 
-                        SaveLogin.setUserID(getApplicationContext(),user_id);
+                        SaveLogin.setUserID(getApplicationContext(),userID);
                         //redirect to home activity (spicalty)
                         startActivity(new Intent(SignUp.this, Specialties.class));
                     } else {

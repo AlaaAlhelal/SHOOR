@@ -1,0 +1,29 @@
+<vector android:height="108dp"
+    android:viewportHeight="1177"
+    android:viewportWidth="976"
+    android:width="108dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <path android:fillType="evenOdd"
+        android:strokeColor="#00000000"
+        android:strokeWidth="1"
+        android:pathData="m478 295c0 0 -62.4 54.6 -102 153c-29.4 72.9 -43 205.2 -51 275c-2.7 24 -37.7 16.4 -47 31c-11.1 17.5 -8 66 -8 66l244 190l280 -268c2.7 4.5 -42.6 -50 -109 -152c-37.2 -57.2 -62.3 -118.7 -85.7 -200.4c-25.5 -88.9 -121.3 -94.6 -121.3 -94.6z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:endX="78.5885"
+                android:endY="90.9159"
+                android:startX="48.7653"
+                android:startY="61.0927"
+                android:type="linear">
+                <item
+                    android:color="#44000000"
+                    android:offset="0.0" />
+                <item
+                    android:color="#00000000"
+                    android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+
+    </path>
+    <path android:fillColor="#ffffff" android:name="Layer 5" android:pathData="m331 739c0 0 25 1.7 35 12c14.5 15 13 35 13 35c0 0 -3.4 20 -18 30c-11.8 8 -25.4 9.2 -32.4 9.2c-2.9 0 -4.6 -0.2 -4.6 -0.2c-15.4 -3 -25.7 -10.6 -33 -20c-8.1 -10.4 -8.3 -31 -6 -34c0 0 5.7 -15.5 18 -24c10.6 -7.4 28 -8 28 -8zm177 -452c0 0 -33.4 0.6 -63 22c-19.7 14.3 -39.8 46 -56 71c-50.5 78.2 -67 190 -67 190l-2 147c0 0 -25 3.1 -45 24c-18.9 19.9 -17 42 -17 42c0 0 3 25 17 41c18.7 21.3 44 24 48.4 24c0.3 0 0.5 -0 0.6 -0c0 0 1.4 0.1 3.9 0.1c8.7 0 30.9 -1.7 52.1 -17.1c22.3 -16.2 24 -46 24 -46c0 0 0.7 -25.5 -16 -45c-13.3 -15.6 -42 -23 -42 -23v-123c0 0 19.8 -114.6 65 -194c17.3 -30.4 37.7 -58.8 58 -73c16.8 -11.7 27.7 -13.1 32 -13.1c1.3 0 2 0.1 2 0.1c0.2 -0.1 1.1 -0.2 2.5 -0.2c6.6 0 25.2 2.4 45.5 24.2c12.8 13.7 34.5 46.5 54 85c37.3 73.6 58 174 58 174l-118 118l-53 -54l-18 19l71 71l148 -148c0 0 -21.5 -101.8 -63 -193c-16.2 -35.7 -50.9 -83.6 -72 -102c-16 -14 -50 -21 -50 -21z"/>
+</vector>

@@ -104,6 +104,7 @@ public class User {
                 return null;
             }
         }catch(SQLException se){
+            System.out.println("ex:*************"+se.getMessage());
             return null;
 
         }catch(Exception e){
